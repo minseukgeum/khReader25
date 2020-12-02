@@ -17,7 +17,14 @@
 			<input type="text" id="search-input">
 			<img src="">
 		</div>
-		
+		<div class="sort-div">
+			<h4 class="sort-h4">최신순</h4>
+			<h4 class="sort-h4">좋아요</h4>
+			<h4 class="sort-h4">북마크</h4>
+		</div>
+		<div class="list-div">
+			
+		</div>
 	</section>
 </body>
 </html>
