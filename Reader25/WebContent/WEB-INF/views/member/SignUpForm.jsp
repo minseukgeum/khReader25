@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/signup.css">

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/login.css">
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/login.css">
 
 <style>
 .outer{
