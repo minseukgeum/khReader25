@@ -9,15 +9,18 @@
 	*{border: 1px solid pink;}
 	section{
 		background: rgba(246, 246, 246, 1);
+		margin-left: 10%;
+		margin-right: 10%;
 	}
 	.top-div{
-		width: 430px;
+		width: 440px;
 		height: 50px;
 		margin: auto;
 	}
-	select {
+	select{
 		font-family: inherit;
-		background: url('images/arrow.jpg') no-repeat 95% 50%;
+		font-size:15px;
+		background: url('/Reader25/images/bookreview/arrow3.png') no-repeat 100% 50%;
 		border-radius: 0px;
 		-webkit-appearance: none;
 		-moz-appearance: none;
@@ -29,21 +32,28 @@
 	}
 
 	.search-div{
+		margin:0px;
+		padding:0px;
 		display:inline-block;
 		border-bottom: 1px solid black;
 	}
 	.search-option{
-		background:none;
 		border: none;
+		width:50px;
 	}
 	#search-input{
 		background: none;
 	}
+	#search-icon{
+		float: right;
+		width:20px;
+	}
 	.sort-div, .sort-div>h4{
+		clear:both;
 		display: inline-block;
 	}
 	.sort-div>h4{
-		font-size:12px;
+		font-size:15px;
 		font-weight: normal;
 	}
 	.sort-div>h4:hover{
@@ -68,8 +78,15 @@
 					<option>writer</option>
 				</select>
 				<input type="text" id="search-input">
-				<img src="#">
+				<span class="img-span">
+					<img src="<%=request.getContextPath() %>/images/bookreview/search.png" id="search-icon"/>
+				</span>
 			</div>
+			<script>
+				$('#search-icon').click(function(){
+					location.href="<%=request.getContextPath()%>/search";
+				});				
+			</script>
 			<div class="sort-div">
 				<h4 class="sort-h4">최신순</h4>
 				<h4 class="sort-h4" id="like-h4">좋아요</h4>
@@ -78,7 +95,9 @@
 		</div>
 		
 		<div class="list-div">
-			
+			<span class="list-span">
+				
+			</span>
 		</div>
 	</section>
 </body>
