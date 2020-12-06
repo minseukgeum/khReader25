@@ -9,7 +9,7 @@
 <body>
 	<header>
 		<img src="#logo"/>
-		<h3 id="header-h2">결제 리스트</h3>
+		<h3 id="header-h2">통계 자료</h3>
 	</header>
 	<%@ include file="header.jsp" %>
 </body>

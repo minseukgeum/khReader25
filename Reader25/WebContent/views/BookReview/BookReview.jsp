@@ -46,7 +46,7 @@
 	}
 	#search-icon{
 		float: right;
-		width:20px;
+		width: 20px;
 	}
 	.sort-div, .sort-div>h4{
 		clear:both;

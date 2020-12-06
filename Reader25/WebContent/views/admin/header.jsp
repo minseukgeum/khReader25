@@ -12,7 +12,7 @@
 		height: 50px;
 		width:100%;
 	}
-	header>h2, header>img{
+	header>h3, header>img{
 		display:inline-block;
 		color:white;
 		margin-top: 10px;
@@ -22,7 +22,7 @@
 		display:inline-block;
 		background:rgba(39, 50, 56, 1);
 		min-height: 700px;
-		width: 200px;
+		width: 150px;
 		border: 1px solid rgba(39, 50, 56, 1);
 		float:left;
 	}
@@ -33,8 +33,8 @@
 	}
 	.nav-ul>li{
 		border-bottom: 2px solid black;
-		font-size: 20px;
-		height: 50px;
+		font-size: 15px;
+		height: 40px;
 		text-align: center;
 	}
 	.nav-a{
@@ -54,24 +54,14 @@
 </style>
 </head>
 <body>
-	<header>
-		<img src="#logo"/>
-		<h2 id="header-h2">회원 정보 조회</h2>
-	</header>
 	<nav>
 		<ul class="nav-ul">
-			<li><a href="#" class="nav-a">회원 정보 조회</a></li>
-			<li><a href="#" class="nav-a">결제 리스트</a></li>
-			<li><a href="#" class="nav-a">문의 사항</a></li>
-			<li><a href="#" class="nav-a">공지 사항</a></li>
-			<li><a href="#" class="nav-a">통계자료</a></li>
+			<li><a href="memberList.jsp" class="nav-a">회원 정보 조회</a></li>
+			<li><a href="payment.jsp" class="nav-a">결제 리스트</a></li>
+			<li><a href="inquire.jsp" class="nav-a">문의 사항</a></li>
+			<li><a href="notice.jsp" class="nav-a">공지 사항</a></li>
+			<li><a href="statistic.jsp" class="nav-a">통계자료</a></li>
 		</ul>
 	</nav>
-	<script>
-		$('.nav-a').click(function(){
-			var text = $(this).text()
-			$('#header-h2').text(text)
-		});
-	</script>
 </body>
 </html>
