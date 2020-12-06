@@ -21,7 +21,7 @@
 	<div class="outer">
 		<form action="<%=request.getContextPath()%>/login.me" method="post" id="login">
 		
-			<h2 class="txt_login">로그인</h2>
+			<h2 class="txt_login" align="center">로그인</h2>
 			<br>
 			<table class="login_put">
 				<tr>

@@ -9,10 +9,10 @@
 <style>
 
 </style>
+
 </head>
 <body>
-
 	<%-- <%@ include file="WEB-INF/views/common/main.jsp" %> --%>
-	
+
 </body>
 </html>
