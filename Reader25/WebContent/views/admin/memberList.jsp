@@ -102,7 +102,7 @@
 						<th>탈퇴일</th>
 					</tr>
 					<tr>
-						<td colspan="7">사업자 회원이 없습니다.</td>
+						<td colspan="7">탈퇴한 회원이 없습니다.</td>
 					</tr>
 				</table>
 			</div>
