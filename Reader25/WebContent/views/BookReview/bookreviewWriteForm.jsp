@@ -5,12 +5,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	*{border: 1px solid pink;}
+	.title-div{
+		width: 550px;
+		margin: auto;
+		padding: 0;
+	}
+	.title{
+		display:inline-block;
+		background: rgba(235, 235, 235, 1);
+		width: 50px;
+		text-align: center;
+		height: 25px;
+		border-radius: 3px 0px 0px 3px;
+	}
+	.title-div>input{
+		height: 25px;
+		margin-left: -7px;
+		width: 400px;
+	}
+</style>
 </head>
 <body>
 	<section>
 		<form action="#">
 			<div class="title-div">
-				<div class="title-div">title</div>
+				<div class="title">title</div>
 				<input type="text" placeholder="제목을 작성하세요">
 				<select>
 					<option selected="selected">분류</option>

@@ -82,6 +82,7 @@
 		text-align: center;/*  */
 	}
 	.list-div{
+		text-align:left;
 		width: 200px;
 		height: 300px;
 		display:inline-block;
