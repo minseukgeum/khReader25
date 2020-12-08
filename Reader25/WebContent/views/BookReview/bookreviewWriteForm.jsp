@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="<%= request.getContextPath() %>/smartedit/js/service/HuskyEZCreator.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <style>
   	*{border: 1px solid pink;}  
   	section{
@@ -57,7 +59,7 @@
 </head>
 <body>
 	<section>
-		<form action="#">
+		<form action="#" id="write-book">
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" placeholder="제목을 작성하세요">
@@ -80,8 +82,30 @@
 					<input type="file">
 					<div class="file-img"></div>
 				</div>
+				<textarea name="smart_edit" rows="20" cols="100" id="smart_edit"></textarea>
 			</div>
+			<button id="submit-btn">작성하기</button>
 		</form>
+		<script>
+			var oEditors = [];
+			//스마트 에디터 생성 함수
+			 nhn.husky.EZCreator.createInIFrame({
+			      oAppRef :oEditors,
+			      elPlaceHolder : "smart_edit", 
+			      sSkinURI : "<%=request.getContextPath()%>/smartedit/SmartEditor2Skin.html",
+			      htParams : {
+			    	  bUseToolbar: true,
+			    	  bUseVerticalResizer : false,
+			    	  bUseModeChanger: true
+			      },
+			      fCreator: "createSEditor2"
+			});
+			$('#submit-btn').click(function(){
+				oEditors.getById["smart_edit"].exec("UPDATE_CONTENTS_FIELD",[]);
+				
+				$('#write-book').submit();
+			});
+		</script>
 	</section>
 </body>
 </html>
