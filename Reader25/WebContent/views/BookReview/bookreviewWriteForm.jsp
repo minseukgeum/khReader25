@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="<%= request.getContextPath() %>/smartedit/js/service/HuskyEZCreator.js"></script>
+<script src="<%=request.getContextPath()%>/smartedit/js/service/HuskyEZCreator.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <style>
   	*{border: 1px solid pink;}  
