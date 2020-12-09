@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 	header{
 		background: rgba(245, 113, 92, 1);
