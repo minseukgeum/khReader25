@@ -55,6 +55,10 @@
 		margin-top: 20px;
 		background: lightgray;
 	}
+	.content-edit{
+		width: 80%;
+		margin:auto;
+	}
 </style>
 </head>
 <body>
@@ -82,7 +86,9 @@
 					<input type="file">
 					<div class="file-img"></div>
 				</div>
-				<textarea name="smart_edit" rows="20" cols="100" id="smart_edit"></textarea>
+				<div class="content-edit" style="text-align:center;">
+					<textarea name="smart_edit"id="smart_edit" style="width:100%;"></textarea>
+				</div>
 			</div>
 			<button id="submit-btn">작성하기</button>
 		</form>
@@ -93,11 +99,6 @@
 			      oAppRef :oEditors,
 			      elPlaceHolder : "smart_edit", 
 			      sSkinURI : "<%=request.getContextPath()%>/smartedit/SmartEditor2Skin.html",
-			      htParams : {
-			    	  bUseToolbar: true,
-			    	  bUseVerticalResizer : false,
-			    	  bUseModeChanger: true
-			      },
 			      fCreator: "createSEditor2"
 			});
 			$('#submit-btn').click(function(){
