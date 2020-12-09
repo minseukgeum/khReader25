@@ -85,11 +85,11 @@
 		};
 		
 		function searchId(){
-			window.open("searchIdForm.me", "SearchIdForm", 'width=400 , height=520 , top=200, left=400');
+			window.open("searchIdForm.me", "SearchIdForm", 'width=400 , height=520 , top=100, left=200');
 		};
 		
 		function searchPw(){
-			window.open("searchPwForm.me", "SearchPwForm", 'width=400 , height=520 , top=200, left=400');
+			window.open("searchPwForm.me", "SearchPwForm", 'width=400 , height=520 , top=100, left=200');
 		};
 	</script>
 </body>

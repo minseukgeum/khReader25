@@ -30,7 +30,7 @@
 				<tr>
 					<td class="txt_signup_tb">아이디</td>
 					<td width="200px"><input type="text" id= "joinMemberid" name="joinMemberid" placeholder="6자 이상의 영문+숫자" required></td>
-					<td width="150px"><input type="button" class="btn_sign_input" id="idcheck" onclick="idcheck();" value="중복확인"></td>
+					<td width="150px"><input type="button" class="btn_sign_input" id="idCheck" onclick="idCheck();" value="중복확인"></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">이름</td>
@@ -69,7 +69,7 @@
 				<tr>
 					<td class="txt_signup_tb">이메일</td>
 					<td><input type="email" id="joinEmail" name="joinEmail"></td>
-					<td><input type="button" class="btn_sign_input" id="emailcheck" onclick="emailcheck();" value="중복확인"></td>
+					<td><input type="button" class="btn_sign_input" id="emailCheck" onclick="emailCheck();" value="중복확인"></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">성별</td>
@@ -169,6 +169,14 @@
             }
         }).open();
     }
+	
+	function idCheck(){
+		window.open('checkIdForm.me', 'checkIdForm', 'width=400 , height=520 , top=100, left=200');
+	}
+	
+	function emailCheck(){
+		window.open('emailCheckForm.me', 'emailCheckForm', 'width=400 , height=520 , top=100, left=200');
+	}
 	
 	</script>
 	
