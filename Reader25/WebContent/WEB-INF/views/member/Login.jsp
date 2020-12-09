@@ -76,7 +76,7 @@
 	<%-- <%@ include file="../common/footer.jsp" %> --%>
 	
 	<script>
-		function memberSignUp(){
+		function memberSignUp(){//이렇게
 		    location.href='<%=request.getContextPath() %>/signUpForm.me';
 		};
 		
