@@ -8,7 +8,6 @@
 <script src="<%=request.getContextPath()%>/smartedit/js/service/HuskyEZCreator.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <style>
-  	*{border: 1px solid pink;}  
   	section{
   		background:rgba(246, 246, 246, 1);
   		width: 80%;
@@ -57,6 +56,9 @@
 		text-align: center;
 		position: relative;
 	}
+	#input-file{
+		border: 1px solid lightgray;
+	}
 	#file-img:hover{
 		background: LightSalmon;
 	}
@@ -68,6 +70,18 @@
  		top: 50%;
  		left: 50%;
  		transform: translate(-50%, -50%);
+	}
+	.tag{display:inline; color:rgba(245, 113, 92, 1);}
+	.bookInfo{
+		background: none;
+ 		border: none; 
+	}
+	.tag-div{
+		display:inline-block; 
+		height: 40px; 
+		width: 400px; 
+		margin-left: 33%;
+		margin-top:10px;
 	}
 	.content-edit{
 		width: 80%;
@@ -122,6 +136,11 @@
 						<img src="#" id="load-img" >
 					</div>
 				</div>
+				<div class="tag-div">
+					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" placeholder="제목">
+					<p class="tag">#</p><input type="text" class="bookInfo" name="author" placeholder="작가">
+				</div>
+				
 				<div class="content-edit" style="text-align:center;">
 					<textarea name="smart_edit"id="smart_edit" style="width:100%;"></textarea>
 				</div>
