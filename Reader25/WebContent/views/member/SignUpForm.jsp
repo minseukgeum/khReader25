@@ -10,7 +10,7 @@
 
 <style>
 .outer{
-		width: 700px; height: 900px; font-size: 13px;
+		width: 900px; height: 900px; font-size: 13px;
 		margin-left: auto; margin-right: auto; margin-top: 5%; 
 		margin-bottom: 50px;
 		}

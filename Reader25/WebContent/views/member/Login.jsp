@@ -10,7 +10,7 @@
 
 <style>
 .outer{
-		width: 620px; min-height: 400px; margin-left: auto; margin-right: auto; 
+		width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
 		margin-top:100px; margin-bottom: 5%;
 	}
 </style>
