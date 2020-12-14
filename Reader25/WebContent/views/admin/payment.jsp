@@ -5,6 +5,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	section{
+		display:inline-block;
+		min-height: 700px;
+		position: relative;
+		margin-left: 10px;
+		width: 80%;
+	}
+	.paylist-div{
+		min-height: 100px; 
+		background: white;
+		margin: auto;
+		margin-top: 20px;
+		border-radius: 5px;
+		box-shadow: 0px 2px 3px 3px lightgray;
+		padding: 10px;
+	}
+	#paylist-table{
+		width: 100%;
+		height: 100%;
+		border-top:2px solid rgba(245, 113, 92, 1);
+		border-collapse: collapse;
+		text-align: center;
+	}
+	#paylist-table th{
+		height: 30px;
+		border-bottom: 1px solid rgba(245, 113, 92, 1);
+	}
+	#paylist-table tr{
+		height: 30px;
+	}
+	.left-td{
+		text-align: left;
+	}
+</style>
 </head>
 <body>
 	<header>
@@ -12,5 +47,29 @@
 		<h3 id="header-h2">결제 리스트</h3>
 	</header>
 	<%@ include file="header.jsp" %>
+	<section>
+		<div class="paylist-div">
+			<table id="paylist-table">
+				<tr>
+					<th>주문번호</th>
+					<th>상품</th>
+					<th>결제내역</th>
+					<th>구매한 회원</th>
+					<th>판매한 회원</th>
+					<th>거래날짜</th>
+				</tr>
+				<%for(int i = 0; i < 10; i++){ %>
+				<tr>
+					<td><%=i %></td>
+					<td class="left-td">천개의 태양</td>
+					<td>10000</td>
+					<td>user01</td>
+					<td>user02</td>
+					<td>2020.12.12</td>
+				</tr>
+				<%} %>
+			</table>
+		</div>
+	</section>
 </body>
 </html>

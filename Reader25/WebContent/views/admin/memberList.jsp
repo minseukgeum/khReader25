@@ -36,7 +36,6 @@
 		padding: 5px;
 		width: 100%;
 		border-collapse: collapse;
-		
 	}
 	.tr-header th{
 		background: rgba(234, 234, 234, 1);

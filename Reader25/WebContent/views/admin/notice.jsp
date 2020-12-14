@@ -27,6 +27,7 @@
 		height: 100%;
 		border-top:2px solid rgba(245, 113, 92, 1);
 		border-collapse: collapse;
+		text-align: center;
 	}
 	#notice-table th{
 		height: 30px;
@@ -36,6 +37,22 @@
 		margin-left:90%;
 		cursor:pointer;
 		position: fixed;
+	}
+	.write-btn {
+		position: fixed;
+		border-radius: 50%;
+		background: rgba(245, 113, 92, 1);
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		top: 90%;
+		right: 12%;
+	}
+	.write-btn>img {
+		margin-top: 7px;
+	}
+	.write-btn:hover {
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -58,6 +75,14 @@
 				<tr><td colspan="5">공지사항이 없습니다.</td></tr>
 			</table>
 		</div>
+		<div class="write-btn">
+			<img src="/Reader25/images/bookreview/write.png"/>
+		</div>
+		<script>
+			$('.write-btn').click(function(){
+				location.href="<%=request.getContextPath()%>/write.no";
+			});
+		</script>
 	</section>
 </body>
 </html>

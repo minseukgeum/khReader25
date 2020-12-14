@@ -27,6 +27,7 @@
 		height: 100%;
 		border-top:2px solid rgba(245, 113, 92, 1);
 		border-collapse: collapse;
+		text-align: center;
 	}
 	#inquire-table th{
 		height: 30px;
