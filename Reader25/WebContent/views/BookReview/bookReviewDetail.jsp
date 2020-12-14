@@ -58,6 +58,26 @@
 	.wise-content{display:inline-block;}
 	.contents{width: 80%;margin:auto;}
 	.contents>p{margin:15px;}
+	.list{
+		width: 80%;
+		margin:auto;
+		margin-top:10px;
+	}
+	.list-header{
+		background:rgba(247, 180, 94, 1);
+		padding-left: 20px;
+	}
+	.list-contents{
+		background: rgba(246, 246, 246, 1);
+	}
+	.list-table{
+		width: 100%;
+		
+	}
+	.paging-btn{
+		width: 200px;
+		margin: auto;
+	}
 </style>
 </head>
 <body>
@@ -87,9 +107,53 @@
 		</div>
 		<div class="list">
 			<div class="list-header">
+				이 책의 다른 리뷰
 			</div>
 			<div class="list-contents">
+				<table class="list-table">
+					<%for(int i = 0; i < 5; i++){ %>
+					<tr>
+						<td>이 책 정말 재밌네</td>
+						<td>강건강</td>
+						<td>2020.01.01</td>
+					</tr>
+					<%} %>
+				</table>
 			</div>
+		</div>
+		<div class="paging-btn">
+			<button>&lt;</button>
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button>&gt;</button>
+		</div>
+		<div class="list">
+			<div class="list-header">
+				명대사
+			</div>
+			<div class="list-contents">
+				<table class="list-table">
+					<%for(int i = 0; i < 5; i++){ %>
+					<tr>
+						<td>스케일이 남다르다.</td>
+						<td>강건강</td>
+						<td>2020.01.01</td>
+					</tr>
+					<%} %>
+				</table>
+			</div>
+		</div>
+		<div class="paging-btn">
+			<button>&lt;</button>
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button>&gt;</button>
 		</div>
 	</section>
 </body>
