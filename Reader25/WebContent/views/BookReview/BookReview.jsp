@@ -144,6 +144,22 @@
 		background: rgba(39, 50, 56, 1);
 		color: white;
 	}
+	.write-btn{
+		position:fixed;
+		border-radius: 50%;
+		background: rgba(245, 113, 92, 1);
+		width: 50px;
+		height: 50px;
+		text-align: center;
+		top: 90%;
+		right: 12%;
+	}
+	.write-btn>img{
+		margin-top: 7px;
+	}
+	.write-btn:hover{
+		cursor: pointer;
+	}
 </style>
 </head>
 <body>
@@ -173,7 +189,7 @@
 		</div>
 		
 		<div class="list-all-div">
-			<% for(int i = 0; i <= 10; i++){ %>
+			<% for(int i = 0; i < 12; i++){ %>
 			<div class="list-div">
 				<div class="img-div">
 					<img class="list-img" src="/Reader25/images/bookreview/book.jpg">
@@ -198,6 +214,14 @@
 			<button>5</button>
 			<button>&gt;</button>
 		</div>
+		<div class="write-btn">
+			<img src="/Reader25/images/bookreview/write.png"/>
+		</div>
+		<script>
+			$('.write-btn').click(function(){
+				location.href="<%=request.getContextPath()%>/write.re";
+			});
+		</script>
 	</section>
 </body>
 </html>
