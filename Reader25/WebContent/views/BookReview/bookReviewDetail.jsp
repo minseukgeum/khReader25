@@ -9,6 +9,7 @@
 	.info{
 		width: 80%;
 		margin:auto;
+		max-width: 1000px;
 	}
 	.img-div{
 		display:inline-block;
@@ -57,12 +58,13 @@
 	#quote1{float:left;}
 	#quote2{float:right;}
 	.wise-content{display:inline-block;}
-	.contents{width: 80%;margin:auto; margin-top: 10px; min-height: 200px;}
+	.contents{width: 80%;margin:auto; margin-top: 10px; min-height: 200px; max-width: 1000px;}
 	.contents>p{margin:15px;}
 	.list{
 		width: 80%;
 		margin:auto;
 		margin-top:10px;
+		max-width: 1000px;
 	}
 	.list-header{
 		background:rgba(247, 180, 94, 1);
