@@ -18,11 +18,13 @@
 	}
 	.content{
 		clear: both;
+		margin:auto;
 		margin-top: 10px;
 		padding: 12px;
 		background: white;
 		border-radius: 3px;
 		box-shadow: 3px 3px 3px 1px lightgray;
+		max-width: 1100px;
 	}
 	.title {
 		font-size: 20px;
@@ -47,15 +49,29 @@
 		height: 20px;
 		border-bottom: 1px solid lightgray; 
 	}
-	.pagingArea button{
-		background: lightgray;
-		border: 1px solid lightgray;
-		border-radius: 3px;
+	.paging-div {
+		width: 250px;
+		margin: auto;
+		margin-top: 30px;
 	}
-	.pagingArea button:hover{
-		cursor:pointer;
+	.paging-div>button {
+		width: 30px;
+		height: 30px;
+		color: rgba(85, 83, 83, 1);
+		font-size: 15px;
+		background: rgba(229, 229, 229, 1);
+		border: none;
+	}	
+
+	.paging-div>button:hover {
+		font-weight: bold;
+		background: rgba(220, 220, 220, 1);
+	}
+
+	.paging-div>button:active {
+		background: rgba(39, 50, 56, 1);
 		color: white;
-	} 
+	}	
 </style>
 </head>
 <body>
@@ -83,10 +99,17 @@
 						<td colspan="8">회원이 없습니다.</td>
 					</tr>
 				</table>
-				<div class="pagingArea" align="center">
-					
-				</div>
 			</div>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="paging-div">
+			<button>&lt;</button>
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button>&gt;</button>
 		</div>
 		<div class="member-li-div">
 			<div class="content">
@@ -158,9 +181,16 @@
 					}
 				});
 			</script>
-			<div class="pagingArea" align="center">
-					
-			</div>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="paging-div">
+			<button>&lt;</button>
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button>&gt;</button>
 		</div>
 	</section>
 </body>

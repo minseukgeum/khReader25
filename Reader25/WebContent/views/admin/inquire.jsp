@@ -16,6 +16,7 @@
 	.inquire-div{
 		min-height: 100px; 
 		background: white;
+		max-width: 1100px;
 		margin: auto;
 		margin-top: 20px;
 		border-radius: 5px;
@@ -38,6 +39,29 @@
 		cursor:pointer;
 		position: fixed;
 	}
+	.paging-div {
+		width: 250px;
+		margin: auto;
+		margin-top: 30px;
+	}
+	.paging-div>button {
+		width: 30px;
+		height: 30px;
+		color: rgba(85, 83, 83, 1);
+		font-size: 15px;
+		background: rgba(229, 229, 229, 1);
+		border: none;
+	}	
+
+	.paging-div>button:hover {
+		font-weight: bold;
+		background: rgba(220, 220, 220, 1);
+	}
+
+	.paging-div>button:active {
+		background: rgba(39, 50, 56, 1);
+		color: white;
+	}	
 </style>
 </head>
 <body>
@@ -58,6 +82,16 @@
 				</tr>
 				<tr><td colspan="5">문의사항이 없습니다.</td></tr>
 			</table>
+		</div>
+		<!-- 페이징 버튼 -->
+		<div class="paging-div">
+			<button>&lt;</button>
+			<button>1</button>
+			<button>2</button>
+			<button>3</button>
+			<button>4</button>
+			<button>5</button>
+			<button>&gt;</button>
 		</div>
 	</section>
 </body>
