@@ -13,7 +13,7 @@
 		min-height: 900px;
 		width: 100%;
 	}
-	.notice-div{
+	.inquiry-div{
 		min-height: 100px; 
 		background: white;
 		margin: auto;
@@ -24,13 +24,13 @@
 		width: 80%;
 		max-width: 800px;
 	}
-	.notice-header{
+	.inquiry-header{
 		text-align: center;
 		font-size: 25px;
 		margin-bottom: 10px;
 		font-weight: bolder;
 	}
-	#notice-contents{
+	#inquiry-contents{
 		border-top: 2px solid rgba(245, 113, 92, 1);
 		border-bottom: 2px solid rgba(245, 113, 92, 1);
 		min-height: 500px;
@@ -53,8 +53,20 @@
 	}
 	.contents{
 		background: rgba(255, 195, 152, 0.13);
-		min-height: 400px;
+		min-height: 200px;
 		margin-top: 20px;
+		padding: 10px;
+	}
+	.reply-writer{
+		height: 40px;
+		margin-top: 20px;
+		padding-top: 20px;
+		padding-bottom: 0px;
+		border-top: 2px solid rgba(245, 113, 92, 1);
+	}
+	.reply-div{
+		background: rgba(229, 229, 229, 0.37);
+		min-height: 200px;
 		padding: 10px;
 	}
 	.comments{
@@ -109,16 +121,16 @@
 </head>
 <body>
 	<section>
-		<div class="notice-div">
-			<div class="notice-header">공지사항</div>
-			<div id="notice-contents">
+		<div class="inquiry-div">
+			<div class="inquiry-header">문의사항</div>
+			<div id="inquiry-contents">
 				<div class="title">
 					<span class="title-span">제목</span>
-					<span>이번 주 배송이 늦어 집니다.</span>
+					<span>이 기능 추가해주시면 안될까요???</span>
 				</div>
 				<div class="writer">
 					<span class="title-span">작성자</span>
-					<span>관리자</span>
+					<span>강건강</span>
 				</div>
 				
 				<!-- 이미지 파일 넣기 -->
@@ -128,8 +140,15 @@
 				<!-- ---------- -->
 				
 				<div class="contents">
-					왜냐하면 크리스마스 주이기 때문입니다.
-					다들 메리크리스마스!~~~
+					제가 이거를 1년 썼는데 
+					장바구니를 이렇게 롸롸 기능 추가하는건 어때요??
+				</div>
+				<div class="reply-writer">
+					관리자
+				</div>
+				<div class="reply-div">
+					오호 좋네요
+					포인트 150점 드립니다.
 				</div>
 			</div>
 		</div>
@@ -139,7 +158,7 @@
 					<table id="comment-table">
 						<tr>
 							<td>user01</td>
-							<td>메리크리스마스~</td>
+							<td>좋은 아이디어에요!</td>
 							<td>2020-12-20</td>
 						</tr>
 					</table>
@@ -151,7 +170,7 @@
 			</div>
 		</form>
 		<div class="btn-div">
-			<!-- 관리자아이디 시 보임 아니면 안보임 -->
+			<!-- 관리자아이디  또는 글쓴이  -->
 			<button class="list-btn" id="modify-btn">수정하기</button>
 			<button class="list-btn" id="delete-btn">삭제하기</button>
 			<!-- ------- -->

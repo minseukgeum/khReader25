@@ -93,34 +93,35 @@
 <body>
 	<section>
 		<div class="notice-div">
-			<div class="notice-header">공지사항</div>
+			<div class="notice-header">문의사항</div>
 			<table id="notice-table">
 				<tr>
 					<th>번호</th>
 					<th>제목</th>
 					<th>조회수</th>
-					<th>댓글</th>
+					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
 				<%for(int i = 0; i<10; i++){ %>
 				<tr>
 					<td><%=10-i %></td>
-					<td>공지사항</td>
+					<td>문의사항</td>
 					<td>0</td>
-					<td>0</td>
+					<td>user01</td>
 					<td>2020.01.01</td>
 				</tr>
 				<%} %>
 			</table>
 		</div>
-		<!-- 관리자 아이디일 시 보이게 -->
+		<!-- 1. 로그인 시 -------------->
 		<div class="write-btn">
 			<img src="/Reader25/images/bookreview/write.png"/>
 		</div>
-		<!-- ---------------- -->
+		<!-- 2.  로그인 안될 시 로그인 창으로 -->
+		
 		<script>
 			$('.write-btn').click(function(){
-				location.href="<%=request.getContextPath()%>/write.no";
+				location.href="<%=request.getContextPath()%>/write.qu";
 			});
 		</script>
 		
