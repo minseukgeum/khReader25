@@ -44,6 +44,13 @@
 		width: 100px;
 		font-weight: bold;
 	}
+	.image-div{
+		width: 500px;
+		margin-top: 20px;
+	}
+	.image-div>img{
+		width: 100%;
+	}
 	.contents{
 		background: rgba(255, 195, 152, 0.13);
 		height: 400px;
@@ -82,14 +89,21 @@
 		margin:auto;
 		height: 50px;
 	}
-	#list-btn{
-		background: rgba(201, 95, 18, 1);
+	.list-btn{
+		background: rgba(196, 196, 196, 1);
 		float: right;
 		color: white;
 		border: none;
 		margin-top: 10px;
 		height: 35px;
 		width: 100px;
+		margin-right: 5px;
+	}
+	#modify-btn{
+		background: rgba(103, 73, 44, 1);
+	}
+	#delete-btn{
+		background: rgba(201, 95, 18, 1);
 	}
 </style>
 </head>
@@ -106,6 +120,13 @@
 					<span class="title-span">작성자</span>
 					<span>관리자</span>
 				</div>
+				
+				<!-- 이미지 파일 넣기 -->
+				<div class="image-div">
+					<img src="<%=request.getContextPath()%>/images/bookEX.jpg">
+				</div>
+				<!-- ---------- -->
+				
 				<div class="contents">
 					왜냐하면 크리스마스 주이기 때문입니다.
 					다들 메리크리스마스!~~~
@@ -129,10 +150,16 @@
 				</div>
 			</div>
 		</form>
-		<div class="btn-div"><button id="list-btn">목록으로</button></div>
+		<div class="btn-div">
+			<!-- 관리자아이디 시 보임 아니면 안보임 -->
+			<button class="list-btn" id="modify-btn">수정하기</button>
+			<button class="list-btn" id="delete-btn">삭제하기</button>
+			<!-- ------- -->
+			<button class="list-btn">목록으로</button>
+		</div>
 		<script>
 			$('#list-btn').click(function(){
-				location.href = ${loc}; // 이전으로 가기historyback
+				//location.href = ${loc}; // 이전으로 가기historyback
 			});
 		</script>
 	</section>
