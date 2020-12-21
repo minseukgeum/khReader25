@@ -7,11 +7,12 @@
 <title>Insert title here</title>
 <style>
 	section{
-		display:inline-block;
 		background: rgba(246, 246, 246, 1);
-		margin: auto;
+		width: 80%;
 		min-height: 900px;
-		width: 100%;
+		min-width: 1000px;
+		margin:auto;
+		padding-top: 20px;
 	}
 	.notice-div{
 		min-height: 100px; 
@@ -108,6 +109,8 @@
 </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp" %>
+
 	<section>
 		<div class="notice-div">
 			<div class="notice-header">공지사항</div>

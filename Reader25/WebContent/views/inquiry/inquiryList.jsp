@@ -7,11 +7,13 @@
 <title>Insert title here</title>
 <style>
 	section{
-		display:inline-block;
 		background: rgba(246, 246, 246, 1);
 		margin: auto;
 		min-height: 900px;
-		width: 100%;
+		width: 80%;
+		min-width:1000px;
+		margin:auto;
+		padding-top: 20px;
 	}
 	.notice-div{
 		min-height: 100px; 
@@ -56,7 +58,7 @@
 		width: 50px;
 		height: 50px;
 		text-align: center;
-		top: 50%;
+		top: 70%;
 		right: 12%;
 	}
 	.write-btn>img {
@@ -91,6 +93,8 @@
 </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp" %>
+
 	<section>
 		<div class="notice-div">
 			<div class="notice-header">문의사항</div>

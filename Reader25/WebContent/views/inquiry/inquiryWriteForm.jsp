@@ -10,6 +10,9 @@
 section{
 	background: rgba(246, 246, 246, 1);
 	min-height: 900px;
+	width: 80%;
+	min-width: 1000px;
+	margin:auto;
 }
 .header-div {
 	width: 80%;
@@ -109,6 +112,8 @@ section{
 </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp" %>
+
 	<section>	
 		<div class="header-div">
 			<h2>문의사항 작성</h2>

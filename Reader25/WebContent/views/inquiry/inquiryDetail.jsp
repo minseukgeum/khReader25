@@ -7,11 +7,12 @@
 <title>Insert title here</title>
 <style>
 	section{
-		display:inline-block;
 		background: rgba(246, 246, 246, 1);
-		margin: auto;
+		width: 80%;
 		min-height: 900px;
-		width: 100%;
+		min-width: 1000px;
+		margin:auto;
+		padding-top: 20px;
 	}
 	.inquiry-div{
 		min-height: 100px; 
@@ -22,6 +23,7 @@
 		box-shadow: 0px 2px 2px 3px lightgray;
 		padding: 20px;
 		width: 80%;
+		min-width: 500px;
 		max-width: 800px;
 	}
 	.inquiry-header{
@@ -120,6 +122,7 @@
 </style>
 </head>
 <body>
+	<%@ include file="../common/menubar.jsp" %>
 	<section>
 		<div class="inquiry-div">
 			<div class="inquiry-header">문의사항</div>

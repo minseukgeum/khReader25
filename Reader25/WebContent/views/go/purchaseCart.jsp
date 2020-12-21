@@ -92,44 +92,7 @@ footer{
 </head>
 <body>
 	<!-- <h1 align="center">Reader25</h1> -->
-	<br>
-	<div class="top_logo">
-	<img src="${ pageContext.servletContext.contextPath }/images/Logo2.png"
-		style="display: block; margin: 0 auto;"  width="210" height="45" >
-	</div>			
-	<div class="loginArea">
-		
-		<form id="loginForm" action="<%= request.getContextPath() %>/login.me" method="post">
-			<table id="loginTable">
-				<tr>
-					<td><label>ID</label></td>
-					<td><input type="text" name="userId" id="userId"></td>
-				</tr>
-				<tr>
-					<td><label>PWD</label></td>
-					<td><input type="password" name="userPwd" id="userPwd"></td>
-				</tr>
-			</table>
-			<div class="loginBtns">
-				<input type="submit" id="loginBtn" value="로그인">
-				<input type="button" id="joinBtn" value="회원가입" onclick="memberJoin();">
-			</div>
-		</form>
-		
-	</div>
-	
-	<br clear="all">
-	<br>
-	
-	<div class="wrap">
-		<nav>
-			<div class="menu" onclick="goHome();">HOME</div>
-			<div class="menu" onclick="goNotice();">토론 게시판</div>
-			<div class="menu" onclick="goBoard();">책을 읽고</div>
-			<div class="menu" onclick="goThumbnail0();">오늘 의작가</div>
-			<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
-		</nav>
-	</div>
+<%@include file="../common/menubar.jsp" %>
 	<br><br><br><br><br><br><br><br>
 	  
 	  
