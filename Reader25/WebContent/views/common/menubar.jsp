@@ -7,10 +7,12 @@
 <title>Insert title here</title>
 <style>
 	.wrap{background: #F5715C; width: 80%; height: 50px; margin:auto; min-width: 1000px;}
-	.small-menu{display:inline-block;font-size: 10px; height: 12px; padding:0;margin:0; position:absolute;right:30px;}
+	.small-menu{font-size: 10px; height: 20px; padding:0;width:80%; margin:auto;}
+	.small-menu ul{margin:0;float: right;}
 	.small-menu li{list-style:none; display:inline-block;}
 	.small-menu li:hover{font-weight:bolder;}
 	.small-menu a{text-decoration: none; color:black;}
+	.top_logo{clear:both;}
 	.li{border-left: 1px solid black; border-right:1px solid black; padding-right: 5px;padding-left: 5px;}
 	.menu{
 		background: #F5715C; color: white; text-align: center; font-weight: bold; 
