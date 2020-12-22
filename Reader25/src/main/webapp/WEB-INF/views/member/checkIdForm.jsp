@@ -40,7 +40,7 @@
 			
 		<% 
 		if(request.getAttribute("result") != null){
-			int result = (int)request.getAttribute("result");
+			int result = (Integer)request.getAttribute("result");
 			if(result > 0){
 		%>
 				<h2 class="txt_serch_div2" name=findIdResult2 align="center">
