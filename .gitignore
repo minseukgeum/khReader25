@@ -214,3 +214,13 @@ Icon?
 ehthumbs.db
 Thumbs.db
 /build/
+### Maven ###
+target/
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# STS (Spring Tool Suite)
+.springBeans
