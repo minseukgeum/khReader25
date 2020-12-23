@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MemberController {
-	@RequestMapping("login.me")
-	public void login() {
-		
+	
+	//로그인 클릭시 로그인 페이지로 이동
+	@RequestMapping("/login.me")
+	public String loginView() {
+		System.out.println("로그인");
+		return "Login";
 	}
 }
