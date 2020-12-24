@@ -19,7 +19,7 @@
 	<%-- <%@ include file="../common/menubar.jsp"%> --%>
 
 	<div class="outer">
-		<form action="<%=request.getContextPath()%>/login.me" method="post" id="login">
+		<form action="login.me" method="post" id="login">
 		
 			<h2 class="txt_login" align="center">로그인</h2>
 			<br>

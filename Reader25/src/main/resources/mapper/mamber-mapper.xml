@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+  
+	<select id="selectOne" resultMap="memberResultSet">
+		<!-- 암호화 후 로그인 방식 -->
+		select *
+		from member
+		where user_id = #{id}
+				and status = 'Y'
+	</select>
+	<resultMap type="Member" id="memberResultSet">
+		<id property = "id" column="USER_ID"/>
+		<result property="pwd" column="PWD"/>
+		<result property="name" column="MNAME"/>
+		<result property="gender" column="GENDER"/>
+		<result property="birthDay" column="BIRTHDAY"/>
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="mbti" column="MBTI"/>
+		<result property="mStatus" column="STATUS"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="point" column="MPOINT"/>
+		<result property="rank" column="MRANK"/>
+		<result property="grantId" column="GRANT_ID"/>
+	</resultMap>
+</mapper>
