@@ -1,5 +1,7 @@
 package com.kh.Reader25.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.member.model.exception.MemberException;
 import com.kh.Reader25.member.model.service.MemberService;
@@ -38,16 +41,15 @@ public class MemberController {
 	
 	//회원가입 후 로그인 컨트롤러
 	@RequestMapping("login.me")
-	public String login(Member m, Model model) {
+	public String login(@RequestParam("userId") String id, @RequestParam("userPwd") String pwd, Member m, Model model) {
 
 		//MemberServiceImpl mService = new MemberServiceImpl();
-		Member loginUser = mService.memberLogin(m);
+		Member loginUser = mService.memberLogin(id);
 		//아이디만 일치했을때에 대한 멤버 정보가 있음
 		
-		System.out.println(m);
 		System.out.println(loginUser);
 		
-		if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
+		if(bcrypt.matches(pwd, loginUser.getPwd())) {
 			model.addAttribute("loginUser", loginUser);
 			return "redirect:home.do";
 		} else {
@@ -63,16 +65,41 @@ public class MemberController {
 		return "redirect:home.do";
 	}
 	
-	// 아이디 찾기 컨트롤러
+	// 아이디 찾기 페이지 이동 컨트롤러
 	@RequestMapping("searchIdForm.me")
 	public String searchIdFormView() {	
 		return "SearchIdForm";
 	}
 	
-	// 비밀번호 찾기 컨트롤러
+	// 비밀번호 찾기 페이지 이동 컨트롤러
 	@RequestMapping("searchPwForm.me")
 	public String searchPwFormView() {	
 		return "SearchPwForm";
+	}
+	
+	// 회원가입 페이지 이동 컨트롤러
+	@RequestMapping("signUpForm.me")
+	public String signUpFormView() {	
+		return "SignUpForm";
+	}
+	
+	//아이디 찾기
+	@RequestMapping("searchId.me")
+	public ModelAndView searchId(@RequestParam("userName") String name, @RequestParam("userPhone") String phone, ModelAndView mv) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("name",name);
+		map.put("phone",phone);
+		
+		String result = mService.searchId(map);
+				
+		if(result != null) {
+			mv.addObject("result", result)
+				.setViewName("SearchIdForm");
+			return mv;
+		} else {
+			throw new MemberException("아이디찾기에 실패했습니다.");
+		}
 	}
 	
 }

@@ -10,6 +10,6 @@
 	</typeAliases>
 	
 	<mappers>
-		<mapper resource="mapper/mamber-mapper.xml"/>
+		<mapper resource="mapper/member-mapper.xml"/>
 	</mappers>
 </configuration>

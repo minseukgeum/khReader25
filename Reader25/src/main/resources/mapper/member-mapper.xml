@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
   
-	<select id="selectOne" resultMap="memberResultSet">
+	<select id="selectMember" resultMap="memberResultSet">
 		<!-- 암호화 후 로그인 방식 -->
 		select *
 		from member
@@ -25,4 +25,12 @@
 		<result property="rank" column="MRANK"/>
 		<result property="grantId" column="GRANT_ID"/>
 	</resultMap>
+	
+	<select id="searchId" resultType="string">
+		select user_id
+		from member
+		where mname = #{name}
+        	and phone = #{phone}
+        	and status = 'Y'
+	</select>
 </mapper>

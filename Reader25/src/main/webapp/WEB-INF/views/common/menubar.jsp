@@ -24,6 +24,9 @@
 </style>
 </head>
 <body>
+
+<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
+
 	<div class="menubar">
 		<div class="small-menu">
 			<c:if test="${ empty sessionScope.loginUser }">
