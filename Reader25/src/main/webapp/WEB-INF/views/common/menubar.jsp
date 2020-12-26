@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,11 +26,21 @@
 <body>
 	<div class="menubar">
 		<div class="small-menu">
-			<ul>
-				<li><a href="loginView.me">로그인</a></li>
-				<li class="li"><a href="notice">공지사항</a></li>
-				<li><a href="inquiry">문의사항</a></li>
-			</ul>
+			<c:if test="${ empty sessionScope.loginUser }">
+				<ul>
+					<li><a href="loginView.me">로그인</a></li>
+					<li class="li"><a href="notice">공지사항</a></li>
+					<li><a href="inquiry">문의사항</a></li>
+				</ul>
+			</c:if>
+			<c:if test="${ !empty sessionScope.loginUser }">
+				<ul>
+					<li><a href="logout.me">로그아웃</a></li>
+					<li class="li"><a href="notice">공지사항</a></li>
+					<li><a href="inquiry">문의사항</a></li>
+				</ul>
+			</c:if>
+			
 		</div>
 		<div class="top_logo">
 			<img

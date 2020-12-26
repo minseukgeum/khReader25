@@ -1,10 +1,16 @@
 package com.kh.Reader25.member.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -48,7 +54,7 @@ public class MemberController {
 			throw new MemberException("로그인에 실패했습니다.");
 		}		
 	}
-		
+	
 	// 로그아웃용 컨트롤러 (@SessionAttributes을 사용했을 때 가능)
 	@RequestMapping("logout.me")
 	public String logout(SessionStatus status) {
@@ -56,4 +62,17 @@ public class MemberController {
 				
 		return "redirect:home.do";
 	}
+	
+	// 아이디 찾기 컨트롤러
+	@RequestMapping("searchIdForm.me")
+	public String searchIdFormView() {	
+		return "SearchIdForm";
+	}
+	
+	// 비밀번호 찾기 컨트롤러
+	@RequestMapping("searchPwForm.me")
+	public String searchPwFormView() {	
+		return "SearchPwForm";
+	}
+	
 }
