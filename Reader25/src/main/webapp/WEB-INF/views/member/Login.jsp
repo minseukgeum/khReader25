@@ -33,7 +33,7 @@
 					</td>
 					<td width="400px">
 						<div class="input_id">
-							<input type="text" name="userId" size="20" tabindex="1" placeholder="아이디를 입력하세요">
+							<input type="text" name="id" size="20" tabindex="1" placeholder="아이디를 입력하세요">
 						</div>
 					</td>
 				</tr>
@@ -45,7 +45,7 @@
 					</td>
 					<td>
 						<div class="input_pw">
-							<input type="password" name="userPwd" size="20" tabindex="2" placeholder="비밀번호를 입력하세요">
+							<input type="password" name="pwd" size="20" tabindex="2" placeholder="비밀번호를 입력하세요">
 						</div>
 					</td>
 				</tr>
@@ -54,8 +54,7 @@
 					</td>
 					<td>
 						<div class="login_search">
-							<a class="link" style="cursor:pointer" onclick="searchId();">아이디 찾기</a><span> | </span>
-							<a class="link" style="cursor:pointer" onclick="searchPw();">비밀번호찾기</a>
+							<a class="link" style="cursor:pointer" onclick="location.href='searchUserForm.me'">아이디 | 비밀번호 찾기 </a>
 						</div>
 					</td>
 				</tr>
@@ -84,15 +83,5 @@
 
 	<%-- <%@ include file="../common/footer.jsp" %> --%>
 	
-	<script>
-		
-		function searchId(){
-			window.open("searchIdForm.me", "SearchIdForm", 'width=400 , height=520 , top=100, left=200');
-		};
-		
-		function searchPw(){
-			window.open("searchPwForm.me", "SearchPwForm", 'width=400 , height=520 , top=100, left=200');
-		};
-	</script>
 </body>
 </html>

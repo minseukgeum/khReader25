@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,24 +39,24 @@ public class MemberController {
 	public String loginView() {
 		return "Login";
 	}
-	
+		
 	//회원가입 후 로그인 컨트롤러
-	@RequestMapping("login.me")
-	public String login(@RequestParam("userId") String id, @RequestParam("userPwd") String pwd, Member m, Model model) {
+		@RequestMapping("login.me")
+		public String login(Member m, Model model) {
+			//m:입력한 아이디, 비번 //model:디비에 있는 데이터
 
-		//MemberServiceImpl mService = new MemberServiceImpl();
-		Member loginUser = mService.memberLogin(id);
-		//아이디만 일치했을때에 대한 멤버 정보가 있음
-		
-		System.out.println(loginUser);
-		
-		if(bcrypt.matches(pwd, loginUser.getPwd())) {
-			model.addAttribute("loginUser", loginUser);
-			return "redirect:home.do";
-		} else {
-			throw new MemberException("로그인에 실패했습니다.");
-		}		
-	}
+			Member loginUser = mService.memberLogin(m);
+			//아이디만 일치했을때에 대한 멤버 정보가 있음
+			
+			if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
+				model.addAttribute("loginUser", loginUser);
+				return "redirect:home.do";
+			} else {
+				//model.addAttribute("message", "로그인에 실패하였습니다.");
+				//return "../common/errorPage";
+				throw new MemberException("로그인에 실패했습니다.");
+			}		
+		}
 	
 	// 로그아웃용 컨트롤러 (@SessionAttributes을 사용했을 때 가능)
 	@RequestMapping("logout.me")
@@ -66,15 +67,9 @@ public class MemberController {
 	}
 	
 	// 아이디 찾기 페이지 이동 컨트롤러
-	@RequestMapping("searchIdForm.me")
-	public String searchIdFormView() {	
-		return "SearchIdForm";
-	}
-	
-	// 비밀번호 찾기 페이지 이동 컨트롤러
-	@RequestMapping("searchPwForm.me")
-	public String searchPwFormView() {	
-		return "SearchPwForm";
+	@RequestMapping("searchUserForm.me")
+	public String searchUserFormView() {	
+		return "SearchUserForm";
 	}
 	
 	// 회원가입 페이지 이동 컨트롤러
@@ -83,23 +78,63 @@ public class MemberController {
 		return "SignUpForm";
 	}
 	
-	//아이디 찾기
-	@RequestMapping("searchId.me")
-	public ModelAndView searchId(@RequestParam("userName") String name, @RequestParam("userPhone") String phone, ModelAndView mv) {
+	@RequestMapping("minsert.me")
+	public String memberInsert(@ModelAttribute Member m, @RequestParam("joinPostal") String post,
+								@RequestParam("joinAddress1") String address1,
+								@RequestParam("joinAddress2") String address2) {
+		
+		System.out.println(m);
+		System.out.println(post);
+		System.out.println(address1);
+		System.out.println(address2);
+		
+		m.setAddress(post+"/"+address1+"/"+address2);
+		
+		String encPwd = bcrypt.encode(m.getPwd());
+		m.setPwd(encPwd);
+		
+		int result = mService.insertMember(m);
+				
+		if(result > 0) {
+			return "Login";
+		} else {
+			throw new MemberException("회원가입에 실패했습니다.");
+		}
+		
+	}
+	
+	// id 중복 체크 컨트롤러
+	@RequestMapping(value ="/user/idCheck", method = RequestMethod.GET)
+	public int idCheck(@RequestParam("id") String user_id) {
+
+		return mService.userIdCheck(user_id);
+	}
+	
+	// 아이디 찾기
+	@RequestMapping(value = "/user/userSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public String userIdSearch(@RequestParam("inputName_1") String user_name, 
+								@RequestParam("inputPhone_1") String user_phone) {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("name",name);
-		map.put("phone",phone);
-		
+		map.put("name", user_name);
+		map.put("phone", user_phone);
+		System.out.println(map);
 		String result = mService.searchId(map);
-				
-		if(result != null) {
-			mv.addObject("result", result)
-				.setViewName("SearchIdForm");
-			return mv;
-		} else {
-			throw new MemberException("아이디찾기에 실패했습니다.");
-		}
+		System.out.println(result);
+
+		return result;
+	}
+	
+	// 비밀번호 찾기
+	@RequestMapping(value = "/user/searchPassword", method = RequestMethod.GET)
+	@ResponseBody
+	public String passwordSearch(@RequestParam("inputId_2")String user_id,
+			@RequestParam("inputEmail_2")String user_email, HttpServletRequest request) {
+
+		
+		
+		return "/user/userSearchPassword";
 	}
 	
 }

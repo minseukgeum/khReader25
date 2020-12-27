@@ -18,17 +18,37 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	@Override
-	public Member memberLogin(String id) {
+	//@Override
+	//public Member memberLogin(String id) {
 		// TODO Auto-generated method stub
-		return mDAO.selectMember(sqlSession, id);
-	}
+		//return mDAO.selectMember(sqlSession, id);
+	//}
 
 	@Override
 	public String searchId(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return mDAO.searchId(sqlSession, map);
 	}
+
+	@Override
+	public int insertMember(Member m) {
+		// TODO Auto-generated method stub
+		return mDAO.insertMember(sqlSession, m);
+	}
+
+	@Override
+	public Member memberLogin(Member m) {
+		// TODO Auto-generated method stub
+		return mDAO.selectMember(sqlSession, m);
+	}
+
+	@Override
+	public int userIdCheck(String user_id) {
+		// TODO Auto-generated method stub
+		return mDAO.userIdCheck(sqlSession, user_id);
+	}
+
+	
 
 
 

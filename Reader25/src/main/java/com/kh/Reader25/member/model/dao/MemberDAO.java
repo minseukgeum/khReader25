@@ -10,14 +10,29 @@ import com.kh.Reader25.member.model.vo.Member;
 @Repository("mDAO")
 public class MemberDAO {
 
-	public Member selectMember(SqlSessionTemplate sqlSession, String id) {
+	//public Member selectMember(SqlSessionTemplate sqlSession, String id) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("memberMapper.selectMember", id);
-	}
+		//return sqlSession.selectOne("memberMapper.selectMember", id);
+	//}
 
 	public String searchId(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.searchId", map);
+	}
+
+	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.insertMember", m);
+	}
+
+	public Member selectMember(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectOne", m);
+	}
+
+	public int userIdCheck(SqlSessionTemplate sqlSession, String user_id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.userIdCheck", user_id);
 	}
 
 }

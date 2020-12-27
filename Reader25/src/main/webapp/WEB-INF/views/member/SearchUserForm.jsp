@@ -12,8 +12,8 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
 .outer{
-		width: 400px; min-height: 520px; margin-left: auto; margin-right: auto; 
-		margin-top:3%; margin-bottom: 3%;
+		width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
+		margin-top:100px; margin-bottom: 5%;
 	}
 </style>
 </head>
@@ -35,7 +35,7 @@
 		<div class="full">
 		<div class="container">
 			<div class="area_inputs wow fadeIn">
-				<div class="sub_title font-weight-bold text-white">
+				<div class="sub_title font-weight-bold">
 					<h3>아이디/비밀번호 찾기</h3>
 				</div>
 				<div style="margin-bottom: 10px;"
@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<label class="font-weight-bold text-white" for="inputPhone_1">휴대폰번호</label>
 						<div>
-							<input type="tel" class="form-control" id="inputPhone_1" name="inputPhone_1" placeholder="ex) 01077779999">
+							<input type="text" class="form-control" id="inputPhone_1" name="inputPhone_1" placeholder="ex) 010-7777-9999">
 						</div>
 					</div>
 					<div class="form-group">
@@ -109,15 +109,15 @@
 	}
 	
 	$(document).ready(function() {
-		// 1. 모달창 히든 불러오기
+		//모달창 히든 불러오기
 		$('#searchBtn').click(function() {
 			$('#background_modal').show();
 		});
-		// 2. 모달창 닫기 버튼
+		//모달창 닫기 버튼
 		$('.close').on('click', function() {
 			$('#background_modal').hide();
 		});
-		// 3. 모달창 위도우 클릭 시 닫기
+		//모달창 윈도우 클릭 시 닫기
 		$(window).on('click', function() {
 			if (event.target == $('#background_modal').get(0)) {
 	            $('#background_modal').hide();
@@ -134,7 +134,7 @@
 			url:"${pageContext.request.contextPath}/user/userSearch?inputName_1="
 					+$('#inputName_1').val()+"&inputPhone_1="+$('#inputPhone_1').val(),
 			success:function(data){
-				if(data == 0){
+				if(data == null){
 					$('#id_value').text("회원 정보를 확인해주세요!");	
 				} else {
 					$('#id_value').text(data);

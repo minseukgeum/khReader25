@@ -22,38 +22,38 @@
 	
 	<div class="outer">
 				
-		<form action="<%= request.getContextPath() %>/insert.me" method="post" id="joinForm" name="joinForm" onsubmit="return send(this);">
+		<form action="minsert.me" method="post" id="joinForm" name="joinForm" onsubmit="return send(this);">
 			<br>
 			<h2 class="txt_signup">회원가입 . . .</h2>
 			<hr><br>
 			<table align="center">
 				<tr>
 					<td class="txt_signup_tb">아이디</td>
-					<td width="200px"><input type="text" id= "joinMemberid" name="joinMemberid" placeholder="6자 이상의 영문+숫자" required></td>
-					<td width="150px"><input type="button" class="btn_sign_input" id="idCheck" onclick="idCheck();" value="중복확인"></td>
+					<td width="200px"><input type="text" id= "joinMemberid" name="id" placeholder="6자 이상의 영문+숫자" required></td>
+					<td width="150px"><div class="check_font" id="id_check"></div></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">이름</td>
-					<td><input type="text" name="joinMembername" required></td>
+					<td><input type="text" name="name" required></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">비밀번호</td>
-					<td><input type="password" class="joinPassword" id="joinPassword1" name="joinPassword1" required></td>
+					<td><input type="password" class="joinPassword" id="joinPassword1" name="pwd" required></td>
 					<td rowspan="2"><label id="pwResult"></label></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">비밀번호 확인</td>
-					<td><input type="password" class="joinPassword" id="joinPassword2" name="joinPassword2" required></td>
+					<td><input type="password" class="joinPassword" id="joinPassword2" name="pwd2" required></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">연락처</td>
-					<td><input type="tel" maxlength="11" name="joinPhone" placeholder="(-없이)01012345678"></td>
+					<td><input type="tel" maxlength="11" name="phone" placeholder="(-없이)01012345678"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">우편번호</td>
-					<td><input type="text" id="userPostal" name="joinPostal" readonly></td>
+					<td><input type="text" id="joinPostal" name="joinPostal" readonly></td>
 					<td><input type="button" class="btn_sign_input" id="findPostal" onclick="ifindPostal();" value="검색"></td>
 				</tr>
 				<tr>
@@ -68,7 +68,7 @@
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">이메일</td>
-					<td><input type="email" id="joinEmail" name="joinEmail"></td>
+					<td><input type="email" id="joinEmail" name="email"></td>
 					<td><input type="button" class="btn_sign_input" id="emailCheck" onclick="emailCheck();" value="중복확인"></td>
 				</tr>
 				<tr>
@@ -78,12 +78,12 @@
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">생년월일</td>
-					<td><input type="date" name="joinMemberDate"></td>
+					<td><input type="date" name="birthDay"></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">MBTI</td>
-					<td><input type="text" name="joinMemberMbti"></td>
+					<td><input type="text" name="mbti"></td>
 					<td></td>
 				</tr>
 			</table>
@@ -139,9 +139,9 @@
                 }
 
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('userPostal').value = data.zonecode;
+                document.getElementById('joinPostal').value = data.zonecode;
                 document.getElementById("joinAddress1").value = roadAddr;
-				//document.getElementById("joinAddress2").value = data.jibunAddress;
+//                 document.getElementById("joinAddress2").value = data.jibunAddress;
 				document.getElementById("joinAddress2").value = "";
 
                 // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
@@ -170,14 +170,48 @@
         }).open();
     }
 	
-	function idCheck(){
-		window.open('checkIdForm.me', 'checkIdForm', 'width=400 , height=520 , top=100, left=200');
-	}
-	
-	function emailCheck(){
-		window.open('emailCheckForm.me', 'emailCheckForm', 'width=400 , height=520 , top=100, left=200');
-	}
-	
+	// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
+	$("#joinMemberid").blur(function() {
+		// id = "id_reg" / name = "userId"
+		var user_id = $('#joinMemberid').val();
+		$.ajax({
+			url : '${pageContext.request.contextPath}/user/idCheck?userId='+ user_id,
+			type : 'get',
+			success : function(data) {
+				console.log("1 = 중복o / 0 = 중복x : "+ data);							
+				
+				if (data == 1) {
+						// 1 : 아이디가 중복되는 문구
+						$("#id_check").text("사용중인 아이디입니다 :p");
+						$("#id_check").css("color", "red");
+						$("#btn1").attr("disabled", true);
+					} else {
+						
+						if(idJ.test(user_id)){
+							// 0 : 아이디 길이 / 문자열 검사
+							$("#id_check").text("");
+							$("#btn1").attr("disabled", false);
+				
+						} else if(user_id == ""){
+							
+							$('#id_check').text('아이디를 입력해주세요 :)');
+							$('#id_check').css('color', 'red');
+							$("#btn1").attr("disabled", true);				
+							
+						} else {
+							
+							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
+							$('#id_check').css('color', 'red');
+							$("#btn1").attr("disabled", true);
+						}
+						
+					}
+				}, error : function() {
+						console.log("실패");
+				}
+			});
+		});
+
 	</script>
 	
 	
