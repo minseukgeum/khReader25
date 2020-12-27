@@ -72,7 +72,7 @@
 					</td>
 					<td colspan="2" align="center">
 						<button style="cursor:pointer" id="btn1" class="btn1" onclick="location.href='signUpForm.me'"><span class="txt_type">회원가입</span></button>
-						<button style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='home.me'"><span class="txt_type">메인으로</span></button>
+						<button style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='home.do'"><span class="txt_type">메인으로</span></button>
 					</td>
 				</tr>
 			</table>

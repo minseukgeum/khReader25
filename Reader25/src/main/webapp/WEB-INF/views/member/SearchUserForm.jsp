@@ -11,33 +11,44 @@
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/serchId.css">
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
-.outer{
-		width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
-		margin-top:100px; margin-bottom: 5%;
-	}
+ * { margin:0; padding:0; }
+
+.hidden { visibility:hidden;  }
+.outer { display:block; position:fixed; 
+           top:0; left:0; bottom:0; right:0; 
+           text-align:center; 
+           padding-top:80px; }
+.button { font-size:24px; cursor:pointer;  }
+.box_modal { position:fixed; display:block; width:350px; 
+            height:250px; top:50%; left:50%;
+            transform:scale(0,0); visibility:hidden; 
+            margin-top:-75px; margin-left:-150px;
+            background:#FFD8D8; 
+            border:1px solid #CC3D3D;
+            overflow:hidden;
+            opacity:0.6;
+            transition:all 0.2s ease; 
+              }
+.box_modal:hover { opacity:1; }
+.closer { position:absolute; width:30px; 
+             height:30px; top:0; right:0;
+             background:#eee; 
+             border-left:1px solid #386980; 
+             border-bottom: 1px solid #386980;
+             text-align:center;
+             }
+.text { display:inline-block; 
+          padding:20px; }
+.text h3 { font-size:20px; }
+.text p { font-size:14px; }
+input[type=checkbox]:checked + .box_modal {
+  visibility:visible; transform:scale(1,1);
+}
 </style>
 </head>
 <body>
-	<div id="background_modal" class="background_modal">
-		<div class="modal_contents">
-			<h4>
-				<b>손님 아이디는?</b><span class="close">&times;</span>
-			</h4><br>
-				<h2 id="id_value"></h2>
-			<br>
-			<button type="button" id="pwSearch_btn" class="btn peach-gradient btn-rounded waves-effect">
-			<i class="fa fa-envelope"></i>비밀번호 찾기</button>
-		</div>
-	</div>
-	
-	<div class="outer" align="center">
-
-		<div class="full">
-		<div class="container">
-			<div class="area_inputs wow fadeIn">
-				<div class="sub_title font-weight-bold">
-					<h3>아이디/비밀번호 찾기</h3>
-				</div>
+  <div class="outer">
+  	<h3>아이디/비밀번호 찾기</h3>
 				<div style="margin-bottom: 10px;"
 					class="custom-control custom-radio custom-control-inline">
 					<input type="radio" class="custom-control-input" id="search_1" name="search_total" onclick="search_check(1)" checked="checked">
@@ -61,8 +72,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<button id="searchBtn" type="button" onclick="idSearch_click()" class="btn btn-primary btn-block">확인</button>
-					<a class="btn btn-danger btn-block"	href="${pageContext.request.contextPath}">취소</a>
+						<button id="searchBtn" type="button" onclick="idSearch_click()" class="btn btn-primary btn-block"><label for="modal">확인</label></button>
+						<button  style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='loginView.me'"><span class="txt_type">취소</span></button>
 					</div>
 				</div>
 				<div id="searchP" style="display: none;">
@@ -79,24 +90,29 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<button id="searchBtn2" type="button" class="btn1">확인</button>
-					<a class="btn2"	href="${pageContext.request.contextPath}">취소</a>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
+						<button id="searchBtn2" type="button" class="btn1"><label for="modal">확인</label></button>
+						<button style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='loginView.me'"><span class="txt_type">취소</span></button>
+  					</div>
+         
+  				</div>
+  	</div>
 
-	</div>
-	
+  <input type="checkbox" id="modal" class="hidden">
+  <div class="box_modal">
+      <label for="modal" class="closer">x</label>
+       <div class="text">
+           <h4>
+				<b>손님 아이디는?</b></span>
+			</h4><br>
+				<h2 id="id_value"></h2>
+			<br>
+			<button type="button" id="pwSearch_btn" class="btn peach-gradient btn-rounded waves-effect">
+			<i class="fa fa-envelope"></i>비밀번호 찾기</button>
+
+       </div>
+  </div>
 </body>
-
 <script>
-	//창 실행 시 모달 창 숨기기
-	jQuery(document).ready(function() {
-	    $('#background_modal').hide();
-	});
-
 	//체크 버튼에 따라 아이디/비밀번호 기능이 달라진다
 	function search_check(num) {
 		if (num == '1') {
@@ -107,23 +123,6 @@
 			document.getElementById("searchP").style.display = "";
 		}
 	}
-	
-	$(document).ready(function() {
-		//모달창 히든 불러오기
-		$('#searchBtn').click(function() {
-			$('#background_modal').show();
-		});
-		//모달창 닫기 버튼
-		$('.close').on('click', function() {
-			$('#background_modal').hide();
-		});
-		//모달창 윈도우 클릭 시 닫기
-		$(window).on('click', function() {
-			if (event.target == $('#background_modal').get(0)) {
-	            $('#background_modal').hide();
-	         }
-		});
-	});
 	
 	// 아이디 & 스토어 값 저장하기 위한 변수
 	var idV = "";
@@ -144,10 +143,7 @@
 			}
 		});
 	}
-	
-	function show() {
-	     $("#background_modal").hide()
-	}
+
 </script>
 
 </html>

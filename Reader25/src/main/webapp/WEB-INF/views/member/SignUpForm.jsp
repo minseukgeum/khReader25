@@ -100,7 +100,7 @@
 							<button style="cursor:pointer" id="btn1" type="submit" class="btn1"><span>가입하기</span></button>
 						</td>
 						<td width="300" align="center">
-							<input class="btn2" type="submit" id="signUpBtn" value="메인으로">
+							<button style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='home.do'"><span class="txt_type">메인으로</span></button>
 						</td>
 					</tr>
 				</table>
