@@ -29,6 +29,7 @@
 
 	<div class="menubar">
 		<div class="small-menu">
+
 			<c:if test="${ empty sessionScope.loginUser }">
 				<ul>
 					<li><a href="loginView.me">로그인</a></li>
@@ -43,7 +44,7 @@
 					<li><a href="inquiry">문의사항</a></li>
 				</ul>
 			</c:if>
-			
+
 		</div>
 		<div class="top_logo">
 			<img

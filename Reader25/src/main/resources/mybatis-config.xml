@@ -7,9 +7,11 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.Reader25.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.Reader25.board.model.vo.Board" alias="Board"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
+		<mapper resource="mapper/board-mapper.xml"/>
 	</mappers>
 </configuration>
