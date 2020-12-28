@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,7 +72,7 @@
 		margin: auto;
 		margin-top: 30px;
 	}
-	.paging-div>button {
+	.paging-div>a {
 		width: 30px;
 		height: 30px;
 		color: rgba(85, 83, 83, 1);
@@ -80,12 +81,12 @@
 		border: none;
 	}	
 
-	.paging-div>button:hover {
+	.paging-div>a:hover {
 		font-weight: bold;
 		background: rgba(220, 220, 220, 1);
 	}
 
-	.paging-div>button:active {
+	.paging-div>a:active {
 		background: rgba(39, 50, 56, 1);
 		color: white;
 	}	
@@ -119,7 +120,7 @@
 		<div class="write-btn">
 			<img src="${contextPath }/resources/images/bookreview/write.png"/>
 		</div>
-		<!-- ---------------- -->
+		<!-- ------- 글쓰기 버튼 --------- -->
 		<script>
 			$('.write-btn').click(function(){
 				location.href="<%=request.getContextPath()%>/write.no";
@@ -128,7 +129,17 @@
 		
 		<!-- 페이징 버튼 -->
 		<div class="paging-div">
-			<button>&lt;</button>
+			<!------ 이전 --------->
+			<c:if test="${ pi.currentPage <= 1 }">
+				&lt;
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="notice.no">
+					<c:param name="page" value="${ pi.currentPage -1 }"/>
+				</c:url>
+				<a href="${ before }">&lt;</a>
+			</c:if>
+			
 			<button>1</button>
 			<button>2</button>
 			<button>3</button>
