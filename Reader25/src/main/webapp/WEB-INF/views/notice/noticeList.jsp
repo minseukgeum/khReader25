@@ -57,7 +57,7 @@
 		width: 50px;
 		height: 50px;
 		text-align: center;
-		top: 70%;
+		top: 76%;
 		right: 12%;
 	}
 	.write-btn>img {
@@ -117,7 +117,7 @@
 		</div>
 		<!-- 관리자 아이디일 시 보이게 -->
 		<div class="write-btn">
-			<img src="/Reader25/images/bookreview/write.png"/>
+			<img src="${contextPath }/resources/images/bookreview/write.png"/>
 		</div>
 		<!-- ---------------- -->
 		<script>

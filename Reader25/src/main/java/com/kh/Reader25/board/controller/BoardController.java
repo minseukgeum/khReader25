@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BoardController {
 	
 	// 공지사항 code = 0
-	@RequestMapping("notice.bo")
-	public String NoticeList(@RequestParam(value="page", required=false) int page) {
-		int currentPgae = 1;
-		
-		
-		return null;
+	@RequestMapping("notice.no")
+	public String NoticeList() {
+		return "noticeList";
 		
 	}
 	
