@@ -33,7 +33,7 @@ public class BoardController {
 		ArrayList<Board> bList = bService.selectList(pi, code);
 		if(bList != null) {
 			mv.addObject("bList", bList)
-				.addObject("page", page)
+				.addObject("page", currentPage)
 				.setViewName("noticeList");
 		}else {
 			throw new BoardException("게시글 전체 조회에 실패하였습니다.");
