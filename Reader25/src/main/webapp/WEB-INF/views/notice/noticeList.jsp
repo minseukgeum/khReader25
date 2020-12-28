@@ -117,9 +117,11 @@
 			</table>
 		</div>
 		<!-- 관리자 아이디일 시 보이게 -->
-		<div class="write-btn">
-			<img src="${contextPath }/resources/images/bookreview/write.png"/>
-		</div>
+		<c:if test="${ loginUser.id  eq 'admin'}">
+			<div class="write-btn">
+				<img src="${contextPath }/resources/images/bookreview/write.png"/>
+			</div>
+		</c:if>
 		<!-- ------- 글쓰기 버튼 --------- -->
 		<script>
 			$('.write-btn').click(function(){

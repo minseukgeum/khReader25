@@ -113,7 +113,8 @@ section{
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-	<section>	
+	<section>
+	<form id="notice-form">	
 		<div class="header-div">
 			<h2>공지사항 작성</h2>
 			<div class="file-div">
@@ -121,7 +122,8 @@ section{
 				<input type="file" id="file-input">
 			</div>
 		</div>
-		<form id="notice-form">
+		
+	<!-- 	<form id="notice-form">	 -->
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" placeholder="제목을 작성하세요">

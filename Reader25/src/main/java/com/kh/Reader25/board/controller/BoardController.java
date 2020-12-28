@@ -21,7 +21,7 @@ public class BoardController {
 	
 	// 공지사항 code = 0
 	@RequestMapping("notice.no")
-	public ModelAndView NoticeList(@RequestParam(value="page", required=false) Integer page,
+	public ModelAndView noticeList(@RequestParam(value="page", required=false) Integer page,
 							ModelAndView mv) {
 		int currentPage = 1;
 		if(page != null) {
@@ -40,5 +40,14 @@ public class BoardController {
 		}
 		return mv;
 	}
+	@RequestMapping("write.no")
+	public String noticeWirteForm() {
+		return "noticeWriteForm";
+	}
 	
+	// 문의사항 = 1
+	@RequestMapping("inquiry.in")
+	public String inquiryList() {
+		return "inquiryList";
+	}
 }

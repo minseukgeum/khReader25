@@ -40,8 +40,8 @@
 			<c:if test="${ !empty sessionScope.loginUser }">
 				<ul>
 					<li><a href="logout.me">로그아웃</a></li>
-					<li class="li"><a href="notice">공지사항</a></li>
-					<li><a href="inquiry">문의사항</a></li>
+					<li class="li"><a href="notice.no">공지사항</a></li>
+					<li><a href="inquiry.in">문의사항</a></li>
 				</ul>
 			</c:if>
 
