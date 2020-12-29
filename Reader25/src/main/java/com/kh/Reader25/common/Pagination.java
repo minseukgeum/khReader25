@@ -21,4 +21,22 @@ public class Pagination {
 		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit);
 		return pi;
 	}
+	public static PageInfo getPageInfo2(int currentPage, int listCount) {
+		// 북리뷰
+		
+		int pageLimit = 5;
+		int maxPage;
+		int startPage;
+		int endPage;
+		int boardLimit = 18;
+		
+		maxPage = (int)Math.ceil((double)listCount/boardLimit);
+		startPage = (currentPage - 1)/pageLimit * pageLimit  + 1;
+		endPage = startPage + pageLimit - 1;
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		PageInfo pi = new PageInfo(currentPage, listCount, pageLimit, maxPage, startPage, endPage, boardLimit);
+		return pi;
+	}
 }
