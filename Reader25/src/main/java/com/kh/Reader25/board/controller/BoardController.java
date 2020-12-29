@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,6 +44,11 @@ public class BoardController {
 	@RequestMapping("write.no")
 	public String noticeWirteForm() {
 		return "noticeWriteForm";
+	}
+	@RequestMapping("ninsert.no")
+	public String insertNotice(@ModelAttribute Board b, @RequestParam("uploadFile") String uploadFile) {
+		
+		return "redirect:notice.no";
 	}
 	
 	// 문의사항 = 1
