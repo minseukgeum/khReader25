@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="${ contextPath }/resources/js/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
 <style>
 	.wrap{background: #F5715C; width: 80%; height: 50px; margin:auto; min-width: 1000px;}
@@ -29,22 +30,19 @@
 
 	<div class="menubar">
 		<div class="small-menu">
-
-			<c:if test="${ empty sessionScope.loginUser }">
-				<ul>
+			<ul>
+				<c:if test="${ empty sessionScope.loginUser }">
 					<li><a href="loginView.me">로그인</a></li>
-					<li class="li"><a href="notice.no">공지사항</a></li>
-					<li><a href="inquiry">문의사항</a></li>
-				</ul>
-			</c:if>
-			<c:if test="${ !empty sessionScope.loginUser }">
-				<ul>
+				</c:if>
+				<c:if test="${ loginUser eq 'admin'}">
+					<li><a href="admin.ad">관리자창</a></li>
+				</c:if>
+				<c:if test="${ !empty sessionScope.loginUser }">
 					<li><a href="logout.me">로그아웃</a></li>
-					<li class="li"><a href="notice.no">공지사항</a></li>
-					<li><a href="inquiry.in">문의사항</a></li>
-				</ul>
-			</c:if>
-
+				</c:if>
+				<li class="li"><a href="notice.no">공지사항</a></li>
+				<li><a href="inquiry.in">문의사항</a></li>
+			</ul>
 		</div>
 		<div class="top_logo">
 			<img

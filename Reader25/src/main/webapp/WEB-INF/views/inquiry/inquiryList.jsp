@@ -118,14 +118,15 @@
 			</table>
 		</div>
 		<!-- 1. 로그인 시 -------------->
+		<c:if test="${ !empty loginUser }">
 		<div class="write-btn">
-			<img src="/Reader25/images/bookreview/write.png"/>
+			<img src="${ contextPath }/resources/images/bookreview/write.png"/>
 		</div>
-		<!-- 2.  로그인 안될 시 로그인 창으로 -->
+		</c:if>
 		
 		<script>
 			$('.write-btn').click(function(){
-				location.href="<%=request.getContextPath()%>/write.qu";
+				location.href="<%=request.getContextPath()%>/write.in";
 			});
 		</script>
 		

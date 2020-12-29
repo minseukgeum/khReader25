@@ -50,4 +50,8 @@ public class BoardController {
 	public String inquiryList() {
 		return "inquiryList";
 	}
+	@RequestMapping("write.in")
+	public String inquiryWriteForm() {
+		return "inquiryWriteForm";
+	}
 }
