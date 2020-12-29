@@ -14,7 +14,16 @@
 		margin-left: auto; margin-right: auto; margin-top: 5%; 
 		margin-bottom: 50px;
 		}
+		
+span.guide{display: none; font-size: 12px; top: 12px; right: 10px;}
+span.ok{color: green;}
+span.error{color: red;}
+
+span.email{display: none; font-size: 12px; top: 12px; right: 10px;}
+span.check{color: green;}
+span.no{color: red;}
 </style>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
@@ -30,7 +39,10 @@
 				<tr>
 					<td class="txt_signup_tb">아이디</td>
 					<td width="200px"><input type="text" id= "joinMemberid" name="id" placeholder="6자 이상의 영문+숫자" required></td>
-					<td width="150px"><div class="check_font" id="id_check"></div></td>
+					<td width="300px"><span class="guide ok">이 아이디는 사용 가능합니다.</span>
+						<span class="guide error">이 아이디는 사용 불가능합니다.</span>
+						<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
+					</td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">이름</td>
@@ -69,7 +81,10 @@
 				<tr>
 					<td class="txt_signup_tb">이메일</td>
 					<td><input type="email" id="joinEmail" name="email"></td>
-					<td><input type="button" class="btn_sign_input" id="emailCheck" onclick="emailCheck();" value="중복확인"></td>
+					<td width="150px"><span class="email check">이 이메일은 사용 가능합니다.</span>
+						<span class="email no">이 이메일은 사용 불가능합니다.</span>
+						<input type="hidden" name="emailDuplicateCheck" id="emailDuplicateCheck" value="0">
+					</td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">성별</td>
@@ -97,7 +112,7 @@
 				<table>
 					<tr>
 						<td width="300" align="center">
-							<button style="cursor:pointer" id="btn1" type="submit" class="btn1"><span>가입하기</span></button>
+							<button style="cursor:pointer" id="btn1" type="submit" class="btn1" onclick="return validate();"><span>가입하기</span></button>
 						</td>
 						<td width="300" align="center">
 							<button style="cursor:pointer" id="btn3" class="btn3" onclick="location.href='home.do'"><span class="txt_type">메인으로</span></button>
@@ -112,8 +127,9 @@
 	</div>
 	
 	
-	<script>
+<script>
 	
+	//우편번호 검색
 	function ifindPostal() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -155,12 +171,12 @@
                 // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
                 if (data.autoRoadAddress) {
                     var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-                    guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                    guideTextBox.innerHTML = '(도로명 주소 : ' + expRoadAddr + ')';
                     guideTextBox.style.display = 'block';
 
                 } else if (data.autoJibunAddress) {
                     var expJibunAddr = data.autoJibunAddress;
-                    guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                    guideTextBox.innerHTML = '(지번 주소 : ' + expJibunAddr + ')';
                     guideTextBox.style.display = 'block';
                 } else {
                     guideTextBox.innerHTML = '';
@@ -170,49 +186,210 @@
         }).open();
     }
 	
-	// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
-	$("#joinMemberid").blur(function() {
-		// id = "id_reg" / name = "userId"
-		var user_id = $('#joinMemberid').val();
-		$.ajax({
-			url : '${pageContext.request.contextPath}/user/idCheck?userId='+ user_id,
-			type : 'get',
-			success : function(data) {
-				console.log("1 = 중복o / 0 = 중복x : "+ data);							
+	// 아이디 유효성 검사
+	$(function(){
+		$('#joinMemberid').on('keyup', function(){
+			var userId = $(this).val().trim();
 				
-				if (data == 1) {
-						// 1 : 아이디가 중복되는 문구
-						$("#id_check").text("사용중인 아이디입니다 :p");
-						$("#id_check").css("color", "red");
-						$("#btn1").attr("disabled", true);
-					} else {
-						
-						if(idJ.test(user_id)){
-							// 0 : 아이디 길이 / 문자열 검사
-							$("#id_check").text("");
-							$("#btn1").attr("disabled", false);
+			if(userId.length < 4){
+				$('.guide').hide();
+				$('#idDuplicateCheck').val(0);
+					
+				return;
+			}
 				
-						} else if(user_id == ""){
-							
-							$('#id_check').text('아이디를 입력해주세요 :)');
-							$('#id_check').css('color', 'red');
-							$("#btn1").attr("disabled", true);				
-							
-						} else {
-							
-							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다 :) :)");
-							$('#id_check').css('color', 'red');
-							$("#btn1").attr("disabled", true);
-						}
-						
+			$.ajax({
+				url: 'dupid.me',
+				data: {id:userId},
+				success: function(data){
+					if(data == 'true'){
+						$('.guide.error').hide();
+						$('.guide.ok').show();
+						$('#idDuplicateCheck').val(1);
+					} else{
+						$('.guide.error').show();
+						$('.guide.ok').hide();
+						$('#idDuplicateCheck').val(0);
 					}
-				}, error : function() {
-						console.log("실패");
 				}
 			});
 		});
+	});
+		
+	function validate(){
+		if($('#idDuplicateCheck').val() == 0){
+			alert('사용가능한 아이디를 입력해주세요.');
+			$('#joinMemberid').focus();
+			return false;
+		} else{
+			$('#joinForm').submit();
+		}
+	}
+	
+	// 이메일 유효성 검사
+	$(function(){
+		$('#joinEmail').on('keyup', function(){
+			var userEmail = $(this).val().trim();
+				
+			if(userEmail.length < 4){
+				$('.email').hide();
+				$('#emailDuplicateCheck').val(0);
+					
+				return;
+			}
+				
+			$.ajax({
+				url: 'dupemail.me',
+				data: {email:userEmail},
+				success: function(data){
+					if(data == 'true'){
+						$('.email.no').hide();
+						$('.email.check').show();
+						$('#emailDuplicateCheck').val(1);
+					} else{
+						$('.email.no').show();
+						$('.email.check').hide();
+						$('#emailDuplicateCheck').val(0);
+					}
+				}
+			});
+		});
+	});
+		
+	function validate(){
+		if($('#emailDuplicateCheck').val() == 0){
+			alert('사용가능한 아이디를 입력해주세요.');
+			$('#joinEmail').focus();
+			return false;
+		} else{
+			$('#joinForm').submit();
+		}
+	}
+	
+	//비밀번호 제한
+	$('#joinPassword1').keyup(function(){
+		var joinPassword1 = $("#joinPassword1").val();
+		var joinPassword2 = $("#joinPassword2").val();
+			
+		var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+		var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+		
+		if(joinPassword2.length == 0 || !isPwChecked){
+			if(false === reg.test(joinPassword1)) {
+				$('#pwResult').text('소문자/숫자/특수문자 모두 포함해야 합니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(/(\w)\1\1\1/.test(joinPassword1)){
+				$('#pwResult').text('같은 문자를 4번 이상 사용하실 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(joinPassword1.search(/\s/) != -1){
+				$('#pwResult').text('비밀번호는 공백 없이 입력해주세요.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(hangulcheck.test(joinPassword1)){
+				$('#pwResult').text('비밀번호에 한글을 사용할 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else {
+				$('#pwResult').text('비밀번호가 동일하지 않습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+			 }
+		}else{
+			if(false === reg.test(joinPassword2)) {
+				$('#pwResult').text('소문자/숫자/특수문자 모두 포함해야 합니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(/(\w)\1\1\1/.test(joinPassword2)){
+				$('#pwResult').text('같은 문자를 4번 이상 사용하실 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(joinPassword2.search(/\s/) != -1){
+				$('#pwResult').text('비밀번호는 공백 없이 입력해주세요.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(hangulcheck.test(joinPassword2)){
+				$('#pwResult').text('비밀번호에 한글을 사용할 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(joinPassword1 != joinPassword2){
+				$('#pwResult').text('비밀번호가 동일하지 않습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+				isPwEquals = false;
+			}else{
+				$('#pwResult').text('비밀번호가 사용가능합니다.');
+				$('#pwResult').css({'color':'green', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+				isPwEquals = true;
+			}
+		}
+	});
+	
+	//비밀번호 일치
+	$('#joinPassword2').keyup(function(){
+		var joinPassword1 = $("#joinPassword1").val();
+		var joinPassword2 = $("#joinPassword2").val();
+			
+		var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+		var hangulcheck = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+		if(joinPassword1.length == 0 || !isPwChecked){
+			if(false === reg.test(joinPassword2)) {
+				$('#pwResult').text('소문자/숫자/특수문자 모두 포함해야 합니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(/(\w)\1\1\1/.test(joinPassword2)){
+				$('#pwResult').text('같은 문자를 4번 이상 사용하실 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(joinPassword2.search(/\s/) != -1){
+				$('#pwResult').text('비밀번호는 공백 없이 입력해주세요.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else if(hangulcheck.test(joinPassword2)){
+				$('#pwResult').text('비밀번호에 한글을 사용할 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			 }else {
+				$('#pwResult').text('비밀번호가 동일하지 않습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+			 }
+		}else{
+			if(false === reg.test(joinPassword1)) {
+				$('#pwResult').text('소문자/숫자/특수문자 모두 포함해야 합니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(/(\w)\1\1\1/.test(joinPassword1)){
+				$('#pwResult').text('같은 문자를 4번 이상 사용하실 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(joinPassword1.search(/\s/) != -1){
+				$('#pwResult').text('비밀번호는 공백 없이 입력해주세요.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(hangulcheck.test(joinPassword1)){
+				$('#pwResult').text('비밀번호에 한글을 사용할 수 없습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = false;
+			}else if(joinPassword1 != joinPassword2){
+				$('#pwResult').text('비밀번호가 동일하지 않습니다.');
+				$('#pwResult').css({'color':'red', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+				isPwEquals = false;
+			}else{
+				$('#pwResult').text('비밀번호가 사용가능합니다.');
+				$('#pwResult').css({'color':'green', 'float':'left', 'display':'inline-block'});
+				isPwChecked = true;
+				isPwEquals = true;
+			}
+		}
+	});
+		
+		
 
-	</script>
+</script>
 	
 	
 	<%-- <%@ include file="../common/footer.jsp" %> --%>

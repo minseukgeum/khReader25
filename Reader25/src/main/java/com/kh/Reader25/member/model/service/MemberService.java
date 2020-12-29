@@ -14,7 +14,12 @@ public interface MemberService {
 
 	Member memberLogin(Member m);
 
-	int userIdCheck(String user_id);
+	int checkIdDup(String id);
+
+	int checkEmailDup(String email);
+
+	int changePw(HashMap<String, String> map);
+
 
 
 }

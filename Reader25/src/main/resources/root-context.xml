@@ -23,5 +23,19 @@
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSession"/><!-- 매개변수 생성자로 값을 집어 넣는 것 -->
 	</bean>
+	
+	<!-- 이메일 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="reader256g@gmail.com" />
+	<property name="port" value="587" />
+	<property name="username" value="Reader25" />
+	<property name="password" value="com.kh.reader!" />
+	<property name="javaMailProperties">
+		<props>
+			<prop key="mail.smtp.auth">true</prop>
+			<prop key="mail.smtp.starttls.enable">true</prop>
+		</props>
+	</property>
+</bean>
 		
 </beans>

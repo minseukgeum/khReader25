@@ -43,10 +43,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int userIdCheck(String user_id) {
+	public int checkIdDup(String id) {
 		// TODO Auto-generated method stub
-		return mDAO.userIdCheck(sqlSession, user_id);
+		return mDAO.checkIdDup(sqlSession, id);
 	}
+
+	@Override
+	public int checkEmailDup(String email) {
+		// TODO Auto-generated method stub
+		return mDAO.checkEmailDup(sqlSession, email);
+	}
+
+	@Override
+	public int changePw(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return mDAO.changePw(sqlSession, map);
+	}
+
 
 	
 

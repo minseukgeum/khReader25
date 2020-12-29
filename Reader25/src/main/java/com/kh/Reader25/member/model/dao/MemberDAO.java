@@ -35,4 +35,19 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.userIdCheck", user_id);
 	}
 
+	public int checkIdDup(SqlSessionTemplate sqlSession, String id) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.checkIdDup", id);
+	}
+
+	public int checkEmailDup(SqlSessionTemplate sqlSession, String email) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.checkEmailDup", email);
+	}
+
+	public int changePw(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.changePw", map);
+	}
+
 }

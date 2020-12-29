@@ -1,8 +1,10 @@
 package com.kh.Reader25.member.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,37 +106,65 @@ public class MemberController {
 	}
 	
 	// id 중복 체크 컨트롤러
-	@RequestMapping(value ="/user/idCheck", method = RequestMethod.GET)
-	public int idCheck(@RequestParam("id") String user_id) {
-
-		return mService.userIdCheck(user_id);
+	@RequestMapping("dupid.me")
+	public void idDuplicateCheck(@RequestParam("id") String id, HttpServletResponse response) {
+		boolean isUsable = mService.checkIdDup(id) == 0 ? true : false;
+		try {
+			response.getWriter().print(isUsable);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// email 중복 체크 컨트롤러
+	@RequestMapping("dupemail.me")
+	public void emailDuplicateCheck(@RequestParam("email") String email, HttpServletResponse response) {
+		boolean isUsable = mService.checkEmailDup(email) == 0 ? true : false;
+		try {
+			response.getWriter().print(isUsable);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// 아이디 찾기
-	@RequestMapping(value = "/user/userSearch", method = RequestMethod.POST)
+	@RequestMapping(value = "userSearch.me", method = RequestMethod.POST)
 	@ResponseBody
 	public String userIdSearch(@RequestParam("inputName_1") String user_name, 
 								@RequestParam("inputPhone_1") String user_phone) {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("name", user_name);
-		map.put("phone", user_phone);
-		System.out.println(map);
+		map.put("user_name", user_name);
+		map.put("user_phone", user_phone);
+		//System.out.println(map);
 		String result = mService.searchId(map);
-		System.out.println(result);
+		//System.out.println(result);
 
 		return result;
 	}
 	
 	// 비밀번호 찾기
-	@RequestMapping(value = "/user/searchPassword", method = RequestMethod.GET)
+	@RequestMapping(value = "pwSearch.me", method = RequestMethod.POST)
 	@ResponseBody
 	public String passwordSearch(@RequestParam("inputId_2")String user_id,
 			@RequestParam("inputEmail_2")String user_email, HttpServletRequest request) {
 
+		String key = "reader25";
+		String encNewPwd = bcrypt.encode(key);
+		String error = "다시한번 확인해주세요";
 		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("user_id", user_id);
+		map.put("key", encNewPwd);
+		System.out.println(map);
 		
-		return "/user/userSearchPassword";
+		int result = mService.changePw(map);
+		
+		if(result > 0) {
+			return key;
+		} else {
+			return error;
+		}
 	}
 	
 }
