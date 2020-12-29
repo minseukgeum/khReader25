@@ -55,11 +55,16 @@
 			<nav>
 				<div class="menu" onclick="goHome();">HOME</div>
 				<div class="menu" onclick="goNotice();">토론 게시판</div>
-				<div class="menu" onclick="goBoard();">책을 읽고</div>
-				<div class="menu" onclick="goThumbnail0();">오늘 의작가</div>
+				<div class="menu" onclick="goBookReview();">책을 읽고</div>
+				<div class="menu" onclick="goThumbnail0();">오늘의 작가</div>
 				<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
 			</nav>
 		</div>
 	</div>
+	<script>
+		function goBookReview(){
+			location.href = "book.re";
+		}
+	</script>
 </body>
 </html>

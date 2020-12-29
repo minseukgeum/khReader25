@@ -54,4 +54,14 @@ public class BoardController {
 	public String inquiryWriteForm() {
 		return "inquiryWriteForm";
 	}
+	
+	// 책 리뷰 = 2
+	@RequestMapping("book.re")
+	public String bookreviewList() {
+		return "BookReview";
+	}
+	@RequestMapping("write.re")
+	public String bookreviewWriteForm() {
+		return "bookreviewWriteForm";
+	}
 }
