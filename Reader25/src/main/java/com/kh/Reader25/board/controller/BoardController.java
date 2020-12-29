@@ -33,10 +33,10 @@ public class BoardController {
 		ArrayList<Board> bList = bService.selectList(pi, code);
 		if(bList != null) {
 			mv.addObject("bList", bList)
-				.addObject("page", currentPage)
+				.addObject("pi", pi)
 				.setViewName("noticeList");
 		}else {
-			throw new BoardException("게시글 전체 조회에 실패하였습니다.");
+			throw new BoardException("공지사항 게시글 전체 조회에 실패하였습니다.");
 		}
 		return mv;
 	}
@@ -47,8 +47,24 @@ public class BoardController {
 	
 	// 문의사항 = 1
 	@RequestMapping("inquiry.in")
-	public String inquiryList() {
-		return "inquiryList";
+	public ModelAndView inquiryList(@RequestParam(value="page", required=false) Integer page,
+							ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int code = 1;
+		int listCount = bService.getListCount(code);
+		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
+		ArrayList<Board> iList = bService.selectList(pi, code);
+		if(iList != null) {
+			mv.addObject("iList", iList)
+				.addObject("pi", pi)
+				.setViewName("inquiryList");
+		}else {
+			throw new BoardException("문의사항 게시글 전체 조회에 실패하였습니다.");
+		}
+		return mv;
 	}
 	@RequestMapping("write.in")
 	public String inquiryWriteForm() {

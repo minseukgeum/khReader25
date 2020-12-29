@@ -15,7 +15,7 @@
 		margin:auto;
 		padding-top: 20px;
 	}
-	.notice-div{
+	.inquiry-div{
 		min-height: 100px; 
 		background: white;
 		margin: auto;
@@ -26,24 +26,24 @@
 		width: 80%;
 		max-width: 1000px;
 	}
-	.notice-header{
+	.inquiry-header{
 		text-align: center;
 		font-size: 25px;
 		margin-bottom: 10px;
 		font-weight: bolder;
 	}
-	#notice-table{
+	#inquiry-table{
 		width: 100%;
 		height: 100%;
 		border-top:2px solid rgba(245, 113, 92, 1);
 		border-collapse: collapse;
 		text-align: center;
 	}
-	#notice-table th{
+	#inquiry-table th{
 		height: 30px;
 		border-bottom: 1px solid rgba(245, 113, 92, 1);
 	}
-	#notice-table tr{
+	#inquiry-table tr{
 		height:30px;
 	}
 	#write{
@@ -72,7 +72,7 @@
 		margin: auto;
 		margin-top: 30px;
 	}
-	.paging-div>button {
+	.paging-div>a, .paging-div>p{
 		width: 30px;
 		height: 30px;
 		color: rgba(85, 83, 83, 1);
@@ -81,12 +81,12 @@
 		border: none;
 	}	
 
-	.paging-div>button:hover {
+	.paging-div>a:hover {
 		font-weight: bold;
 		background: rgba(220, 220, 220, 1);
 	}
 
-	.paging-div>button:active {
+	.paging-div>p {
 		background: rgba(39, 50, 56, 1);
 		color: white;
 	}	
@@ -96,9 +96,9 @@
 	<%@ include file="../common/menubar.jsp" %>
 
 	<section>
-		<div class="notice-div">
-			<div class="notice-header">문의사항</div>
-			<table id="notice-table">
+		<div class="inquiry-div">
+			<div class="inquiry-header">문의사항</div>
+			<table id="inquiry-table">
 				<tr>
 					<th>번호</th>
 					<th>제목</th>
@@ -106,17 +106,37 @@
 					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
-				<%for(int i = 0; i<10; i++){ %>
-				<tr>
-					<td><%=10-i %></td>
-					<td>문의사항</td>
-					<td>0</td>
-					<td>user01</td>
-					<td>2020.01.01</td>
-				</tr>
-				<%} %>
+				<c:forEach var="b" items="${iList}">
+					<tr class="contentTR">
+						<td>
+							<c:url var="inDetail" value="idetail.in">
+								<c:param name="boardNo" value="${ iList.boardNo }"/>
+								<c:param name="page" value="${pi.currentPage }"/>
+							</c:url>
+							<a href="${ inDetail }">${ iList.boardNo }</a>
+						</td>
+						
+						<td>${ iList.bTitle }</td>
+						<td>${ iList.bCount }</td>
+						<td>${ iList.userId }</td>
+						<td>${ iList.enrollDay }</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</div>
+		<script>
+		 	$(function(){
+				$('.contentTR').mouseenter(function(){
+					$(this).css({'background':'rgba(234, 234, 234, 1)','cursor':'pointer'});
+				}).mouseout(function(){
+					$(this).css({'background':'white'});
+				}).click(function(){
+					var boardNo = $(this).children('td').eq(0).text();
+					location.href='idetail.in?boardNo=' + boardNo +'&page=' + ${pi.currentPage};
+				});
+			}); 
+		</script>
+		
 		<!-- 1. 로그인 시 -------------->
 <%-- 		<c:if test="${ !empty loginUser }"> --%>
 		<div class="write-btn">
@@ -132,13 +152,39 @@
 		
 		<!-- 페이징 버튼 -->
 		<div class="paging-div">
-			<button>&lt;</button>
-			<button>1</button>
-			<button>2</button>
-			<button>3</button>
-			<button>4</button>
-			<button>5</button>
-			<button>&gt;</button>
+			<!------ 이전 --------->
+			<c:if test="${ pi.currentPage <= 1 }">
+				<p>&lt;</p>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="inquiry.in">
+					<c:param name="page" value="${ pi.currentPage -1 }"/>
+				</c:url>
+				<a href="${ before }">&lt;</a>
+			</c:if>
+			<!------ 버튼 --------->
+			<c:forEach  var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${pi.currentPage ne p }">
+					<c:url var="pNo" value="inquiry.in">
+						<c:param name="page" value="${ p }"/>
+					</c:url>
+					<a href="${ pNo }">${ p }</a>
+				</c:if>
+				<c:if test="${ pi.currentPage eq p }">
+					<p>${ p }</p>
+				</c:if>
+			</c:forEach>
+			
+			<!------ 다음 --------->
+			<c:if test="${ pi.currentPage >= pi.endPage }">
+				<p>&gt;</p>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.endPage }">
+				<c:url var="Next" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage + 1 }"/>
+				</c:url>
+				<a href="${ Next }">&gt;</a>
+			</c:if>
 		</div>
 	</section>
 </body>

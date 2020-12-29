@@ -67,10 +67,11 @@
 	.write-btn:hover {
 		cursor: pointer;
 	}
-	.paging-div {
+	.paging-div{
 		width: 250px;
 		margin: auto;
 		margin-top: 30px;
+		text-align: center;
 	}
 	.paging-div>a, .paging-div>p {
 		width: 30px;
@@ -105,17 +106,38 @@
 					<th>댓글</th>
 					<th>작성일</th>
 				</tr>
-				<%for(int i = 0; i<10; i++){ %>
-				<tr>
-					<td><%=10-i %></td>
-					<td>공지사항</td>
-					<td>0</td>
-					<td>0</td>
-					<td>2020.01.01</td>
-				</tr>
-				<%} %>
+				
+				<c:forEach var="b" items="${bList}">
+					<tr class="contentTR">
+						<td>
+							<c:url var="noDetail" value="ndetail.no">
+								<c:param name="boardNo" value="${ bList.boardNo }"/>
+								<c:param name="page" value="${pi.currentPage }"/>
+							</c:url>
+							<a href="${ noDetail }">${ bList.boardNo }</a>
+						</td>
+						
+						<td>${ bList.bTitle }</td>
+						<td>${ bList.bCount }</td>
+						<td>${ bList.comCount }</td>
+						<td>${ bList.enrollDay }</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</div>
+		<script>
+		 	$(function(){
+				$('.contentTR').mouseenter(function(){
+					$(this).css({'background':'rgba(234, 234, 234, 1)','cursor':'pointer'});
+				}).mouseout(function(){
+					$(this).css({'background':'white'});
+				}).click(function(){
+					var boardNo = $(this).children('td').eq(0).text();
+					location.href='ndetail.no?boardNo=' + boardNo +'&page=' + ${pi.currentPage};
+				});
+			}); 
+		</script>
+		
 		<!-- 관리자 아이디일 시 보이게 -->
 		<c:if test="${ loginUser.id  eq 'admin'}">
 			<div class="write-btn">
