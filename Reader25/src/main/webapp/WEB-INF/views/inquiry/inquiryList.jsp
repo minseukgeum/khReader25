@@ -118,11 +118,11 @@
 			</table>
 		</div>
 		<!-- 1. 로그인 시 -------------->
-		<c:if test="${ !empty loginUser }">
+<%-- 		<c:if test="${ !empty loginUser }"> --%>
 		<div class="write-btn">
 			<img src="${ contextPath }/resources/images/bookreview/write.png"/>
 		</div>
-		</c:if>
+<%-- 		</c:if> --%>
 		
 		<script>
 			$('.write-btn').click(function(){
