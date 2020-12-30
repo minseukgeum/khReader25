@@ -172,6 +172,7 @@ public class MemberController {
 		return "mypage";
 	}
 	
+	//비밀번호 변경 컨트롤러
 	@RequestMapping(value = "mChangePw.me", method = RequestMethod.POST)
 	@ResponseBody
 	public String mChangePw(@RequestParam("inputPw")String inputPw,
@@ -199,6 +200,12 @@ public class MemberController {
 		} else {
 			throw new MemberException("기존 비밀번호가 틀렸습니다.");
 		}
+	}
+	
+	//마이페이지로 이동하는 뷰
+	@RequestMapping("myinfo.me")
+	public String myinfoFormView() {	
+		return "myinfo";
 	}
 	
 }

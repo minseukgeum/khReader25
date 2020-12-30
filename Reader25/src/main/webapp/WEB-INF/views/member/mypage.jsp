@@ -87,7 +87,10 @@ input[type=checkbox]:checked + .box_modal {
 		
 		<table border="1px" align="center">
 			<tr>
-				<td colspan="6" width="240px" height="150px">내 정보 보기</td>
+				<td colspan="6" width="240px" height="150px">
+					<c:url var="myinfo" value="myinfo.me"/>
+					<button onclick="location.href='${myinfo}'">내 정보 보기</button>
+				</td>
 				<td colspan="6" width="240px">포인트 내역</td>
 				<td colspan="6" width="240px">내 서재</td>
 			</tr>
