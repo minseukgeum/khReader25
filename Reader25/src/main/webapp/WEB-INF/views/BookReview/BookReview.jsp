@@ -6,9 +6,10 @@
 <meta charset="UTF-8">
 <title>BookReview</title>
 <script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/bookReview.css">
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/resources/css/bookReview.css">
 </head>
 <body>
+	<%@include file="../common/menubar.jsp" %>
 	<section>
 		<div class="top-div">
 			<div class="search-div">
@@ -19,7 +20,7 @@
 				</select>
 				<input type="text" id="search-input">
 				<span class="img-span">
-					<img src="<%=request.getContextPath() %>/images/bookreview/search.png" id="search-icon"/>
+					<img src="<%=request.getContextPath() %>/resources/images/bookreview/search.png" id="search-icon"/>
 				</span>
 			</div>
 			<script>
@@ -38,7 +39,7 @@
 			<% for(int i = 0; i < 12; i++){ %>
 			<div class="list-div">
 				<div class="img-div">
-					<img class="list-img" src="/Reader25/images/bookreview/book.jpg">
+					<img class="list-img" src="${ contextPath }/resources/images/bookreview/book.jpg">
 				</div>
 				<div class="content-div">
 					<ul class="content-ul">
@@ -60,14 +61,16 @@
 			<button>5</button>
 			<button>&gt;</button>
 		</div>
-		<div class="write-btn">
-			<img src="/Reader25/images/bookreview/write.png"/>
-		</div>
-		<script>
-			$('.write-btn').click(function(){
-				location.href="<%=request.getContextPath()%>/write.re";
-			});
-		</script>
+<%-- 		<c:if test="${ !empty loginUser }"> --%>
+			<div class="write-btn">
+				<img src="${contextPath }/resources/images/bookreview/write.png"/>
+			</div>
+			<script>
+				$('.write-btn').click(function(){
+					location.href="<%=request.getContextPath()%>/write.re";
+				});
+			</script>
+<%-- 		</c:if> --%>
 	</section>
 </body>
 </html>

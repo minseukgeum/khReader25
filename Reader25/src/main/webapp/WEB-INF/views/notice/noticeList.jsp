@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +58,7 @@
 		width: 50px;
 		height: 50px;
 		text-align: center;
-		top: 70%;
+		top: 76%;
 		right: 12%;
 	}
 	.write-btn>img {
@@ -66,12 +67,13 @@
 	.write-btn:hover {
 		cursor: pointer;
 	}
-	.paging-div {
+	.paging-div{
 		width: 250px;
 		margin: auto;
 		margin-top: 30px;
+		text-align: center;
 	}
-	.paging-div>button {
+	.paging-div>a, .paging-div>p {
 		width: 30px;
 		height: 30px;
 		color: rgba(85, 83, 83, 1);
@@ -80,12 +82,12 @@
 		border: none;
 	}	
 
-	.paging-div>button:hover {
+	.paging-div>a:hover {
 		font-weight: bold;
 		background: rgba(220, 220, 220, 1);
 	}
 
-	.paging-div>button:active {
+	.paging-div>p {
 		background: rgba(39, 50, 56, 1);
 		color: white;
 	}	
@@ -104,22 +106,45 @@
 					<th>댓글</th>
 					<th>작성일</th>
 				</tr>
-				<%for(int i = 0; i<10; i++){ %>
-				<tr>
-					<td><%=10-i %></td>
-					<td>공지사항</td>
-					<td>0</td>
-					<td>0</td>
-					<td>2020.01.01</td>
-				</tr>
-				<%} %>
+				
+				<c:forEach var="b" items="${bList}">
+					<tr class="contentTR">
+						<td>
+							<c:url var="noDetail" value="ndetail.no">
+								<c:param name="boardNo" value="${ bList.boardNo }"/>
+								<c:param name="page" value="${pi.currentPage }"/>
+							</c:url>
+							<a href="${ noDetail }">${ bList.boardNo }</a>
+						</td>
+						
+						<td>${ bList.bTitle }</td>
+						<td>${ bList.bCount }</td>
+						<td>${ bList.comCount }</td>
+						<td>${ bList.enrollDay }</td>
+					</tr>
+				</c:forEach>
 			</table>
 		</div>
+		<script>
+		 	$(function(){
+				$('.contentTR').mouseenter(function(){
+					$(this).css({'background':'rgba(234, 234, 234, 1)','cursor':'pointer'});
+				}).mouseout(function(){
+					$(this).css({'background':'white'});
+				}).click(function(){
+					var boardNo = $(this).children('td').eq(0).text();
+					location.href='ndetail.no?boardNo=' + boardNo +'&page=' + ${pi.currentPage};
+				});
+			}); 
+		</script>
+		
 		<!-- 관리자 아이디일 시 보이게 -->
-		<div class="write-btn">
-			<img src="/Reader25/images/bookreview/write.png"/>
-		</div>
-		<!-- ---------------- -->
+		<c:if test="${ loginUser.id  eq 'admin'}">
+			<div class="write-btn">
+				<img src="${contextPath }/resources/images/bookreview/write.png"/>
+			</div>
+		</c:if>
+		<!-- ------- 글쓰기 버튼 --------- -->
 		<script>
 			$('.write-btn').click(function(){
 				location.href="<%=request.getContextPath()%>/write.no";
@@ -128,13 +153,39 @@
 		
 		<!-- 페이징 버튼 -->
 		<div class="paging-div">
-			<button>&lt;</button>
-			<button>1</button>
-			<button>2</button>
-			<button>3</button>
-			<button>4</button>
-			<button>5</button>
-			<button>&gt;</button>
+			<!------ 이전 --------->
+			<c:if test="${ pi.currentPage <= 1 }">
+				<p>&lt;</p>
+			</c:if>
+			<c:if test="${ pi.currentPage > 1 }">
+				<c:url var="before" value="notice.no">
+					<c:param name="page" value="${ pi.currentPage -1 }"/>
+				</c:url>
+				<a href="${ before }">&lt;</a>
+			</c:if>
+			<!------ 버튼 --------->
+			<c:forEach  var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+				<c:if test="${pi.currentPage ne p }">
+					<c:url var="pNo" value="notice.no">
+						<c:param name="page" value="${ p }"/>
+					</c:url>
+					<a href="${ pNo }">${ p }</a>
+				</c:if>
+				<c:if test="${ pi.currentPage eq p }">
+					<p>${ p }</p>
+				</c:if>
+			</c:forEach>
+			
+			<!------ 다음 --------->
+			<c:if test="${ pi.currentPage >= pi.endPage }">
+				<p>&gt;</p>
+			</c:if>
+			<c:if test="${ pi.currentPage < pi.endPage }">
+				<c:url var="Next" value="${ loc }">
+					<c:param name="page" value="${ pi.currentPage + 1 }"/>
+				</c:url>
+				<a href="${ Next }">&gt;</a>
+			</c:if>
 		</div>
 	</section>
 </body>

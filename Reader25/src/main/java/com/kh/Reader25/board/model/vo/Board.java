@@ -16,12 +16,11 @@ public class Board {
 	// 0 : 공지사항 1: 문의사항 2: 리뷰 3: 책방 4: 책쓰기
 	private int code;
 	private String userId;
-	private ArrayList<Comments> comList;
 	
 	public Board() {}
 
 	public Board(int boardNo, String bTitle, String bContent, int bCount, int bLike, int comCount, String bStatus,
-			Date enrollDay, Date updateDay, int code, String userId, ArrayList<Comments> comList) {
+			Date enrollDay, Date updateDay, int code, String userId) {
 		super();
 		this.boardNo = boardNo;
 		this.bTitle = bTitle;
@@ -34,7 +33,6 @@ public class Board {
 		this.updateDay = updateDay;
 		this.code = code;
 		this.userId = userId;
-		this.comList = comList;
 	}
 
 	public int getBoardNo() {
@@ -125,19 +123,13 @@ public class Board {
 		this.userId = userId;
 	}
 
-	public ArrayList<Comments> getComList() {
-		return comList;
-	}
 
-	public void setComList(ArrayList<Comments> comList) {
-		this.comList = comList;
-	}
 
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", bTitle=" + bTitle + ", bContent=" + bContent + ", bCount=" + bCount
 				+ ", bLike=" + bLike + ", comCount=" + comCount + ", bStatus=" + bStatus + ", enrollDay=" + enrollDay
-				+ ", updateDay=" + updateDay + ", code=" + code + ", userId=" + userId + ", comList=" + comList + "]";
+				+ ", updateDay=" + updateDay + ", code=" + code + ", userId=" + userId  + "]";
 	}
 	
 }

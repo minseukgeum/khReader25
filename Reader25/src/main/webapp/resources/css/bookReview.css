@@ -4,6 +4,7 @@ section {
 	background: rgba(246, 246, 246, 1);
 	margin-left: 10%;
 	margin-right: 10%;
+	min-width: 1000px;
 }
 
 .top-div {

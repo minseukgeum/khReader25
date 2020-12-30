@@ -49,7 +49,24 @@ section{
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
-
+.file-upload>img{
+	max-height: 300px;
+	max-width: 500px;
+}
+.upload-name { 
+	display: inline-block; 
+	padding: .5em .75em; /* label의 패딩값과 일치 */ 
+	font-size: 12px; 
+	line-height: normal; 
+	vertical-align: middle;
+	background-color: #f5f5f5;
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: 5px; 
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+	-moz-appearance: none;
+	appearance: none; 
+}
 .title-div {
 	clear: both;
 	width: 80%;
@@ -113,16 +130,43 @@ section{
 </head>
 <body>
 	<%@ include file="../common/menubar.jsp" %>
-
-	<section>	
+	<section>
+	<form id="notice-form">	
 		<div class="header-div">
 			<h2>문의사항 작성</h2>
 			<div class="file-div">
+				<input class="upload-name" value="파일선택" disabled="disabled">
 				<label for="file-input">파일 업로드</label>
 				<input type="file" id="file-input">
 			</div>
 		</div>
-		<form id="notice-form">
+			<script>
+				function loadImg(value){
+					if (value.files[0]){
+						
+						if(window.FileReader){ // modern browser 
+							var filename = value.files[0].name; 
+						} else { // old IE 
+							var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+						}
+						$('.upload-name').val(filename);
+
+						// 확장자
+						var extension = filename.substring(filename.lastIndexOf(".") + 1);
+						console.log(extension);
+						
+						var reader = new FileReader();
+						if(extension == "png" || extension == "jpg" || extension == "jpeg"){
+							reader.onload = function(e) {
+	 							$('#load-img').attr('src', e.target.result);
+							}
+							reader.readAsDataURL(value.files[0]);
+						}else{
+							$('#load-img').attr('src',null);
+						}
+					}
+				}
+			</script>
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" placeholder="제목을 작성하세요">
