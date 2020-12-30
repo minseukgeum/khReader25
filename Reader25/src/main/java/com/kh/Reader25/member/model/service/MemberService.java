@@ -20,6 +20,8 @@ public interface MemberService {
 
 	int changePw(HashMap<String, String> map);
 
+	int updatePwd(HashMap<String, String> map);
+
 
 
 }

@@ -151,7 +151,6 @@ public class MemberController {
 
 		String key = "reader25";
 		String encNewPwd = bcrypt.encode(key);
-		String error = "다시한번 확인해주세요";
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("user_id", user_id);
@@ -163,7 +162,7 @@ public class MemberController {
 		if(result > 0) {
 			return key;
 		} else {
-			return error;
+			return null;
 		}
 	}
 	
@@ -171,6 +170,35 @@ public class MemberController {
 	@RequestMapping("mypage.me")
 	public String mypageFormView() {	
 		return "mypage";
+	}
+	
+	@RequestMapping(value = "mChangePw.me", method = RequestMethod.POST)
+	@ResponseBody
+	public String mChangePw(@RequestParam("inputPw")String inputPw,
+			@RequestParam("newPw")String newPw, HttpSession session) {
+
+		Member m = mService.memberLogin((Member)session.getAttribute("loginUser"));
+		
+		String ok = "ok";
+				
+		if(bcrypt.matches(inputPw, m.getPwd())) {
+			String encNewPwd = bcrypt.encode(newPw);
+			m.setPwd(encNewPwd);
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("id", m.getId());
+			map.put("newPwd", encNewPwd);
+			
+			int result = mService.updatePwd(map);
+			
+			if(result > 0) {
+				return ok;
+			} else {
+				throw new MemberException("비밀번호 수정에 실패했습니다.");
+			}
+		} else {
+			throw new MemberException("기존 비밀번호가 틀렸습니다.");
+		}
 	}
 	
 }
