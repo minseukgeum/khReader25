@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/signup.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/signup.css" type="text/css">
 
 <style>
 .outer{
@@ -27,7 +28,7 @@ span.no{color: red;}
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-	<%-- <%@ include file="../common/menubar.jsp" %> --%>
+	<c:import url="../common/menubar.jsp"/>
 	
 	<div class="outer">
 				

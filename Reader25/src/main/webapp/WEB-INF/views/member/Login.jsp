@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/login.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/login.css" type="text/css">
 
 <style>
 .outer{
@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-	<%-- <%@ include file="../common/menubar.jsp"%> --%>
+	<c:import url="../common/menubar.jsp"/>
 
 	<div class="outer">
 		<form action="login.me" method="post" id="login">

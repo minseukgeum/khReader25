@@ -167,4 +167,10 @@ public class MemberController {
 		}
 	}
 	
+	//마이페이지로 이동하는 뷰
+	@RequestMapping("mypage.me")
+	public String mypageFormView() {	
+		return "mypage";
+	}
+	
 }

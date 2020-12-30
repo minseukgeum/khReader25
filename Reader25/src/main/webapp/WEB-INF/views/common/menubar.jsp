@@ -40,6 +40,7 @@
 			<c:if test="${ !empty sessionScope.loginUser }">
 				<ul>
 					<li><a href="logout.me">로그아웃</a></li>
+					<li><a href="mypage.me">마이페이지</a></li>
 					<li class="li"><a href="notice">공지사항</a></li>
 					<li><a href="inquiry">문의사항</a></li>
 				</ul>
@@ -55,7 +56,7 @@
 		<br clear="all"> <br>
 		<div class="wrap">
 			<nav>
-				<div class="menu" onclick="goHome();">HOME</div>
+				<div class="menu" onclick="home.do">HOME</div>
 				<div class="menu" onclick="goNotice();">토론 게시판</div>
 				<div class="menu" onclick="goBoard();">책을 읽고</div>
 				<div class="menu" onclick="goThumbnail0();">오늘 의작가</div>
