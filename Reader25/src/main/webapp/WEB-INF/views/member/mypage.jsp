@@ -97,7 +97,7 @@ input[type=checkbox]:checked + .box_modal {
 		</table>
 	</div>
 	
-	<!-- 비밀번호 변경 모달창 -->
+<!-- 비밀번호 변경 모달창 -->
   <input type="checkbox" id="modal" class="hidden">
   <div class="box_modal">
       <label for="modal" class="closer">x</label>
