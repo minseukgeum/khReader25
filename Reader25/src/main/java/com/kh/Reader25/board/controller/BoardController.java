@@ -83,8 +83,24 @@ public class BoardController {
 	
 	// 책 리뷰 = 2
 	@RequestMapping("book.re")
-	public String bookreviewList() {
-		return "BookReview";
+	public ModelAndView bookreviewList(@RequestParam(value="page", required=false) Integer page,
+								ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int code = 2;
+		int listCount = bService.getListCount(code);
+		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
+		ArrayList<Board> bList = bService.selectList(pi, code);
+		if(bList != null) {
+			mv.addObject("bList", bList)
+				.addObject("pi", pi)
+				.setViewName("BookReview");
+		}else {
+			throw new BoardException("책리뷰 게시글 전체 조회에 실패하였습니다.");
+		}
+		return mv;
 	}
 	@RequestMapping("write.re")
 	public String bookreviewWriteForm() {
@@ -102,9 +118,9 @@ public class BoardController {
 		int code = 0;
 		int listCount = bService.getListCount(code);
 		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
-		ArrayList<Board> bList = bService.selectList(pi, code);
-		if(bList != null) {
-			mv.addObject("bList", bList)
+		ArrayList<Board> list = bService.selectList(pi, code);
+		if(list != null) {
+			mv.addObject("list", list)
 				.addObject("pi", pi)
 				.setViewName("notice");
 		}else {
@@ -120,12 +136,12 @@ public class BoardController {
 		if(page != null) {
 			currentPage = page;
 		}
-		int code = 0;
+		int code = 1;
 		int listCount = bService.getListCount(code);
 		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
-		ArrayList<Board> bList = bService.selectList(pi, code);
-		if(bList != null) {
-			mv.addObject("bList", bList)
+		ArrayList<Board> list = bService.selectList(pi, code);
+		if(list != null) {
+			mv.addObject("list", list)
 				.addObject("pi", pi)
 				.setViewName("inquiry");
 		}else {
@@ -133,5 +149,5 @@ public class BoardController {
 		}
 		return mv;
 	}
-			
+	
 }
