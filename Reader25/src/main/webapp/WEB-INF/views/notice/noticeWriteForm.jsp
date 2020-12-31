@@ -9,26 +9,30 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
-section{
+section {
 	background: rgba(246, 246, 246, 1);
 	min-height: 900px;
 	width: 80%;
 	min-width: 1000px;
-	margin:auto;
+	margin: auto;
 }
+
 .header-div {
 	width: 80%;
 	margin: auto;
 	max-width: 1100px;
 }
+
 .header-div>h2 {
 	display: inline-block;
 }
-.file-div{
-	display:inline-block;
-	float:right;
-	margin-top:40px;
+
+.file-div {
+	display: inline-block;
+	float: right;
+	margin-top: 40px;
 }
+
 .file-div label {
 	display: inline-block;
 	padding: .5em .75em;
@@ -51,23 +55,25 @@ section{
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
-.file-upload>img{
+
+.file-upload>img {
 	max-height: 300px;
 	max-width: 500px;
 }
-.upload-name { 
-	display: inline-block; 
-	padding: .5em .75em; /* label의 패딩값과 일치 */ 
-	font-size: 12px; 
-	line-height: normal; 
+
+.upload-name {
+	display: inline-block;
+	padding: .5em .75em; /* label의 패딩값과 일치 */
+	font-size: 12px;
+	line-height: normal;
 	vertical-align: middle;
 	background-color: #f5f5f5;
-	border: 1px solid #ebebeb; 
-	border-bottom-color: #e2e2e2; 
-	border-radius: 5px; 
-	-webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: 5px;
+	-webkit-appearance: none; /* 네이티브 외형 감추기 */
 	-moz-appearance: none;
-	appearance: none; 
+	appearance: none;
 }
 
 .title-div {
@@ -97,59 +103,103 @@ section{
 	width: 91%;
 	border: 1px solid rgba(235, 235, 235, 1);
 }
-.contents{
+
+.contents {
 	width: 80%;
 	margin: auto;
 	margin-top: 20px;
 	max-width: 1100px;
 	min-height: 500px;
 }
-#smart_edit{
-	height:500px;
+
+#smart_edit {
+	height: 500px;
 }
-.btn-div{
+
+.btn-div {
 	width: 80%;
-	max-width:1100px;
-	margin:auto;
+	max-width: 1100px;
+	margin: auto;
 }
-.btn{
+
+.btn {
 	float: right;
 	width: 100px;
 	height: 40px;
-	margin-top:20px;
+	margin-top: 20px;
 	margin-right: 10px;
 	background: rgba(255, 195, 152, 1);
 	border: none;
 }
-#submit-btn{
-	background:rgba(201, 95, 18, 1);
+
+#submit-btn {
+	background: rgba(201, 95, 18, 1);
 }
-.btn:hover{
+
+.btn:hover {
 	font-weight: bolder;
-	color:white;
+	color: white;
 	cursor: pointer;
 }
-.hidden { visibility:hidden; }
-.box_modal { position:fixed; display:block; width:350px; 
-            height:250px; top:50%; left:50%;
-            transform:scale(0,0); visibility:hidden; 
-            margin-top:-75px; margin-left:-150px;
-            background:#FFD8D8; 
-            border:1px solid #CC3D3D;
-            overflow:hidden;
-            opacity:0.6;
-            transition:all 0.2s ease; 
-              }
-.closer { position:absolute; width:30px; 
-             height:30px; top:0; right:0;
-             background:#eee; 
-             border-left:1px solid #386980; 
-             border-bottom: 1px solid #386980;
-             text-align:center;
-             }
-.box_modal:hover { opacity:1; }
-input[type=checkbox]:checked + .box_modal {
-  visibility:visible; transform:scale(1,1);
+
+.hidden {
+	visibility: hidden;
+}
+
+.box_modal {
+	position: fixed;
+	display: block;
+	width: 350px;
+	height: 200px;
+	top: 50%;
+	left: 50%;
+	transform: scale(0, 0);
+	visibility: hidden;
+	margin-top: -75px;
+	margin-left: -150px;
+	background: white;
+	border: 1px solid #CC3D3D;
+	overflow: hidden;
+	opacity: 0.6;
+	transition: all 0.2s ease;
+}
+
+.modal-back {
+	visibility: hidden;
+	position: fixed; /* Stay in place */
+	z-index: 10; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.closer {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 0;
+	right: 0;
+	background: #eee;
+	border-left: 1px solid #386980;
+	border-bottom: 1px solid #386980;
+	text-align: center;
+}
+
+.box_modal:hover {
+	opacity: 1;
+}
+
+input[type=checkbox]:checked+.modal-back .box_modal{
+	visibility: visible;
+	transform: scale(1, 1);
+}
+
+input[type=checkbox]:checked+section {
+	background: rgba(0, 0, 0, 0.22);
 }
 </style>
 </head>
@@ -236,16 +286,17 @@ input[type=checkbox]:checked + .box_modal {
 	</section>
 	<!-- 에러 모달창 -->
 	<input type="checkbox" id="modal" class="hidden">
-	<div class="box_modal">
-		<label for="modal" class="closer">x</label>
-		<div class="text">
-			<br>
-			<h4>
-				<b>제목을 입력해주세요</b>
-			</h4>
-			<br>
+	<div class="modal-back">
+		<div class="box_modal">
+			<label for="modal" class="closer">x</label>
+			<div class="text">
+				<br>
+				<h4>
+					<b>제목을 입력해주세요</b>
+				</h4>
+				<br>
+			</div>
 		</div>
 	</div>
-
 </body>
 </html>
