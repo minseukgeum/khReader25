@@ -1,28 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/TIW.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/TIW.css" type="text/css">
 
 <style>
 .outer{
-		width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
+		width: 900px; min-height: 400px; margin-left: 20%; margin-right: auto; 
 		margin-top:100px; margin-bottom: 5%; background-color:  #F6F6F6;
 	}
 </style>
 </head>
 <body>
-	<%-- <%@ include file="../common/menubar.jsp"%> --%>
+	<c:import url="../common/menubar.jsp"/>
 	
 	<div class="outer">
 	
 	<h2 class="txt_TIW" align="center">오늘은 나도 작가</h2>
 	
-		<table id="TIWTable">
+		<table id="TIWTable" align="center">
 			<tr>
 				<th>글 번호</th>
 				<th>원작</th>
@@ -78,7 +79,7 @@
 			</div>
 		<div class="insertbuttonArea" align="right">
 		<%-- <% if(loginUser != null) { %> --%>
-		<input type="button" onclick="location.href='writeTIW.do'" id="writeTIWBtn" class="btn1" value="글쓰기">
+		<input type="button" onclick="location.href='writeTIW.to'" id="writeTIWBtn" class="btn1" value="글쓰기">
 		<%-- <% } %> --%>
 		</div>
 	</div>

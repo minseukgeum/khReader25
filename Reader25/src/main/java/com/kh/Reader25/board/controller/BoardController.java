@@ -90,4 +90,16 @@ public class BoardController {
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
+	
+	// 오늘은 나도 작가 = 3 리스트 폼 이동 컨트롤러
+	@RequestMapping("goTIWList.to")
+	public String goTIWList() {
+		return "TIWListForm";
+	}
+	
+	// 오늘은 나도 작가 = 3 글 작성 폼 이동 컨트롤러
+	@RequestMapping("writeTIW.to")
+	public String writeTIW() {
+		return "TIWWriteForm";
+	}
 }
