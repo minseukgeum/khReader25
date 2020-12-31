@@ -128,9 +128,27 @@ section{
 	cursor: pointer;
 }
 </style>
+<!-- 모달창 사용하기 위한 링크등등 -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/css/animate.min.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/css/jquery.modal.css" />
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/js/jquery.modal.js"></script>
+<script src="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/js/modal.js"></script>
+
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
+	<!-- 모달창 넣기 -->
+	<div class="box_modal">
+		<div id="modal" class="modal">
+			<p>
+				제목을 입력해주세요
+			</p>
+		</div>
+	</div>
+	
+	
+	
 	<section>
 	<form id="notice-form" method="post" enctype="Multipart/form-data" action="ninsert.no">	
 		<div class="header-div">
@@ -184,7 +202,7 @@ section{
 				<input type="reset" class="btn" value="작성취소">
 			</div>
 		</form>
-			<script>
+		<script>
 			var oEditors = [];
 			//스마트 에디터 생성 함수
 			 nhn.husky.EZCreator.createInIFrame({
@@ -198,14 +216,28 @@ section{
 
 				// validate 검증하기
 				 var title = $('#title').val()
-				 if(title == null){
-					 
+				 if(title == ""){
+					 event.preventDefault();
+				        this.blur();
+				        
+				        $.popup({
+				        	url: 'modal',
+				        	data : "제목", //보내는 값
+				        	close : function(result){
+				        		// 모달창에서 넘어온 값
+				        		console.log(result);
+				        	}
+				       
+				        });
+					 return false;
 				}else{
 					$('#notice-form').submit();
 				}
 			});
+			
 		</script>
 	</section>
-	
+		<div class="avgrund-cover"></div>
+
 </body>
 </html>

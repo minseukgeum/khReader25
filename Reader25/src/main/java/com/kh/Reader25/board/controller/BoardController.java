@@ -45,6 +45,10 @@ public class BoardController {
 	public String noticeWirteForm() {
 		return "noticeWriteForm";
 	}
+	@RequestMapping("modal.no")
+	public String popupModal() {
+		return "modal";
+	}
 	@RequestMapping("ninsert.no")
 	public String insertNotice(@ModelAttribute Board b, @RequestParam("uploadFile") String uploadFile) {
 		
