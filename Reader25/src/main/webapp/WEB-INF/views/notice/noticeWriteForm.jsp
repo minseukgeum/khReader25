@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="<%=request.getContextPath()%>/smartedit/js/service/HuskyEZCreator.js"></script>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
 section{
 	background: rgba(246, 246, 246, 1);
@@ -127,14 +129,29 @@ section{
 	color:white;
 	cursor: pointer;
 }
+.hidden { visibility:hidden; }
+.box_modal { position:fixed; display:block; width:350px; 
+            height:250px; top:50%; left:50%;
+            transform:scale(0,0); visibility:hidden; 
+            margin-top:-75px; margin-left:-150px;
+            background:#FFD8D8; 
+            border:1px solid #CC3D3D;
+            overflow:hidden;
+            opacity:0.6;
+            transition:all 0.2s ease; 
+              }
+.closer { position:absolute; width:30px; 
+             height:30px; top:0; right:0;
+             background:#eee; 
+             border-left:1px solid #386980; 
+             border-bottom: 1px solid #386980;
+             text-align:center;
+             }
+.box_modal:hover { opacity:1; }
+input[type=checkbox]:checked + .box_modal {
+  visibility:visible; transform:scale(1,1);
+}
 </style>
-<!-- 모달창 사용하기 위한 링크등등 -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/css/animate.min.css" />
-<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/css/jquery.modal.css" />
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/js/jquery.modal.js"></script>
-<script src="//cdn.jsdelivr.net/gh/stove99/jquery-modal-sample@v1.4/js/modal.js"></script>
-
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
@@ -208,7 +225,7 @@ section{
 				// validate 검증하기
 				 var title = $('#title').val()
 				 if(title == ""){
-					
+					$('#modal').prop('checked', true);
 					 return false;
 				}else{
 					$('#notice-form').submit();
@@ -217,7 +234,18 @@ section{
 
 		</script>
 	</section>
-		<div class="avgrund-cover"></div>
+	<!-- 에러 모달창 -->
+	<input type="checkbox" id="modal" class="hidden">
+	<div class="box_modal">
+		<label for="modal" class="closer">x</label>
+		<div class="text">
+			<br>
+			<h4>
+				<b>제목을 입력해주세요</b>
+			</h4>
+			<br>
+		</div>
+	</div>
 
 </body>
 </html>
