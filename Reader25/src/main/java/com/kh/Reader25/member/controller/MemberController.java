@@ -173,4 +173,11 @@ public class MemberController {
 		return "mypage";
 	}
 	
+	
+	// 관리자 : 회원정보 관리
+	@RequestMapping("admin.ad")
+	public String adminMemberListView() {
+		
+		return "memberList";
+	}
 }

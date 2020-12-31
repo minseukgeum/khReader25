@@ -90,4 +90,48 @@ public class BoardController {
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
+	
+	// 관리자 창 : 공지사항
+	@RequestMapping("notice.ad")
+	public ModelAndView noticetAdminView(@RequestParam(value="page", required=false) Integer page,
+										ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int code = 0;
+		int listCount = bService.getListCount(code);
+		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
+		ArrayList<Board> bList = bService.selectList(pi, code);
+		if(bList != null) {
+			mv.addObject("bList", bList)
+				.addObject("pi", pi)
+				.setViewName("notice");
+		}else {
+			throw new BoardException("공지사항 게시글 전체 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
+	// 관리자 창 : 문의사항
+	@RequestMapping("inquiry.ad")
+	public ModelAndView inquiryAdminView(@RequestParam(value="page", required=false) Integer page,
+									ModelAndView mv) {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		int code = 0;
+		int listCount = bService.getListCount(code);
+		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
+		ArrayList<Board> bList = bService.selectList(pi, code);
+		if(bList != null) {
+			mv.addObject("bList", bList)
+				.addObject("pi", pi)
+				.setViewName("inquiry");
+		}else {
+			throw new BoardException("문의사항 게시글 전체 조회에 실패하였습니다.");
+		}
+		return mv;
+	}
+			
 }
