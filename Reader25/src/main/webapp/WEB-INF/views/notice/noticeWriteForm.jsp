@@ -138,15 +138,6 @@ section{
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
-	<!-- 모달창 넣기 -->
-	<div class="box_modal">
-		<div id="modal" class="modal">
-			<p>
-				제목을 입력해주세요
-			</p>
-		</div>
-	</div>
-	
 	
 	
 	<section>
@@ -217,24 +208,13 @@ section{
 				// validate 검증하기
 				 var title = $('#title').val()
 				 if(title == ""){
-					 event.preventDefault();
-				        this.blur();
-				        
-				        $.popup({
-				        	url: 'modal',
-				        	data : "제목", //보내는 값
-				        	close : function(result){
-				        		// 모달창에서 넘어온 값
-				        		console.log(result);
-				        	}
-				       
-				        });
+					
 					 return false;
 				}else{
 					$('#notice-form').submit();
 				}
 			});
-			
+
 		</script>
 	</section>
 		<div class="avgrund-cover"></div>
