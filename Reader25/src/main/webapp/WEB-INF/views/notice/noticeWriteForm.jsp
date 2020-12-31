@@ -8,6 +8,12 @@
 <script src="<%=request.getContextPath()%>/smartedit/js/service/HuskyEZCreator.js"></script>
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
+<!-- Remember to include jQuery :) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<!-- jqyery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 <style>
 section {
 	background: rgba(246, 246, 246, 1);
@@ -142,71 +148,62 @@ section {
 	cursor: pointer;
 }
 
-.hidden {
-	visibility: hidden;
+.jquery-modal blocker current {
+	visibility: none;
 }
 
-.box_modal {
-	position: fixed;
-	display: block;
-	width: 350px;
-	height: 200px;
-	top: 50%;
-	left: 50%;
-	transform: scale(0, 0);
-	visibility: hidden;
-	margin-top: -75px;
-	margin-left: -150px;
-	background: white;
-	border: 1px solid #CC3D3D;
-	overflow: hidden;
-	opacity: 0.6;
-	transition: all 0.2s ease;
-}
-
-.modal-back {
-	visibility: hidden;
-	position: fixed; /* Stay in place */
-	z-index: 10; /* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4);
-}
-
-.closer {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-	top: 0;
-	right: 0;
-	background: #eee;
-	border-left: 1px solid #386980;
-	border-bottom: 1px solid #386980;
+.modal {
+	margin: 40% auto; 
+	padding: 20px;
 	text-align: center;
 }
-
-.box_modal:hover {
-	opacity: 1;
+.modal-back {
+	display: none; 
+	position: fixed; 
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%; 
+	height: 100%;
+	overflow: auto; 
+	background: rgba(0, 0, 0, 0.4); 
 }
-
-input[type=checkbox]:checked+.modal-back .box_modal{
-	visibility: visible;
-	transform: scale(1, 1);
+.modal-close{
+	background-color: rgba(201, 95, 18, 1);
+	color:white;
+	width: 100px;
+	height: 30px;
+	border:none;
 }
-
-input[type=checkbox]:checked+section {
-	background: rgba(0, 0, 0, 0.22);
+.modal p{
+	display:inline-block;
+}
+.modal img{
+	margin-top: 20px;
 }
 </style>
 </head>
 <body>
 <%@include file="../common/menubar.jsp" %>
 	
-	
+	<!-- 에러 모달창 -->
+	<div class="modal-back">
+		<div class="modal">
+			<div class="modal-content">
+				<img src="${contextPath }/resources/images/mark/errormark2.png" width="40px;"/>
+				<p>제목을 입력해 주세요</p>
+				<button class="modal-close" value="Close">Close</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$('.modal-close').click(function(){
+				$('.modal').hide();
+				$('.modal-back').hide();
+			});
+		});
+	</script>
 	<section>
 	<form id="notice-form" method="post" enctype="Multipart/form-data" action="ninsert.no">	
 		<div class="header-div">
@@ -245,6 +242,9 @@ input[type=checkbox]:checked+section {
 						}
 					}
 				}
+				$(function(){
+					$('.modal').hide();
+				});
 			</script>
 		</div>
 		
@@ -275,8 +275,11 @@ input[type=checkbox]:checked+section {
 				// validate 검증하기
 				 var title = $('#title').val()
 				 if(title == ""){
-					$('#modal').prop('checked', true);
-					 return false;
+					 event.preventDefault();
+					 this.blur();
+					 $('.modal-back').show();
+					 $('.modal').show();
+					return false;
 				}else{
 					$('#notice-form').submit();
 				}
@@ -284,19 +287,6 @@ input[type=checkbox]:checked+section {
 
 		</script>
 	</section>
-	<!-- 에러 모달창 -->
-	<input type="checkbox" id="modal" class="hidden">
-	<div class="modal-back">
-		<div class="box_modal">
-			<label for="modal" class="closer">x</label>
-			<div class="text">
-				<br>
-				<h4>
-					<b>제목을 입력해주세요</b>
-				</h4>
-				<br>
-			</div>
-		</div>
-	</div>
+
 </body>
 </html>
