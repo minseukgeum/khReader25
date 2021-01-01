@@ -2,6 +2,8 @@ package com.kh.Reader25.board.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -91,15 +93,25 @@ public class BoardController {
 		return "bookreviewWriteForm";
 	}
 	
-	// 오늘은 나도 작가 = 3 리스트 폼 이동 컨트롤러
+	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
+	
+	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
 	@RequestMapping("goTIWList.to")
 	public String goTIWList() {
 		return "TIWListForm";
 	}
 	
-	// 오늘은 나도 작가 = 3 글 작성 폼 이동 컨트롤러
+	// 오늘은 나도 작가 = 5 글 작성 폼 이동 컨트롤러
 	@RequestMapping("writeTIW.to")
 	public String writeTIW() {
 		return "TIWWriteForm";
 	}
+	
+	// 오늘은 나도 작가 = 5 글 작성 컨트롤러
+	@RequestMapping("TIWinsert.to")
+	public void TIWinsert(@ModelAttribute Board b, HttpServletRequest request) {
+		System.out.println(b);
+	}
+	
+	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 }

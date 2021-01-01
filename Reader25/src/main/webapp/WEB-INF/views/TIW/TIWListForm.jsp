@@ -11,8 +11,9 @@
 
 <style>
 .outer{
-		width: 900px; min-height: 400px; margin-left: 20%; margin-right: auto; 
-		margin-top:100px; margin-bottom: 5%; background-color:  #F6F6F6;
+		width: 80%; min-height: 400px; margin-left: 10%; margin-right: 10%; 
+		margin-top:100px; margin-bottom: 5%; min-width: 1000px;
+		background-color:  #F6F6F6;
 	}
 </style>
 </head>
