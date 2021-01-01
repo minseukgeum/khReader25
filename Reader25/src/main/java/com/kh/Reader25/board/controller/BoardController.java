@@ -1,12 +1,19 @@
 package com.kh.Reader25.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
@@ -20,7 +27,8 @@ public class BoardController {
 	@Autowired
 	private BoardService bService;
 	
-	// 공지사항 code = 0
+	// 1. 공지사항 code = 0  ----------------------------------------------------
+	// (1) 리스트 페이지
 	@RequestMapping("notice.no")
 	public ModelAndView noticeList(@RequestParam(value="page", required=false) Integer page,
 							ModelAndView mv) {
@@ -41,21 +49,24 @@ public class BoardController {
 		}
 		return mv;
 	}
+	// (2) 글쓰기 페이지
 	@RequestMapping("write.no")
 	public String noticeWirteForm() {
 		return "noticeWriteForm";
 	}
-	@RequestMapping("modal.no")
-	public String popupModal() {
-		return "modal";
-	}
+	// (3) 글작성
 	@RequestMapping("ninsert.no")
-	public String insertNotice(@ModelAttribute Board b, @RequestParam("uploadFile") String uploadFile) {
+	public String insertNotice(@ModelAttribute Board b,
+							@RequestParam("uploadFile") MultipartFile uploadFile,
+							HttpServletRequest request) {
+		if(uploadFile != null && !uploadFile.isEmpty()) {
+			String renameFileName= saveFile(uploadFile, request);
+		}
 		
 		return "redirect:notice.no";
 	}
 	
-	// 문의사항 = 1
+	// 문의사항 = 1----------------------------------------------------
 	@RequestMapping("inquiry.in")
 	public ModelAndView inquiryList(@RequestParam(value="page", required=false) Integer page,
 							ModelAndView mv) {
@@ -81,7 +92,7 @@ public class BoardController {
 		return "inquiryWriteForm";
 	}
 	
-	// 책 리뷰 = 2
+	// 책 리뷰 = 2 ----------------------------------------------------
 	@RequestMapping("book.re")
 	public ModelAndView bookreviewList(@RequestParam(value="page", required=false) Integer page,
 								ModelAndView mv) {
@@ -107,7 +118,7 @@ public class BoardController {
 		return "bookreviewWriteForm";
 	}
 	
-	// 관리자 창 : 공지사항
+	// 관리자 창 : 공지사항 ----------------------------------------------------
 	@RequestMapping("notice.ad")
 	public ModelAndView noticetAdminView(@RequestParam(value="page", required=false) Integer page,
 										ModelAndView mv) {
@@ -128,7 +139,7 @@ public class BoardController {
 		}
 		return mv;
 	}
-	// 관리자 창 : 문의사항
+	// 관리자 창 : 문의사항 ----------------------------------------------------
 	@RequestMapping("inquiry.ad")
 	public ModelAndView inquiryAdminView(@RequestParam(value="page", required=false) Integer page,
 									ModelAndView mv) {
@@ -150,4 +161,26 @@ public class BoardController {
 		return mv;
 	}
 	
+	// 파일 이름 변경 메소드 ----------------------------------------------------
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		File folder = new File(savePath);
+		if(!folder.exists()) {
+			folder.mkdir();
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) 
+								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
+		String renamePath = folder + "\\" + renameFileName;
+		try {
+			file.transferTo(new File(renamePath));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return renameFileName;
+	}
 }

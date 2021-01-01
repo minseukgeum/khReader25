@@ -169,18 +169,23 @@ section {
 	background: rgba(0, 0, 0, 0.4); 
 }
 .modal-close{
-	background-color: rgba(201, 95, 18, 1);
+	background-color: rgba(137, 18, 18, 1);
 	color:white;
 	width: 100px;
 	height: 30px;
 	border:none;
+	display:block;
+	position: relative;
+	left: 40%;
 }
 .modal p{
 	display:inline-block;
 }
 .modal img{
-	margin-top: 20px;
+	position:relative;
+	top: 10px;
 }
+
 </style>
 </head>
 <body>
@@ -211,7 +216,7 @@ section {
 			<div class="file-div">
 				<input class="upload-name" value="파일선택" disabled="disabled">
 				<label for="file-input">파일 업로드</label>
-				<input type="file" id="file-input" name="uploadFile"  onchange="loadImg(this);">
+				<input type="file" id="file-input" name="uploadFile"  onchange="loadImg(this);" multiple>
 			</div>
 			<div class="file-upload">
 				<img src="" id="load-img">
@@ -250,10 +255,10 @@ section {
 		
 			<div class="title-div">
 				<div class="title">title</div>
-				<input type="text" name="title" id="title" placeholder="제목을 작성하세요">
+				<input type="text" name="bTitle" id="bTitle" placeholder="제목을 작성하세요">
 			</div>
 			<div class="contents">
-					<textarea name="smart_edit" id="smart_edit" style="width:100%;"></textarea>
+					<textarea name="bContent" id="smart_edit" style="width:100%;"></textarea>
 			</div>
 			<div class="btn-div">
 				<button id="submit-btn" class="btn">작성완료</button>
@@ -273,7 +278,7 @@ section {
 				oEditors.getById["smart_edit"].exec("UPDATE_CONTENTS_FIELD",[]);
 
 				// validate 검증하기
-				 var title = $('#title').val()
+				 var title = $('#bTitle').val()
 				 if(title == ""){
 					 event.preventDefault();
 					 this.blur();
@@ -287,6 +292,4 @@ section {
 
 		</script>
 	</section>
-
-</body>
 </html>

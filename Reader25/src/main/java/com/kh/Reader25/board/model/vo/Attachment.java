@@ -5,12 +5,12 @@ import java.sql.Date;
 public class Attachment {
 	private int atcNo;
 	private int atvLevel;
-	private int atcCode;
-	private String atcOrigin;
-	private String atcName;
-	private String atcPath;
-	private Date atcDate;
-	private String atcStatus;
+	private int atcCode; //첨부위치
+	private String atcOrigin; // 원본파일명
+	private String atcName; // 변경한 파일명
+	private String atcPath; // 파일경로
+	private Date atcDate; // 등록일
+	private String atcStatus; 
 	private int boardNo;
 	
 	public Attachment() {}
