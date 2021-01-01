@@ -177,6 +177,7 @@ public class BoardController {
 	@RequestMapping("TIWdetail.to")
 	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
 		
+		//System.out.println("boardNo"+boardNo);
 		Board board = bService.selectTIWBoard(boardNo);
 		
 		if(board != null) {

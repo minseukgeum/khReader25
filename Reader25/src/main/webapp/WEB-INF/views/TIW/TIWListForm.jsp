@@ -42,10 +42,10 @@
 				<td align="left">
 					<c:if test="${ !empty loginUser }">
 						<c:url var="TIWdetail" value="TIWdetail.to">
-							<c:param name="bId" value="${ b.boardNo }"/>
+							<c:param name="boardNo" value="${ b.boardNo }"/>
 							<c:param name="page" value="${ pi.currentPage }"/>
 						</c:url>
-						<a href="${ bdetail }">${ b.bTitle }</a>
+						<a href="${ TIWdetail }">${ b.bTitle }</a>
 					</c:if>
 					<c:if test="${ empty loginUser }">
 						${ b.bTitle }		
