@@ -33,6 +33,30 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.insertTIW(sqlSession, b);
 	}
 
+	@Override
+	public int getTIWListCount() {
+		// TODO Auto-generated method stub
+		return bDAO.getTIWListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selectTIWList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return bDAO.selectTIWList(sqlSession, pi);
+	}
+
+	@Override
+	public Board selectTIWBoard(int boardNo) {
+		int result = bDAO.addTIWReadCount(sqlSession, boardNo);
+		
+		Board b = null;
+		if(result > 0) {
+			b = bDAO.selectTIWBoard(sqlSession, boardNo);
+		}
+		
+		return b;
+	}
+
 	
 	
 }

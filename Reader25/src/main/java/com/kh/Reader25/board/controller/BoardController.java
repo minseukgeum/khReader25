@@ -123,8 +123,28 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
 	@RequestMapping("goTIWList.to")
-	public String goTIWList() {
-		return "TIWListForm";
+	public ModelAndView goTIWList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = bService.getTIWListCount();
+		
+		PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+		
+		ArrayList<Board> list = bService.selectTIWList(pi);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("TIWListForm");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 전체 조회에 실패했습니다.");
+		}
+		
+		return mv;
 	}
 	
 	// 오늘은 나도 작가 = 5 글 작성 폼 이동 컨트롤러
@@ -151,6 +171,23 @@ public class BoardController {
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
+	}
+	
+	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
+	@RequestMapping("TIWdetail.to")
+	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		Board board = bService.selectTIWBoard(boardNo);
+		
+		if(board != null) {
+			mv.addObject("board", board)
+				.addObject("page", page)
+				.setViewName("TIWDetailView");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
+		}
+		
+		return mv;
 	}
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
