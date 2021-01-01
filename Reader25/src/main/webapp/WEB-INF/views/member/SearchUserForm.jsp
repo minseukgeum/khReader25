@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% String result = (String)request.getAttribute("result"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,8 +11,6 @@
 <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <style>
- * { margin:0; padding:0; }
-
 .hidden { visibility:hidden;  }
 .outer { display:block; position:fixed; 
            top:0; left:0; bottom:0; right:0; 
@@ -117,11 +114,11 @@ input[type=checkbox]:checked + .box_modal2 {
   <div class="box_modal">
       <label for="modal" class="closer">x</label>
       <div class="text">
-		<br>
+		
            <h4><b>찾으시는 아이디는</b></h4>
-           <br>
+           
            <h2 id="id_value"></h2>
-           <br>
+           
            <h4><b>입니다 ^-^</b></h4>
 
        </div>
@@ -132,13 +129,13 @@ input[type=checkbox]:checked + .box_modal2 {
   <div class="box_modal2">
       <label for="modal2" class="closer">x</label>
       <div class="text">
-		<br>
+		
            <h4><b>임시 비밀번호는</b></h4>
-           <br>
+          
            <h2 id="pw_value"></h2>
-           <br>
+          
            <h4><b>입니다 ^-^</b></h4>
-           <br>
+         
            <h4><b>로그인 후 비밀번호 변경을 해주세요</b></h4>
 
        </div>
@@ -193,7 +190,7 @@ input[type=checkbox]:checked + .box_modal2 {
 			data: {inputId_2:inputId_2, inputEmail_2:inputEmail_2},
 			success:function(data){
 				if(data == null){
-					$('#pw_value').text("error");	
+					$('#pw_value').text("다시 시도해주세요.");	
 				} else {
 					$('#pw_value').text(data);
 				}

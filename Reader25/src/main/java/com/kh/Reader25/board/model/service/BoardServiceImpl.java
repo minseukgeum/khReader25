@@ -26,5 +26,13 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectList(PageInfo pi, int code) {
 		return bDAO.selectList(sqlSession, pi, code);
 	}
+
+	@Override
+	public int insertTIW(Board b) {
+		// TODO Auto-generated method stub
+		return bDAO.insertTIW(sqlSession, b);
+	}
+
+	
 	
 }

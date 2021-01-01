@@ -55,4 +55,10 @@
 		WHERE user_id = #{user_id}
 	</update>
 	
+	<update id="updatePwd">
+		UPDATE member 
+		SET pwd = #{newPwd} 
+		WHERE user_id = #{id}
+	</update>
+	
 </mapper>

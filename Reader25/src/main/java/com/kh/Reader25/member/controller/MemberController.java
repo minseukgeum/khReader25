@@ -80,6 +80,7 @@ public class MemberController {
 		return "SignUpForm";
 	}
 	
+	//회원가입 컨트롤러
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, @RequestParam("joinPostal") String post,
 								@RequestParam("joinAddress1") String address1,
@@ -151,7 +152,6 @@ public class MemberController {
 
 		String key = "reader25";
 		String encNewPwd = bcrypt.encode(key);
-		String error = "다시한번 확인해주세요";
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("user_id", user_id);
@@ -163,7 +163,7 @@ public class MemberController {
 		if(result > 0) {
 			return key;
 		} else {
-			return error;
+			return null;
 		}
 	}
 	
@@ -173,6 +173,44 @@ public class MemberController {
 		return "mypage";
 	}
 	
+
+	//비밀번호 변경 컨트롤러
+	@RequestMapping(value = "mChangePw.me", method = RequestMethod.POST)
+	@ResponseBody
+	public String mChangePw(@RequestParam("inputPw")String inputPw,
+			@RequestParam("newPw")String newPw, HttpSession session) {
+
+		Member m = mService.memberLogin((Member)session.getAttribute("loginUser"));
+		
+		String ok = "ok";
+				
+		if(bcrypt.matches(inputPw, m.getPwd())) {
+			String encNewPwd = bcrypt.encode(newPw);
+			m.setPwd(encNewPwd);
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("id", m.getId());
+			map.put("newPwd", encNewPwd);
+			
+			int result = mService.updatePwd(map);
+			
+			if(result > 0) {
+				return ok;
+			} else {
+				throw new MemberException("비밀번호 수정에 실패했습니다.");
+			}
+		} else {
+			throw new MemberException("기존 비밀번호가 틀렸습니다.");
+		}
+	}
+	
+	//마이페이지로 이동하는 뷰
+	@RequestMapping("myinfo.me")
+	public String myinfoFormView() {	
+		return "myinfo";
+	}
+	
+
 	
 	// 관리자 : 회원정보 관리
 	@RequestMapping("admin.ad")
@@ -180,4 +218,5 @@ public class MemberController {
 		
 		return "memberList";
 	}
+
 }

@@ -10,5 +10,8 @@ public interface BoardService {
 	int getListCount(int code);
 
 	ArrayList<Board> selectList(PageInfo pi, int code);
+
+	int insertTIW(Board b);
+
 	
 }

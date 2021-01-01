@@ -23,4 +23,9 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectList", code, rowBounds);
 	}
 
+	public int insertTIW(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("boardMapper.insertTIW", b);
+	}
+
 }

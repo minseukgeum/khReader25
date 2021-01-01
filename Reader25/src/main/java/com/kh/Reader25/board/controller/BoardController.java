@@ -119,6 +119,43 @@ public class BoardController {
 		return "bookreviewWriteForm";
 	}
 	
+
+	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
+	
+	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
+	@RequestMapping("goTIWList.to")
+	public String goTIWList() {
+		return "TIWListForm";
+	}
+	
+	// 오늘은 나도 작가 = 5 글 작성 폼 이동 컨트롤러
+	@RequestMapping("writeTIW.to")
+	public String writeTIW() {
+		return "TIWWriteForm";
+	}
+	
+	// 오늘은 나도 작가 = 5 글 작성 컨트롤러
+	@RequestMapping("TIWinsert.to")
+	public String TIWinsert(@ModelAttribute Board b,
+				@RequestParam("code1") String code1,
+				@RequestParam("code2") String code2) {
+		//System.out.println(b);
+		//System.out.println(code1);
+		//System.out.println(code2);
+		
+		b.setCode(code1+"/"+code2);
+		
+		int result = bService.insertTIW(b);
+		
+		if(result > 0) {
+			return "TIWListForm";
+		} else {
+			throw new BoardException("게시글 등록에 실패하였습니다.");
+		}
+	}
+	
+	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
+
 	// 관리자 창 : 공지사항 ----------------------------------------------------
 	@RequestMapping("notice.ad")
 	public ModelAndView noticetAdminView(@RequestParam(value="page", required=false) Integer page,
@@ -184,4 +221,5 @@ public class BoardController {
 		}
 		return renameFileName;
 	}
+
 }

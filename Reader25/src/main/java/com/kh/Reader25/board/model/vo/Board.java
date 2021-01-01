@@ -13,15 +13,15 @@ public class Board {
 	private String bStatus;
 	private Date  enrollDay;
 	private Date updateDay;
+	// 0 : 공지사항 1: 문의사항 2: 리뷰 3: 책방 4: 책쓰기5:오늘은 나도 작가
 	private int cate;
-	// 0 : 공지사항 1: 문의사항 2: 리뷰 3: 책방 4: 책쓰기
-	private int code;
+	private String code;
 	private String userId;
 	
 	public Board() {}
 
 	public Board(int boardNo, String bTitle, String bContent, int bCount, int bLike, int comCount, String bStatus,
-			Date enrollDay, Date updateDay, int cate, int code, String userId) {
+			Date enrollDay, Date updateDay, int cate, String code, String userId) {
 		super();
 		this.boardNo = boardNo;
 		this.bTitle = bTitle;
@@ -117,11 +117,11 @@ public class Board {
 		this.cate = cate;
 	}
 
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

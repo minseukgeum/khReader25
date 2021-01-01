@@ -50,4 +50,9 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.changePw", map);
 	}
 
+	public int updatePwd(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("memberMapper.updatePwd", map);
+	}
+
 }

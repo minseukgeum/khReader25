@@ -60,6 +60,12 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.changePw(sqlSession, map);
 	}
 
+	@Override
+	public int updatePwd(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		return mDAO.updatePwd(sqlSession, map);
+	}
+
 
 	
 
