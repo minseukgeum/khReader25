@@ -216,7 +216,7 @@ section {
 			<div class="file-div">
 				<input class="upload-name" value="파일선택" disabled="disabled">
 				<label for="file-input">파일 업로드</label>
-				<input type="file" id="file-input" name="uploadFile"  onchange="loadImg(this);" multiple>
+				<input type="file" id="file-input" name="uploadFile"  onchange="loadImg(this);">
 			</div>
 			<div class="file-upload">
 				<img src="" id="load-img">

@@ -59,8 +59,9 @@ public class BoardController {
 	public String insertNotice(@ModelAttribute Board b,
 							@RequestParam("uploadFile") MultipartFile uploadFile,
 							HttpServletRequest request) {
+		System.out.println(uploadFile);
 		if(uploadFile != null && !uploadFile.isEmpty()) {
-			String renameFileName= saveFile(uploadFile, request);
+//			String renameFileName= saveFile(uploadFile, request);
 		}
 		
 		return "redirect:notice.no";
