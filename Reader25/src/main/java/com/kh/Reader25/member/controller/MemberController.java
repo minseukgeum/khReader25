@@ -50,6 +50,10 @@ public class MemberController {
 			Member loginUser = mService.memberLogin(m);
 			//아이디만 일치했을때에 대한 멤버 정보가 있음
 			
+			
+			System.out.println("뭐지? = " + loginUser);
+			
+			
 			if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
 				model.addAttribute("loginUser", loginUser);
 				return "redirect:home.do";
@@ -167,11 +171,17 @@ public class MemberController {
 		}
 	}
 	
-	//마이페이지로 이동하는 뷰
-	@RequestMapping("mypage.me")
-	public String mypageFormView() {	
-		return "mypage";
-	}
+//	//마이페이지로 이동하는 뷰
+//	@RequestMapping("mypage.me")
+//	public String mypageFormView() {	
+//		return "mypage";
+//	}
+	
+	//마이페이지로 이동하는 뷰2
+		@RequestMapping("mypage.me")
+		public String mypageFormView() {	
+			return "myPageList";
+		}
 	
 
 	//비밀번호 변경 컨트롤러

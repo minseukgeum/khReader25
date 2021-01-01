@@ -220,5 +220,44 @@ public class BoardController {
 		}
 		return renameFileName;
 	}
+	
+	
+	@RequestMapping("Mblist.bo")
+	public ModelAndView boardList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
+		// required = false : 값이 없을 수도 있음
+
+		int currentPage = 1;
+
+		if (page != null) {
+
+			currentPage = page;
+		}
+		
+		int code = 2;
+		
+		
+		
+
+		int listCount = bService.getListCount(code);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		ArrayList<Board> list = bService.selectList(pi,code);
+
+		if (list != null) {
+
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+
+			mv.setViewName("myPageList");
+
+		} else {
+
+			throw new BoardException("게시글 조회 실패");
+		}
+
+		return mv;
+
+	}
 
 }
