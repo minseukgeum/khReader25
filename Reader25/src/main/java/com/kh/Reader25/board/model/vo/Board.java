@@ -14,13 +14,14 @@ public class Board {
 	private Date  enrollDay;
 	private Date updateDay;
 	// 0 : 공지사항 1: 문의사항 2: 리뷰 3: 책방 4: 책쓰기5:오늘은 나도 작가
-	private int code;
+	private int cate;
+	private String code;
 	private String userId;
 	
 	public Board() {}
 
 	public Board(int boardNo, String bTitle, String bContent, int bCount, int bLike, int comCount, String bStatus,
-			Date enrollDay, Date updateDay, int code, String userId) {
+			Date enrollDay, Date updateDay, int cate, String code, String userId) {
 		super();
 		this.boardNo = boardNo;
 		this.bTitle = bTitle;
@@ -31,6 +32,7 @@ public class Board {
 		this.bStatus = bStatus;
 		this.enrollDay = enrollDay;
 		this.updateDay = updateDay;
+		this.cate = cate;
 		this.code = code;
 		this.userId = userId;
 	}
@@ -107,11 +109,19 @@ public class Board {
 		this.updateDay = updateDay;
 	}
 
-	public int getCode() {
+	public int getCate() {
+		return cate;
+	}
+
+	public void setCate(int cate) {
+		this.cate = cate;
+	}
+
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
@@ -123,13 +133,10 @@ public class Board {
 		this.userId = userId;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", bTitle=" + bTitle + ", bContent=" + bContent + ", bCount=" + bCount
 				+ ", bLike=" + bLike + ", comCount=" + comCount + ", bStatus=" + bStatus + ", enrollDay=" + enrollDay
-				+ ", updateDay=" + updateDay + ", code=" + code + ", userId=" + userId  + "]";
+				+ ", updateDay=" + updateDay + ", cate=" + cate + ", code=" + code + ", userId=" + userId + "]";
 	}
-	
 }

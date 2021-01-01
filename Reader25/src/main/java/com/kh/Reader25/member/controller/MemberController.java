@@ -80,6 +80,7 @@ public class MemberController {
 		return "SignUpForm";
 	}
 	
+	//회원가입 컨트롤러
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, @RequestParam("joinPostal") String post,
 								@RequestParam("joinAddress1") String address1,
@@ -172,6 +173,7 @@ public class MemberController {
 		return "mypage";
 	}
 	
+
 	//비밀번호 변경 컨트롤러
 	@RequestMapping(value = "mChangePw.me", method = RequestMethod.POST)
 	@ResponseBody
@@ -208,4 +210,13 @@ public class MemberController {
 		return "myinfo";
 	}
 	
+
+	
+	// 관리자 : 회원정보 관리
+	@RequestMapping("admin.ad")
+	public String adminMemberListView() {
+		
+		return "memberList";
+	}
+
 }

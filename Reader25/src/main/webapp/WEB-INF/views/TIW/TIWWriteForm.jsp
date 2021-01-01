@@ -54,6 +54,24 @@
 		margin-left: -6px;
 		color: rgba(85, 83, 83, 1);	
 }
+.writer {
+	display: inline-block;
+	background: rgba(235, 235, 235, 1);
+	text-align: center;
+	vertical-align: middle;
+	width: 50px;
+	height: 27px;
+	border: 1px solid rgba(235, 235, 235, 1);
+	border-radius: 3px 0px 0px 3px;
+	color: rgba(85, 83, 83, 1);
+	 margin-left: 10%;
+}
+.writer-div>input {
+	height: 25px;
+	margin-left: -7px;
+	width: 20%;
+	border: 1px solid rgba(235, 235, 235, 1);
+}
 .contents{
 	width: 80%;
 	margin: auto;
@@ -82,7 +100,7 @@
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요">
-				<select>
+				<select name="code1">
 					<option selected="selected">분류</option>
 					<option>총류</option>
 					<option>철학</option>
@@ -95,7 +113,7 @@
 					<option>문학</option>
 					<option>역사</option>
 				</select>
-				<select id="book">
+				<select id="book" name="code2">
 					<option selected="selected">책 이름</option>
 					<option>총류</option>
 					<option>철학</option>
@@ -110,12 +128,17 @@
 				</select>
 			</div>
 			<br>
+			<div class="writer-div">
+				<div class="writer">작가</div>
+				<input type="text" name="userId" id="writer" readonly value="${ loginUser.id }">
+			</div>
+			<br>
 			<div class="content-edit" style="text-align:center;">
-					<textarea name="smart_edit"id="smart_edit" style="width:70%;"></textarea>
+					<textarea name="bContent"id="smart_edit" style="width:70%;"></textarea>
 				</div>
 			<br><br>
 			<div class="btn-div" align="center">
-				<button id="submit-btn" class="btn1">작성완료</button>
+				<button type="submit" id="submit-btn" class="btn1">작성완료</button>
 				<input type="reset" class="btn2" value="작성취소">
 			</div>
 			<br><br>

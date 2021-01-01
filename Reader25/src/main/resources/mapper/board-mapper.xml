@@ -23,7 +23,17 @@
 		<result property="bStatus" column="B_STATUS"/>
 		<result property="enrollDay" column="ENROLL_DAY"/>
 		<result property="updateDay" column="UPDATE_DAY"/>
+		<result property="cate" column="CATE"/>
 		<result property="code" column="CODE"/>
 		<result property="userId" column="USER_ID"/>
 	</resultMap>
+	
+	<!-- TIW 관련 mapper -->
+	<insert id="insertTIW" parameterType="Board">
+		insert into board
+		values (seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
+				default, sysdate, sysdate, #{cate}, '5', #{userId})
+	</insert>
+	
+	<!-- TIW 관련 mapper -->
 </mapper>

@@ -9,9 +9,11 @@
 	section{
 		display:inline-block;
 		min-height: 700px;
-		position: relative;
+		position: absolute;
+		left:160px;
 		margin-left: 10px;
-		width: 80%;
+ 		width: 80%;
+ 		min-width: 700px; 
 	}
 	.notice-div{
 		min-height: 100px; 
@@ -100,7 +102,7 @@
 			</table>
 		</div>
 		<div class="write-btn">
-			<img src="/Reader25/images/bookreview/write.png"/>
+			<img src="<%=request.getContextPath() %>/resources/images/bookreview/write.png"/>
 		</div>
 		<script>
 			$('.write-btn').click(function(){

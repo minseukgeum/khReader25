@@ -9,9 +9,11 @@
 	section{
 		display:inline-block;
 		min-height: 700px;
-		position: relative;
+		position: absolute;
+		left:160px;
 		margin-left: 10px;
-		width: 80%;
+ 		width: 80%;
+ 		min-width: 700px; 
 	}
 	.inquire-div{
 		min-height: 100px; 
