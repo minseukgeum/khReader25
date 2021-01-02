@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.Reader25.board.model.dao.BoardDAO;
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -55,6 +56,36 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 		return b;
+	}
+
+	@Override
+	public int insertBoardAndFiles(Board b, ArrayList<Attachment> atList) {
+		int result = bDAO.insertBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.insertAttachmentList(sqlSession, atList);
+		}
+		
+		return result;
+	}
+
+	public Board selectupTIWBoard(int boardNo) {
+		Board b = null;
+		
+		b = bDAO.selectTIWBoard(sqlSession, boardNo);
+		
+		return b;
+	}
+
+	@Override
+	public int updateTIWBoard(Board b) {
+		// TODO Auto-generated method stub
+		return bDAO.updateTIWBoard(sqlSession, b);
+	}
+
+	@Override
+	public int deleteTIWBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return bDAO.deleteTIWBoard(sqlSession, boardNo);
 	}
 
 	

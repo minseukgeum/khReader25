@@ -15,78 +15,31 @@
 		margin-top:100px; margin-bottom: 5%; min-width: 1000px;
 		background-color:  #F6F6F6;
 	}
-#myimg{
-		width: 70%;
-		margin-left: 10%;
-	}
-.title-div {
-	clear: both;
-	width: 80%;
-	max-width: 1100px;
-	margin: auto;
-	margin-top: 10px;
-	padding: 0;
-}
-
-.title {
-	display: inline-block;
-	background: rgba(235, 235, 235, 1);
-	text-align: center;
-	vertical-align: middle;
-	width: 50px;
-	height: 27px;
-	border: 1px solid rgba(235, 235, 235, 1);
-	border-radius: 3px 0px 0px 3px;
-	color: rgba(85, 83, 83, 1);
-}
-
-input {
-	height: 25px;
-	margin-left: -7px;
-	width: 60%;
-	border: 1px solid rgba(235, 235, 235, 1);
-}
-select{
-		height: 29px;
-		border:  1px solid rgba(235, 235, 235, 1);
-		margin-left: -6px;
-		color: rgba(85, 83, 83, 1);		
-	}
-#book{
-		height: 29px; width: 230px;
-		border:  1px solid rgba(235, 235, 235, 1);
-		margin-left: -6px;
-		color: rgba(85, 83, 83, 1);	
-}
-.writer {
-	display: inline-block;
-	background: rgba(235, 235, 235, 1);
-	text-align: center;
-	vertical-align: middle;
-	width: 50px;
-	height: 27px;
-	border: 1px solid rgba(235, 235, 235, 1);
-	border-radius: 3px 0px 0px 3px;
-	color: rgba(85, 83, 83, 1);
-	 margin-left: 10%;
-}
-.writer-div>input {
-	height: 25px;
-	margin-left: -7px;
-	width: 20%;
-	border: 1px solid rgba(235, 235, 235, 1);
-}
 #con_table{
 			width: 80%;
-			height: 300px;
+			min-height: 500px;
 		}
-#img_td{
-			width: 45%;
-		}
-#w_td{width: 15%;}
-#f_td{width: 10%;}
-#c_td{width: 15%;}
-#d_td{width: 15%;}
+#img_td{width:40%}
+#myimg{
+		max-width: 300px;
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+.title, .cate1, .date, .cate2, .writer, .like, .count  {
+	display: inline-block;
+	background: rgba(235, 235, 235, 1);
+	text-align: center;
+	vertical-align: middle;
+	width: 50px;
+	height: 27px;
+	border: 1px solid rgba(235, 235, 235, 1);
+	border-radius: 3px 0px 0px 3px;
+	color: rgba(85, 83, 83, 1);
+}
+.con_td{
+		margin-left: 40%; margin-right: 40%;
+		margin-top:15%; margin-bottom: 15%;
+	}
 </style>
 </head>
 <body>
@@ -99,74 +52,75 @@ select{
 		</div>
 		<br>
 		<div id ="content">
-			<table id="con_table" border="1px" align="center">
+			<table id="con_table" align="center">
 				<tr>
-					<td colspan="4" rowspan="3" id="img_td"><img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg"></td>
-					<td colspan="5">
+					<td colspan="3" rowspan="4" id="img_td"><img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg"></td>
+					<td width="55px">
 						<div class="title">title</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
 					</td>
+					<td colspan="5">${ board.bTitle }</td>
 				</tr>
 				<tr>
-					<td colspan="2">카테1</td>
-					<td colspan="3">카테2</td>
+					<td width="55px">
+						<div class="cate1">cate</div>
+					</td>
+					<td colspan="2">${ board.cate }</td>
+					<td width="55px">
+						<div class="date">date</div>
+					</td>
+					<td colspan="2">${ board.enrollDay }</td>
 				</tr>
 				<tr>
-					<td id="w_td">
-						<div class="title">작가</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
+					<td width="55px">
+						<div class="cate2">원작</div>
 					</td>
-					<td id="f_td">
-						<div class="title">좋아요</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
-					</td>
-					<td id="c_td">
-						<div class="title">조회수</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
-					</td>
-					<td colspan="2" id="d_td">
-						<div class="title">날짜</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
-					</td>
+					<td colspan="5">${ board.cate }</td>
 				</tr>
 				<tr>
-					<td colspan="9">내용</td>
+					<td id="w_td" width="55px">
+						<div class="writer">작가</div>
+					</td>
+					<td>${ board.userId }</td>
+					<td id="l_td" width="55px">
+						<div class="like">좋아요</div>
+					</td>
+					<td>${ board.bLike }</td>
+					<td id="c_td" width="55px">
+						<div class="count">조회수</div>
+					</td>
+					<td>${ board.bCount }</td>
 				</tr>
+				<tr>
+					<td colspan="9">
+						<div id="con_td">
+							${ board.bContent }
+						</div>
+					</td>
+				</tr>
+				
+				<c:url var="TIWUpdateView" value="TIWUpdateView.to">
+					<c:param name="boardNo" value="${ board.boardNo }"/>
+					<c:param name="page" value="${ page }"/>
+				</c:url>
+				<c:url var="TIWDelete" value="TIWDelete.to">
+					<c:param name="boardNo" value="${ board.boardNo }"/>
+				</c:url>
+				<c:url var="goTIWList" value="goTIWList.to">
+					<c:param name="page" value="${ page }"/>
+				</c:url>
+				
+				<c:if test="${ loginUser.id eq board.userId }">
+					<tr>
+						<td colspan="9" align="center">
+							<button class="btn1" onclick="location.href='${ TIWUpdateView }'">수정하기</button>
+							<button class="btn2" onclick="location.href='${ TIWDelete }'">삭제하기</button>
+						</td>
+					</tr>
+				</c:if>
 			</table>
+			
 		</div>
-		<!-- <div class="content">
-			<img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg">
-			<div class="title-div">
-			<div class="title">title</div>
-			<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요">
-			</div>
-			<select name="code1">
-				<option selected="selected">분류</option>
-				<option>총류</option>
-				<option>철학</option>
-				<option>종교</option>
-				<option>사회 과학</option>
-				<option>자연 과학</option>
-				<option>기술 과학</option>
-				<option>예술</option>
-				<option>언어</option>
-				<option>문학</option>
-				<option>역사</option>
-			</select>
-			<select id="book" name="code2">
-				<option selected="selected">책 이름</option>
-				<option>총류</option>
-				<option>철학</option>
-				<option>종교</option>
-				<option>사회 과학</option>
-				<option>자연 과학</option>
-				<option>기술 과학</option>
-				<option>예술</option>
-				<option>언어</option>
-				<option>문학</option>
-				<option>역사</option>
-			</select>
-		</div> -->
+		
 		
 	
 	

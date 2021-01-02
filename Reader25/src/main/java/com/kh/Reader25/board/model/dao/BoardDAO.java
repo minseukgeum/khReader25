@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -48,6 +49,23 @@ public class BoardDAO {
 	public Board selectTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.selectTIWBoard", boardNo);
+	}
+
+	public int insertBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertBoard", b);
+	}
+
+	public int insertAttachmentList(SqlSessionTemplate sqlSession, ArrayList<Attachment> atList) {
+		return sqlSession.insert("boardMapper.insertAttachmentList", atList);
+	}
+	public int updateTIWBoard(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateTIWBoard", b);
+	}
+
+	public int deleteTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
 	}
 
 }
