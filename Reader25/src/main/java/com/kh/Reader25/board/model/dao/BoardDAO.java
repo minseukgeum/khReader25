@@ -28,4 +28,26 @@ public class BoardDAO {
 		return sqlSession.insert("boardMapper.insertTIW", b);
 	}
 
+	public int getTIWListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.getTIWListCount");
+	}
+
+	public ArrayList<Board> selectTIWList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTIWList", null, rowBounds);
+	}
+
+	public int addTIWReadCount(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.addTIWReadCount", boardNo);
+	}
+
+	public Board selectTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.selectTIWBoard", boardNo);
+	}
+
 }

@@ -13,5 +13,11 @@ public interface BoardService {
 
 	int insertTIW(Board b);
 
+	int getTIWListCount();
+
+	ArrayList<Board> selectTIWList(PageInfo pi);
+
+	Board selectTIWBoard(int boardNo);
+
 	
 }
