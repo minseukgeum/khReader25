@@ -163,12 +163,12 @@ public class BoardController {
 		//System.out.println(code2);
 		
 		b.setCate(code1+"/"+code2);
-		System.out.println(b);
+		//System.out.println(b);
 		
 		int result = bService.insertTIW(b);
 		
 		if(result > 0) {
-			return "TIWListForm";
+			return "redirect:goTIWList.to";
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
@@ -191,6 +191,57 @@ public class BoardController {
 		
 		return mv;
 	}
+	
+	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
+	@RequestMapping("TIWUpdateView.to")
+	public ModelAndView TIWUpdateView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		Board board = bService.selectupTIWBoard(boardNo);
+		
+		mv.addObject("board", board)
+		  .addObject("page", page)
+		  .setViewName("TIWUpdateForm");
+		
+		return mv;
+	}
+	
+	// 오늘은 나도 작가 = 5 글 작성 컨트롤러
+	@RequestMapping("TIWupdate.to")
+	public ModelAndView TIWupdate(@ModelAttribute Board b, @RequestParam("code1") String code1,
+							@RequestParam("code2") String code2,@RequestParam("boardNo") int boardNo,
+							@RequestParam("page") int page, HttpServletRequest request,
+							ModelAndView mv) {
+		
+		b.setCate(code1+"/"+code2);
+		b.setBoardNo(boardNo);
+		
+		int result = bService.updateTIWBoard(b);
+		System.out.println(b);
+		System.out.println(result);
+		System.out.println(b.getBoardNo());
+		
+		if(result > 0) {
+			mv.addObject("page", page)
+			  .setViewName("redirect:TIWdetail.to?boardNo=" + b.getBoardNo());
+		} else {
+			throw new BoardException("게시글 등록을 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	//오늘은 나도 작가 = 5 게시글 삭제 
+		@RequestMapping("TIWDelete.to")
+		public String boardDelete(@RequestParam("boardNo") int boardNo) {
+			
+			int result = bService.deleteTIWBoard(boardNo);
+			
+			if(result > 0) {
+				return "redirect:goTIWList.to";
+			} else {
+				throw new BoardException("게시글 삭제에 실패했습니다.");
+			}
+		}
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 

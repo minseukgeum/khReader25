@@ -19,5 +19,11 @@ public interface BoardService {
 
 	Board selectTIWBoard(int boardNo);
 
+	Board selectupTIWBoard(int boardNo);
+
+	int updateTIWBoard(Board b);
+
+	int deleteTIWBoard(int boardNo);
+
 	
 }

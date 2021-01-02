@@ -61,5 +61,17 @@
 		where BOARD_NO=#{BOARD_NO} and b_status='Y'
 	</select>
 	
+	<update id="updateTIWBoard">
+		update board
+		set B_TITLE=#{bTitle}, B_CONTENT=#{bContent}, CATE=#{cate}, UPDATE_DAY=sysdate
+		where BOARD_NO=#{boardNo}
+	</update>
+	
+	<update id="deleteTIWBoard">
+		update board
+		set B_STATUS='N'
+		where BOARD_NO=#{boardNo}
+	</update>
+	
 	<!-- TIW 관련 mapper -->
 </mapper>

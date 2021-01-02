@@ -50,4 +50,14 @@ public class BoardDAO {
 		return sqlSession.selectOne("boardMapper.selectTIWBoard", boardNo);
 	}
 
+	public int updateTIWBoard(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateTIWBoard", b);
+	}
+
+	public int deleteTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
+	}
+
 }

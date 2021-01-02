@@ -36,7 +36,7 @@
 					<li class="li"><a href="notice.no">공지사항</a></li>
 					<li><a href="inquiry.in">문의사항</a></li>
 				</c:if>
-				<c:if test="${ loginUser eq 'admin'}">
+				<c:if test="${ sessionScope.loginUser eq 'admin'}">
 					<li><a href="admin.ad">관리자창</a></li>
 				</c:if>
 				<c:if test="${ !empty sessionScope.loginUser }">
