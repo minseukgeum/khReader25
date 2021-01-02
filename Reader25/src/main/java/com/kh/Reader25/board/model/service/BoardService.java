@@ -2,6 +2,7 @@ package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -18,6 +19,8 @@ public interface BoardService {
 	ArrayList<Board> selectTIWList(PageInfo pi);
 
 	Board selectTIWBoard(int boardNo);
+
+	int insertBoardAndFiles(Board b, ArrayList<Attachment> atList);
 
 	
 }

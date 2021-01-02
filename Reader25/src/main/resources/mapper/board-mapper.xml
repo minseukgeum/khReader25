@@ -62,4 +62,19 @@
 	</select>
 	
 	<!-- TIW 관련 mapper -->
+	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
+				default, sysdate, sysdate, null, #{code}, #{userId})
+	</insert>
+	
+	<insert id="insertAttachmentList" parameterType="java.util.List">
+		insert into attachment
+		values
+		<foreach collection="list" item="at" separator=" , ">
+			(seq_atc.nextval, #{at.atcLevel},#{at.atCode},#{at.Origin},#{at.atcName},#{at.atcPath},sysdate,default,seq_bid.currentval )
+		</foreach>
+	</insert>
+	
 </mapper>

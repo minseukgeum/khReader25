@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
@@ -59,10 +60,22 @@ public class BoardController {
 	public String insertNotice(@ModelAttribute Board b,
 							@RequestParam("uploadFile") MultipartFile uploadFile,
 							HttpServletRequest request) {
+		System.out.println(uploadFile);
 		if(uploadFile != null && !uploadFile.isEmpty()) {
-			String renameFileName= saveFile(uploadFile, request);
+			
+			b.setCode(0);
+			ArrayList<Attachment> atList = new ArrayList<Attachment>();
+			while(uploadFile.getOriginalFilename() != null) {
+				Attachment at = saveFile(uploadFile, request);
+				at.setAtvLevel(1);
+				atList.add(at);
+			}
+			int result = bService.insertBoardAndFiles(b, atList);
+			
+			if(result <= 0) {
+				throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
+			}
 		}
-		
 		return "redirect:notice.no";
 	}
 	
@@ -238,7 +251,7 @@ public class BoardController {
 	}
 	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
-	public String saveFile(MultipartFile file, HttpServletRequest request) {
+	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
 		File folder = new File(savePath);
@@ -250,6 +263,13 @@ public class BoardController {
 		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) 
 								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
 		String renamePath = folder + "\\" + renameFileName;
+		Attachment at = new Attachment();
+		at.setAtcCode(0);
+		at.setAtcOrigin(file.getOriginalFilename());
+		at.setAtcName(renameFileName);
+		at.setAtcPath(savePath);
+		at.setAtvLevel(1);
+		
 		try {
 			file.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -257,7 +277,7 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return renameFileName;
+		return at;
 	}
 
 }
