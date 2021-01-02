@@ -51,7 +51,7 @@
 	
 	<update id="addTIWReadCount" parameterType="_int">
 		update board
-		set COM_COUNT = COM_COUNT + 1
+		set B_COUNT = B_COUNT + 1
 		where BOARD_NO=#{BOARD_NO}
 	</update>
 	

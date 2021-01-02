@@ -15,78 +15,28 @@
 		margin-top:100px; margin-bottom: 5%; min-width: 1000px;
 		background-color:  #F6F6F6;
 	}
-#myimg{
-		width: 70%;
-		margin-left: 10%;
-	}
-.title-div {
-	clear: both;
-	width: 80%;
-	max-width: 1100px;
-	margin: auto;
-	margin-top: 10px;
-	padding: 0;
-}
-
-.title {
-	display: inline-block;
-	background: rgba(235, 235, 235, 1);
-	text-align: center;
-	vertical-align: middle;
-	width: 50px;
-	height: 27px;
-	border: 1px solid rgba(235, 235, 235, 1);
-	border-radius: 3px 0px 0px 3px;
-	color: rgba(85, 83, 83, 1);
-}
-
-input {
-	height: 25px;
-	margin-left: -7px;
-	width: 60%;
-	border: 1px solid rgba(235, 235, 235, 1);
-}
-select{
-		height: 29px;
-		border:  1px solid rgba(235, 235, 235, 1);
-		margin-left: -6px;
-		color: rgba(85, 83, 83, 1);		
-	}
-#book{
-		height: 29px; width: 230px;
-		border:  1px solid rgba(235, 235, 235, 1);
-		margin-left: -6px;
-		color: rgba(85, 83, 83, 1);	
-}
-.writer {
-	display: inline-block;
-	background: rgba(235, 235, 235, 1);
-	text-align: center;
-	vertical-align: middle;
-	width: 50px;
-	height: 27px;
-	border: 1px solid rgba(235, 235, 235, 1);
-	border-radius: 3px 0px 0px 3px;
-	color: rgba(85, 83, 83, 1);
-	 margin-left: 10%;
-}
-.writer-div>input {
-	height: 25px;
-	margin-left: -7px;
-	width: 20%;
-	border: 1px solid rgba(235, 235, 235, 1);
-}
 #con_table{
 			width: 80%;
-			height: 300px;
+			min-height: 500px;
 		}
-#img_td{
-			width: 45%;
-		}
-#w_td{width: 15%;}
-#f_td{width: 10%;}
-#c_td{width: 15%;}
-#d_td{width: 15%;}
+#img_td{width:40%}
+#myimg{
+		max-width: 300px;
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+.title, .cate1, .date, .cate2, .writer, .like, .count  {
+	display: inline-block;
+	background: rgba(235, 235, 235, 1);
+	text-align: center;
+	vertical-align: middle;
+	width: 50px;
+	height: 27px;
+	border: 1px solid rgba(235, 235, 235, 1);
+	border-radius: 3px 0px 0px 3px;
+	color: rgba(85, 83, 83, 1);
+}
+
 </style>
 </head>
 <body>
@@ -101,33 +51,41 @@ select{
 		<div id ="content">
 			<table id="con_table" border="1px" align="center">
 				<tr>
-					<td colspan="4" rowspan="3" id="img_td"><img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg"></td>
-					<td colspan="5">
+					<td colspan="3" rowspan="4" id="img_td"><img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg"></td>
+					<td width="55px">
 						<div class="title">title</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
 					</td>
+					<td colspan="5">${ board.bTitle }</td>
 				</tr>
 				<tr>
-					<td colspan="2">카테1</td>
-					<td colspan="3">카테2</td>
+					<td width="55px">
+						<div class="cate1">cate</div>
+					</td>
+					<td colspan="2">${ board.code }</td>
+					<td width="55px">
+						<div class="date">date</div>
+					</td>
+					<td colspan="2">${ board.enrollDay }</td>
 				</tr>
 				<tr>
-					<td id="w_td">
-						<div class="title">작가</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
+					<td width="55px">
+						<div class="cate2">원작</div>
 					</td>
-					<td id="f_td">
-						<div class="title">좋아요</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
+					<td colspan="5">${ board.code }</td>
+				</tr>
+				<tr>
+					<td id="w_td" width="55px">
+						<div class="writer">작가</div>
 					</td>
-					<td id="c_td">
-						<div class="title">조회수</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
+					<td>${ board.userId }</td>
+					<td id="l_td" width="55px">
+						<div class="like">좋아요</div>
 					</td>
-					<td colspan="2" id="d_td">
-						<div class="title">날짜</div>
-						<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요" readonly="readonly">
+					<td>${ board.bLike }</td>
+					<td id="c_td" width="55px">
+						<div class="count">조회수</div>
 					</td>
+					<td>${ board.comCount }</td>
 				</tr>
 				<tr>
 					<td colspan="9">내용</td>

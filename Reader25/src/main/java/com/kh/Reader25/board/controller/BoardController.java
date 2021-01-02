@@ -162,7 +162,8 @@ public class BoardController {
 		//System.out.println(code1);
 		//System.out.println(code2);
 		
-		b.setCode(code1+"/"+code2);
+		b.setCate(code1+"/"+code2);
+		System.out.println(b);
 		
 		int result = bService.insertTIW(b);
 		
