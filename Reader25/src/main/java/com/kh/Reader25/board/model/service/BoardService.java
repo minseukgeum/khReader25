@@ -21,6 +21,11 @@ public interface BoardService {
 	Board selectTIWBoard(int boardNo);
 
 	int insertBoardAndFiles(Board b, ArrayList<Attachment> atList);
+	Board selectupTIWBoard(int boardNo);
+
+	int updateTIWBoard(Board b);
+
+	int deleteTIWBoard(int boardNo);
 
 	
 }

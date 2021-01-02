@@ -36,7 +36,10 @@
 	border-radius: 3px 0px 0px 3px;
 	color: rgba(85, 83, 83, 1);
 }
-
+.con_td{
+		margin-left: 40%; margin-right: 40%;
+		margin-top:15%; margin-bottom: 15%;
+	}
 </style>
 </head>
 <body>
@@ -49,7 +52,7 @@
 		</div>
 		<br>
 		<div id ="content">
-			<table id="con_table" border="1px" align="center">
+			<table id="con_table" align="center">
 				<tr>
 					<td colspan="3" rowspan="4" id="img_td"><img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg"></td>
 					<td width="55px">
@@ -61,7 +64,7 @@
 					<td width="55px">
 						<div class="cate1">cate</div>
 					</td>
-					<td colspan="2">${ board.code }</td>
+					<td colspan="2">${ board.cate }</td>
 					<td width="55px">
 						<div class="date">date</div>
 					</td>
@@ -71,7 +74,7 @@
 					<td width="55px">
 						<div class="cate2">원작</div>
 					</td>
-					<td colspan="5">${ board.code }</td>
+					<td colspan="5">${ board.cate }</td>
 				</tr>
 				<tr>
 					<td id="w_td" width="55px">
@@ -85,46 +88,39 @@
 					<td id="c_td" width="55px">
 						<div class="count">조회수</div>
 					</td>
-					<td>${ board.comCount }</td>
+					<td>${ board.bCount }</td>
 				</tr>
 				<tr>
-					<td colspan="9">내용</td>
+					<td colspan="9">
+						<div id="con_td">
+							${ board.bContent }
+						</div>
+					</td>
 				</tr>
+				
+				<c:url var="TIWUpdateView" value="TIWUpdateView.to">
+					<c:param name="boardNo" value="${ board.boardNo }"/>
+					<c:param name="page" value="${ page }"/>
+				</c:url>
+				<c:url var="TIWDelete" value="TIWDelete.to">
+					<c:param name="boardNo" value="${ board.boardNo }"/>
+				</c:url>
+				<c:url var="goTIWList" value="goTIWList.to">
+					<c:param name="page" value="${ page }"/>
+				</c:url>
+				
+				<c:if test="${ loginUser.id eq board.userId }">
+					<tr>
+						<td colspan="9" align="center">
+							<button class="btn1" onclick="location.href='${ TIWUpdateView }'">수정하기</button>
+							<button class="btn2" onclick="location.href='${ TIWDelete }'">삭제하기</button>
+						</td>
+					</tr>
+				</c:if>
 			</table>
+			
 		</div>
-		<!-- <div class="content">
-			<img id="myimg" alt="기본이미지" src="resources/images/logo/Leader25.jpg">
-			<div class="title-div">
-			<div class="title">title</div>
-			<input type="text" name="bTitle" id="title" placeholder="제목을 입력해주세요">
-			</div>
-			<select name="code1">
-				<option selected="selected">분류</option>
-				<option>총류</option>
-				<option>철학</option>
-				<option>종교</option>
-				<option>사회 과학</option>
-				<option>자연 과학</option>
-				<option>기술 과학</option>
-				<option>예술</option>
-				<option>언어</option>
-				<option>문학</option>
-				<option>역사</option>
-			</select>
-			<select id="book" name="code2">
-				<option selected="selected">책 이름</option>
-				<option>총류</option>
-				<option>철학</option>
-				<option>종교</option>
-				<option>사회 과학</option>
-				<option>자연 과학</option>
-				<option>기술 과학</option>
-				<option>예술</option>
-				<option>언어</option>
-				<option>문학</option>
-				<option>역사</option>
-			</select>
-		</div> -->
+		
 		
 	
 	

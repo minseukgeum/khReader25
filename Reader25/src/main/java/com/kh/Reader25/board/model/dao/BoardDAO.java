@@ -58,5 +58,14 @@ public class BoardDAO {
 	public int insertAttachmentList(SqlSessionTemplate sqlSession, ArrayList<Attachment> atList) {
 		return sqlSession.insert("boardMapper.insertAttachmentList", atList);
 	}
+	public int updateTIWBoard(SqlSessionTemplate sqlSession, Board b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateTIWBoard", b);
+	}
+
+	public int deleteTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
+	}
 
 }

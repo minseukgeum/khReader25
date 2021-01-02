@@ -68,7 +68,25 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	public Board selectupTIWBoard(int boardNo) {
+		Board b = null;
+		
+		b = bDAO.selectTIWBoard(sqlSession, boardNo);
+		
+		return b;
+	}
 
+	@Override
+	public int updateTIWBoard(Board b) {
+		// TODO Auto-generated method stub
+		return bDAO.updateTIWBoard(sqlSession, b);
+	}
+
+	@Override
+	public int deleteTIWBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return bDAO.deleteTIWBoard(sqlSession, boardNo);
+	}
 
 	
 	
