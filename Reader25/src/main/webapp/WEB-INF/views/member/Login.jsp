@@ -7,12 +7,12 @@
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/login.css" type="text/css">
+<link rel="stylesheet" href="${contextPath}/resources/css/member/login.css" type="text/css">
 
 <style>
 .outer{
 		width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
-		margin-top:100px; margin-bottom: 5%;
+		margin-top:20px; margin-bottom: 5%;
 	}
 </style>
 </head>
