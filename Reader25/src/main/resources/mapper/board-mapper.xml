@@ -29,11 +29,64 @@
 	</resultMap>
 	
 	<!-- TIW 관련 mapper -->
+	
+	<select id="getTIWListCount" resultType="_int">
+		select count(*)
+		from board
+		where code='5' and b_status='Y'
+	</select>
+	
+	<select id="selectTIWList" resultMap="boardResultSet">
+		select *
+		from board
+		where code='5' and b_status='Y'
+		order by BOARD_NO desc
+	</select>
+	
 	<insert id="insertTIW" parameterType="Board">
 		insert into board
 		values (seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
 				default, sysdate, sysdate, #{cate}, '5', #{userId})
 	</insert>
 	
+	<update id="addTIWReadCount" parameterType="_int">
+		update board
+		set B_COUNT = B_COUNT + 1
+		where BOARD_NO=#{BOARD_NO}
+	</update>
+	
+	<select id="selectTIWBoard" parameterType="_int" resultMap="boardResultSet">
+		select *
+		from board
+		where BOARD_NO=#{BOARD_NO} and b_status='Y'
+	</select>
+	
+	<update id="updateTIWBoard">
+		update board
+		set B_TITLE=#{bTitle}, B_CONTENT=#{bContent}, CATE=#{cate}, UPDATE_DAY=sysdate
+		where BOARD_NO=#{boardNo}
+	</update>
+	
+	<update id="deleteTIWBoard">
+		update board
+		set B_STATUS='N'
+		where BOARD_NO=#{boardNo}
+	</update>
+	
 	<!-- TIW 관련 mapper -->
+	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
+				default, sysdate, sysdate, null, #{code}, #{userId})
+	</insert>
+	
+	<insert id="insertAttachmentList" parameterType="java.util.List">
+		insert into attachment
+		values
+		<foreach collection="list" item="at" separator=" , ">
+			(seq_atc.nextval, #{at.atcLevel},#{at.atCode},#{at.Origin},#{at.atcName},#{at.atcPath},sysdate,default,seq_bid.currentval )
+		</foreach>
+	</insert>
+	
 </mapper>

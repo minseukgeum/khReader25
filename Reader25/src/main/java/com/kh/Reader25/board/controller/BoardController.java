@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
@@ -61,9 +62,20 @@ public class BoardController {
 							HttpServletRequest request) {
 		System.out.println(uploadFile);
 		if(uploadFile != null && !uploadFile.isEmpty()) {
-//			String renameFileName= saveFile(uploadFile, request);
+			
+			b.setCode(0);
+			ArrayList<Attachment> atList = new ArrayList<Attachment>();
+			while(uploadFile.getOriginalFilename() != null) {
+				Attachment at = saveFile(uploadFile, request);
+				at.setAtvLevel(1);
+				atList.add(at);
+			}
+			int result = bService.insertBoardAndFiles(b, atList);
+			
+			if(result <= 0) {
+				throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
+			}
 		}
-		
 		return "redirect:notice.no";
 	}
 	
@@ -124,8 +136,28 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
 	@RequestMapping("goTIWList.to")
-	public String goTIWList() {
-		return "TIWListForm";
+	public ModelAndView goTIWList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = bService.getTIWListCount();
+		
+		PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+		
+		ArrayList<Board> list = bService.selectTIWList(pi);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.setViewName("TIWListForm");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 전체 조회에 실패했습니다.");
+		}
+		
+		return mv;
 	}
 	
 	// 오늘은 나도 작가 = 5 글 작성 폼 이동 컨트롤러
@@ -143,16 +175,86 @@ public class BoardController {
 		//System.out.println(code1);
 		//System.out.println(code2);
 		
-		b.setCode(code1+"/"+code2);
+		b.setCate(code1+"/"+code2);
+		//System.out.println(b);
 		
 		int result = bService.insertTIW(b);
 		
 		if(result > 0) {
-			return "TIWListForm";
+			return "redirect:goTIWList.to";
 		} else {
 			throw new BoardException("게시글 등록에 실패하였습니다.");
 		}
 	}
+	
+	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
+	@RequestMapping("TIWdetail.to")
+	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		//System.out.println("boardNo"+boardNo);
+		Board board = bService.selectTIWBoard(boardNo);
+		
+		if(board != null) {
+			mv.addObject("board", board)
+				.addObject("page", page)
+				.setViewName("TIWDetailView");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
+	@RequestMapping("TIWUpdateView.to")
+	public ModelAndView TIWUpdateView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		Board board = bService.selectupTIWBoard(boardNo);
+		
+		mv.addObject("board", board)
+		  .addObject("page", page)
+		  .setViewName("TIWUpdateForm");
+		
+		return mv;
+	}
+	
+	// 오늘은 나도 작가 = 5 글 작성 컨트롤러
+	@RequestMapping("TIWupdate.to")
+	public ModelAndView TIWupdate(@ModelAttribute Board b, @RequestParam("code1") String code1,
+							@RequestParam("code2") String code2,@RequestParam("boardNo") int boardNo,
+							@RequestParam("page") int page, HttpServletRequest request,
+							ModelAndView mv) {
+		
+		b.setCate(code1+"/"+code2);
+		b.setBoardNo(boardNo);
+		
+		int result = bService.updateTIWBoard(b);
+		System.out.println(b);
+		System.out.println(result);
+		System.out.println(b.getBoardNo());
+		
+		if(result > 0) {
+			mv.addObject("page", page)
+			  .setViewName("redirect:TIWdetail.to?boardNo=" + b.getBoardNo());
+		} else {
+			throw new BoardException("게시글 등록을 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	//오늘은 나도 작가 = 5 게시글 삭제 
+		@RequestMapping("TIWDelete.to")
+		public String boardDelete(@RequestParam("boardNo") int boardNo) {
+			
+			int result = bService.deleteTIWBoard(boardNo);
+			
+			if(result > 0) {
+				return "redirect:goTIWList.to";
+			} else {
+				throw new BoardException("게시글 삭제에 실패했습니다.");
+			}
+		}
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 
@@ -200,7 +302,7 @@ public class BoardController {
 	}
 	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
-	public String saveFile(MultipartFile file, HttpServletRequest request) {
+	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
 		File folder = new File(savePath);
@@ -212,6 +314,13 @@ public class BoardController {
 		String renameFileName = sdf.format(new Date(System.currentTimeMillis())) 
 								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
 		String renamePath = folder + "\\" + renameFileName;
+		Attachment at = new Attachment();
+		at.setAtcCode(0);
+		at.setAtcOrigin(file.getOriginalFilename());
+		at.setAtcName(renameFileName);
+		at.setAtcPath(savePath);
+		at.setAtvLevel(1);
+		
 		try {
 			file.transferTo(new File(renamePath));
 		} catch (IllegalStateException e) {
@@ -219,7 +328,7 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return renameFileName;
+		return at;
 	}
 
 }

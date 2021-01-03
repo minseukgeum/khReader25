@@ -256,6 +256,7 @@ section {
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" name="bTitle" id="bTitle" placeholder="제목을 작성하세요">
+				<input type="hidden" name="userId" value="${ loginUser.id }">
 			</div>
 			<div class="contents">
 					<textarea name="bContent" id="smart_edit" style="width:100%;"></textarea>

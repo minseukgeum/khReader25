@@ -24,6 +24,8 @@
 	
 	<h2 class="txt_TIW" align="center">오늘은 나도 작가</h2>
 	
+	<h3 align="center">총 게시글 갯수 : ${ pi.listCount }</h3>
+	
 		<table id="TIWTable" align="center">
 			<tr>
 				<th>글 번호</th>
@@ -31,7 +33,30 @@
 				<th>제목</th>
 				<th>작가</th>
 				<th>작성일</th>
+				<th>조회수</th>
 			</tr>
+			<c:forEach var="b" items="${ list }">
+			<tr class="contentTR">
+				<td align="center">${ b.boardNo }</td>
+				<td align="center">${ b.cate }</td>
+				<td align="left">
+					<c:if test="${ !empty loginUser }">
+						<c:url var="TIWdetail" value="TIWdetail.to">
+							<c:param name="boardNo" value="${ b.boardNo }"/>
+							<c:param name="page" value="${ pi.currentPage }"/>
+						</c:url>
+						<a href="${ TIWdetail }">${ b.bTitle }</a>
+					</c:if>
+					<c:if test="${ empty loginUser }">
+						${ b.bTitle }		
+					</c:if>
+				</td>
+				
+				<td align="center">${ b.userId }</td>
+				<td align="center">${ b.enrollDay }</td>
+				<td align="center">${ b.bCount }</td>
+			</tr>
+			</c:forEach>
 		</table>
 		
 		<!-- 오늘은 나도 작가 리스트 페이징 부분 -->
