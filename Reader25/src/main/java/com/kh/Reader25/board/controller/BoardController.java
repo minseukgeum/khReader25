@@ -67,9 +67,9 @@ public class BoardController {
 			for(int i = 0; i < uploadFile.length; i++ ){
 				Attachment at = saveFile(uploadFile[i], request);
 				if(i == uploadFile.length) {
-					at.setAtvLevel(0);
+					at.setAtcLevel(0);
 				}else {
-					at.setAtvLevel(1);
+					at.setAtcLevel(1);
 				}
 				atList.add(at);
 			}
@@ -323,7 +323,7 @@ public class BoardController {
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);
-		at.setAtvLevel(1);
+		at.setAtcLevel(1);
 		
 		try {
 			file.transferTo(new File(renamePath));

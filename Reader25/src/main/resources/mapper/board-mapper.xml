@@ -82,10 +82,20 @@
 	</insert>
 	
 	<insert id="insertAttachmentList" parameterType="java.util.List">
-		insert into attachment
-		values
-		<foreach collection="list" item="at" separator=",">
-			(seq_atc.nextval, #{at.atcLevel},#{at.atcCode},#{at.atcOrigin},#{at.atcName},#{at.atcPath},sysdate,default,seq_bid.currentval )
+			insert all into attachment
+			values
+		<foreach collection="list" item="item" separator=" , " >
+			(
+				seq_atc.nextval,
+				#{item.atcLevel},
+				#{item.atcCode},
+				#{item.atcOrigin},
+				#{item.atcName},
+				#{item.atcPath},
+				sysdate,
+				default,
+				seq_bid.currentval
+			)
 		</foreach>
 	</insert>
 	
