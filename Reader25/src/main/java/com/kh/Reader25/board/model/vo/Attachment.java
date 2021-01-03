@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Attachment {
 	private int atcNo;
-	private int atvLevel;
+	private int atcLevel;
 	private int atcCode; //첨부위치
 	private String atcOrigin; // 원본파일명
 	private String atcName; // 변경한 파일명
@@ -19,7 +19,7 @@ public class Attachment {
 			Date atcDate, String atcStatus, int boardNo) {
 		super();
 		this.atcNo = atcNo;
-		this.atvLevel = atvLevel;
+		this.atcLevel = atvLevel;
 		this.atcCode = atcCode;
 		this.atcOrigin = atcOrigin;
 		this.atcName = atcName;
@@ -37,12 +37,12 @@ public class Attachment {
 		this.atcNo = atcNo;
 	}
 
-	public int getAtvLevel() {
-		return atvLevel;
+	public int getAtcLevel() {
+		return atcLevel;
 	}
 
-	public void setAtvLevel(int atvLevel) {
-		this.atvLevel = atvLevel;
+	public void setAtcLevel(int atcLevel) {
+		this.atcLevel = atcLevel;
 	}
 
 	public int getAtcCode() {
@@ -103,7 +103,7 @@ public class Attachment {
 
 	@Override
 	public String toString() {
-		return "Attachment [atcNo=" + atcNo + ", atvLevel=" + atvLevel + ", atcCode=" + atcCode + ", atcOrigin="
+		return "Attachment [atcNo=" + atcNo + ", atcLevel=" + atcLevel + ", atcCode=" + atcCode + ", atcOrigin="
 				+ atcOrigin + ", atcName=" + atcName + ", atcPath=" + atcPath + ", atcDate=" + atcDate + ", atcStatus="
 				+ atcStatus + ", boardNo=" + boardNo + "]";
 	}
