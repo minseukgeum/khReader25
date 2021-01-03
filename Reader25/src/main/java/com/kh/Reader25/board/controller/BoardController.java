@@ -82,7 +82,24 @@ public class BoardController {
 			throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
 		}
 	}
-	
+	//(4) 상세보기
+	@RequestMapping("ndetail.no")
+	public ModelAndView boardReviewDetailView(@RequestParam("boardNo") int boardNo,
+										@RequestParam("page") int page, ModelAndView mv) {
+		Board board = bService.selectBoard(boardNo);
+		ArrayList<Attachment> atList = bService.selectAttachmentList(boardNo);
+		if(board != null) {
+			mv.addObject("board", board)
+			   .addObject("page", page)
+			   .setViewName("noticeDetail");
+			if(atList != null) {
+				mv.addObject("atList", atList);
+			}
+		}else {
+			throw new BoardException("공지사항 상세보기가 실패하였습니다.");
+		}
+		return mv;
+	}
 	// 문의사항 = 1----------------------------------------------------
 	@RequestMapping("inquiry.in")
 	public ModelAndView inquiryList(@RequestParam(value="page", required=false) Integer page,

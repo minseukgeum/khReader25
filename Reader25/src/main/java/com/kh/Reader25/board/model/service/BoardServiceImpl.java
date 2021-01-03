@@ -88,6 +88,22 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.deleteTIWBoard(sqlSession, boardNo);
 	}
 
+	@Override
+	public Board selectBoard(int boardNo) {
+		Board b = null;
+		// 1. 조회수 증가
+		int result = bDAO.addReadCount(sqlSession, boardNo);
+		if(result > 0) {
+			b = bDAO.selectBoard(sqlSession, boardNo);
+		}
+		return b;
+	}
+
+	@Override
+	public ArrayList<Attachment> selectAttachmentList(int boardNo) {
+		return bDAO.selectAttachmentList(sqlSession, boardNo);
+	}
+
 	
 	
 }

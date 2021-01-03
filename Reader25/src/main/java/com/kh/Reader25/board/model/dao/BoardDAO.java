@@ -68,4 +68,16 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
 	}
 
+	public int addReadCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.addReadCount", boardNo);
+	}
+
+	public Board selectBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectBoard", boardNo);
+	}
+
+	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
+	}
+
 }
