@@ -17,6 +17,9 @@
            width: 900px; min-height: 400px; margin-left: auto; margin-right: auto; 
 			margin-top:8%; margin-bottom: 10%;
            font-family: 카페24 아네모네에어; font-size:25px;}
+input{font-family: 카페24 아네모네에어;}
+.text h3 { font-size:20px; font-family: 카페24 아네모네에어;}
+.text p { font-size:14px; font-family: 카페24 아네모네에어;}
 </style>
 </head>
 <body>
