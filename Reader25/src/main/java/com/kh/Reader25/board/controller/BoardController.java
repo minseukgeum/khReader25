@@ -68,8 +68,9 @@ public class BoardController {
 				Attachment at = saveFile(uploadFile[i], request);
 				if(i == uploadFile.length) {
 					at.setAtvLevel(0);
+				}else {
+					at.setAtvLevel(1);
 				}
-				at.setAtvLevel(1);
 				atList.add(at);
 			}
 		}
