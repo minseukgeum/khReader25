@@ -119,6 +119,22 @@
 				</c:if>
 			</table>
 			
+			<table class="replyTable">
+				<tr>
+					<td><textarea rows="3" cols="55" id="rContent"></textarea></td>
+					<td><button id="rSubmit">등록하기</button></td>
+				</tr>
+			</table>
+			
+			<table class="replyTable" id="rtb">
+				<thead>
+					<tr>
+						<td colspan=2><b id="rCount"></b></td>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			
 		</div>
 		
 		

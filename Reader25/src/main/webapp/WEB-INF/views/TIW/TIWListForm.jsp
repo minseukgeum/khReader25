@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
-<link rel="stylesheet" href="${contextPath}/resources/css/TIW.css" type="text/css">
+<link rel="stylesheet" href="${contextPath}/resources/css/TIW/TIWListForm.css" type="text/css">
 
 <style>
 .outer{
