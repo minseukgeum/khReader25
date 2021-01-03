@@ -67,9 +67,9 @@ public class BoardController {
 			for(int i = 0; i < uploadFile.length; i++ ){
 				Attachment at = saveFile(uploadFile[i], request);
 				if(i == uploadFile.length) {
-					at.setAtvLevel(0);
+					at.setAtcLevel(0);
 				}else {
-					at.setAtvLevel(1);
+					at.setAtcLevel(1);
 				}
 				atList.add(at);
 			}
@@ -82,7 +82,24 @@ public class BoardController {
 			throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
 		}
 	}
-	
+	//(4) 상세보기
+	@RequestMapping("ndetail.no")
+	public ModelAndView boardReviewDetailView(@RequestParam("boardNo") int boardNo,
+										@RequestParam("page") int page, ModelAndView mv) {
+		Board board = bService.selectBoard(boardNo);
+		ArrayList<Attachment> atList = bService.selectAttachmentList(boardNo);
+		if(board != null) {
+			mv.addObject("board", board)
+			   .addObject("page", page)
+			   .setViewName("noticeDetail");
+			if(atList != null) {
+				mv.addObject("atList", atList);
+			}
+		}else {
+			throw new BoardException("공지사항 상세보기가 실패하였습니다.");
+		}
+		return mv;
+	}
 	// 문의사항 = 1----------------------------------------------------
 	@RequestMapping("inquiry.in")
 	public ModelAndView inquiryList(@RequestParam(value="page", required=false) Integer page,
@@ -323,7 +340,7 @@ public class BoardController {
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);
-		//at.setAtvLevel(1);
+
 		
 		try {
 			file.transferTo(new File(renamePath));
@@ -391,11 +408,16 @@ public class BoardController {
 				
 		}
 		
+		System.out.println( lists[0]);
+		
 		
 		
 		String condition = lists[0];
 		
 		String value =  lists[1];
+		
+		int code = Integer.parseUnsignedInt(lists[2]);
+		
 		
 
 		
@@ -410,21 +432,28 @@ public class BoardController {
 		
 		SearchCondition sc = new SearchCondition();
 		
-		if(condition.equals("writer")) {
+		
+		sc.setCode(code);
+		
+		if(condition.equals("ID")) {
 			
-			sc.setWriter(value);
+			sc.setmId(value);
 			
-		}else if (condition.equals("title")) {
+		}else if (condition.equals("Title")) {
 			
 			sc.setTitle(value);;
-		}else if (condition.equals("content")) {
+		}else if (condition.equals("이름")) {
 			
-			sc.setContent(value);;
+			sc.setContent(value);
 		}
+		
+		System.out.println(sc);
 		
 		
 		try {
 			int listCount = bService.getSearchResultListCount(sc);
+			
+			System.out.println("listcount= "+ listCount);
 			
 			
 			

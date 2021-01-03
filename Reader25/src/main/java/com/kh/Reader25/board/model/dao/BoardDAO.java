@@ -70,11 +70,42 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
 	}
 
+
+
+
+	public int addReadCount(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.addReadCount", boardNo);
+	}
+
+	public Board selectBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectBoard", boardNo);
+	}
+
+	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
+
+	}
+	
+	
 	public int getSearchResultListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
 		
 		
 		
-		return sqlSession.update("boardMapper.SearchResultListCount", sc);
+		return sqlSession.selectOne("boardMapper.SearchResultListCount", sc);
+		
+	}
+
+	public ArrayList<Board> selectSeachResultList(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit(); 
+		
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		
+		return  (ArrayList)sqlSession.selectList("boardMapper.selectSeachResultList",sc , rowBounds);
+		
+		
 	}
 
 }

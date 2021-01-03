@@ -3,23 +3,34 @@ package com.kh.Reader25.board.model.vo;
 public class SearchCondition {
 	
 	
-	private String writer;
+	private String mId;
 	
 	private String title;
 	
 	private String content;
 	
+	private int code;
+	
 	
 	public SearchCondition() {}
 
 
-	public String getWriter() {
-		return writer;
+	public SearchCondition(String mId, String title, String content, int code) {
+		super();
+		this.mId = mId;
+		this.title = title;
+		this.content = content;
+		this.code = code;
 	}
 
 
-	public void setWriter(String writer) {
-		this.writer = writer;
+	public String getmId() {
+		return mId;
+	}
+
+
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 
 
@@ -43,18 +54,34 @@ public class SearchCondition {
 	}
 
 
-	public SearchCondition(String writer, String title, String content) {
-		super();
-		this.writer = writer;
-		this.title = title;
-		this.content = content;
+	public int getCode() {
+		return code;
+	}
+
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 
 
 	@Override
 	public String toString() {
-		return "SearchCondition [writer=" + writer + ", title=" + title + ", content=" + content + "]";
+		return "SearchCondition [mId=" + mId + ", title=" + title + ", content=" + content + ", code=" + code + "]";
 	}
+	
+	
+
+
+
+
+
+
+
+
+
+
+	
+
 	
 	
 	

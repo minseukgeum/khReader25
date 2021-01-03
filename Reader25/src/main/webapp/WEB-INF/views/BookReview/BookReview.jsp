@@ -264,11 +264,11 @@ select::-ms-expand {
 			<!-- 다음 -->
 			<c:if test="${ pi.currentPage >= pi.endPage }">
 				<c:url var="next" value="${ loc }">
-					<c:param name="page" value="${ pi.currnetPage + 1 }"/>
+					<c:param name="page" value="${ pi.currentPage + 1 }"/>
 				</c:url>
 				<a href="${next }">&gt;</a>
 			</c:if>
-			<c:if test="${pi.currnetPage < pi.endPage }">
+			<c:if test="${pi.currentPage < pi.endPage }">
 				<p>&gt;</p>
 			</c:if>
 			

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+
 	<select id="selectListCount" resultType="_int">
 		select count(*)
 		from board
@@ -82,19 +83,48 @@
 	</insert>
 	
 	<insert id="insertAttachmentList" parameterType="java.util.List">
-		insert into attachment
-		values
-		<foreach collection="list" item="at" separator=",">
-			(seq_atc.nextval, #{at.atcLevel},#{at.atcCode},#{at.atcOrigin},#{at.atcName},#{at.atcPath},sysdate,default,seq_bid.currentval )
+		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" >
+			into attachment
+			values(
+				seq_atc.nextval,
+				#{item.atcLevel},
+				#{item.atcCode},
+				#{item.atcOrigin},
+				#{item.atcName},
+				#{item.atcPath},
+				sysdate,
+				default,
+				seq_bid.currentval
+			)
 		</foreach>
 	</insert>
 	
+
 	
-	<select id="SearchResultListCount" resultType="_int">
+	<select id="SearchResultListCount" parameterType="SearchCondition" resultType="_int">
 	
 		select count(*)
 		from board
-		where code='5' and b_status='Y' 
+		where code= #{code} and b_status='Y'
+		
+		
+		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
 		
 		
 	
@@ -102,4 +132,67 @@
 	</select>
 	
 	
+	<select id="selectSeachResultList" parameterType="SearchCondition" resultMap="boardResultSet">
+ 	
+ 	
+ 		select *
+ 		from board join member using( user_id)
+ 		where b_status = 'Y' and code=#{code}
+ 
+ 		
+ 		
+ 		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
+ 	
+ 		order by BOARD_NO desc
+ 	
+ 	</select>
+	
+	
+
+	<update id="addReadCount">
+		update board
+		set b_count = b_count + 1
+		where board_no = #{boardNo}
+	</update>
+	
+	<select id="selectBoard" resultType="_int">
+		select * 
+		from board
+		where board_no = #{boardNo} and b_status = 'Y'
+	</select>
+	
+	<select id="selectAttachmentList" resultMap="attachmentResultSet">
+		select *
+		from attachment
+		where board_no = #{boardNo} and atc_status = 'Y'
+	</select>
+	
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="atcNo" column="ATC_NO"/>
+		<result property="atcLevel" column="ATC_LEVEL"/>
+		<result property="atcCode" column="ATC_CODE"/>
+		<result property="atcOrigin" column="ATC_ORIGIN"/>
+		<result property="atcName" column="ATC_NAME"/>
+		<result property="atcPath" column="ATC_PATH"/>
+		<result property="atcDate" column="ATC_DATE"/>
+		<result property="atcStatus" column="ATC_STATUS"/>
+		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+
 </mapper>

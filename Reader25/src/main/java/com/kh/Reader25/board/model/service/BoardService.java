@@ -29,7 +29,15 @@ public interface BoardService {
 
 	int deleteTIWBoard(int boardNo);
 
+
 	int getSearchResultListCount(SearchCondition sc);
+
+	Board selectBoard(int boardNo);
+
+	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
+	ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi);
+
 
 	
 }

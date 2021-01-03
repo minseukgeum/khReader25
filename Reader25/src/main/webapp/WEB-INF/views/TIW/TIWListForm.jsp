@@ -45,10 +45,10 @@
 							<c:param name="boardNo" value="${ b.boardNo }"/>
 							<c:param name="page" value="${ pi.currentPage }"/>
 						</c:url>
-						<a href="${ TIWdetail }">${ b.bTitle }</a>
+						<a href="${ TIWdetail }">${ b.bTitle }(${ b.comCount })	</a>
 					</c:if>
 					<c:if test="${ empty loginUser }">
-						${ b.bTitle }		
+						${ b.bTitle }(${ b.comCount })		
 					</c:if>
 				</td>
 				
