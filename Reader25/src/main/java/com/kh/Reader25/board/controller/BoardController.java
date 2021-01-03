@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
@@ -22,6 +21,7 @@ import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
 
 @Controller
@@ -180,7 +180,7 @@ public class BoardController {
 		//System.out.println(code2);
 		
 		b.setCate(code1+"/"+code2);
-		//System.out.println(b);
+//		System.out.println(b);
 		
 		int result = bService.insertTIW(b);
 		
@@ -323,7 +323,7 @@ public class BoardController {
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);
-		at.setAtvLevel(1);
+		//at.setAtvLevel(1);
 		
 		try {
 			file.transferTo(new File(renamePath));
@@ -371,6 +371,90 @@ public class BoardController {
 
 			throw new BoardException("마이페이지 게시글 조회 실패");
 		}
+
+		return mv;
+
+	}
+	
+	
+	@RequestMapping("mSearch.me")
+	public ModelAndView mSearchList(@RequestParam String inFo, ModelAndView mv , @RequestParam(value = "page", required = false) Integer page) {
+		// 마이페이지에서 검색
+		
+		
+		
+		String [] lists = inFo.split(",");
+		
+		for(String s : lists) {
+			
+			System.out.println(s);
+				
+		}
+		
+		
+		
+		String condition = lists[0];
+		
+		String value =  lists[1];
+		
+
+		
+		
+		int currentPage = 1 ;
+		
+		if(page != null) {
+			
+			currentPage = page;
+			
+		}
+		
+		SearchCondition sc = new SearchCondition();
+		
+		if(condition.equals("writer")) {
+			
+			sc.setWriter(value);
+			
+		}else if (condition.equals("title")) {
+			
+			sc.setTitle(value);;
+		}else if (condition.equals("content")) {
+			
+			sc.setContent(value);;
+		}
+		
+		
+		try {
+			int listCount = bService.getSearchResultListCount(sc);
+			
+			
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			
+			ArrayList<Board> list = bService.selectSeachResultList(sc,pi);
+			
+			System.out.println(list);
+			
+			mv.addObject("list", list);
+			
+			mv.addObject("pi", pi);
+			
+			mv.addObject("searchCondition",condition);
+			
+			mv.addObject("searchValue",value);
+			
+			
+			mv.setViewName("myPageList");
+			
+			
+		} catch (BoardException e) {
+			
+			
+			throw new BoardException("마이페이지 게시글 검색 실패");
+			
+		}
+
+		
 
 		return mv;
 

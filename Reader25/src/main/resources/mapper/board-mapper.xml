@@ -89,4 +89,17 @@
 		</foreach>
 	</insert>
 	
+	
+	<select id="SearchResultListCount" resultType="_int">
+	
+		select count(*)
+		from board
+		where code='5' and b_status='Y' 
+		
+		
+	
+	
+	</select>
+	
+	
 </mapper>

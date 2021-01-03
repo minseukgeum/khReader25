@@ -1,10 +1,12 @@
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 public interface BoardService {
 
@@ -26,6 +28,8 @@ public interface BoardService {
 	int updateTIWBoard(Board b);
 
 	int deleteTIWBoard(int boardNo);
+
+	int getSearchResultListCount(SearchCondition sc);
 
 	
 }

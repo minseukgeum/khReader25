@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.kh.Reader25.board.model.dao.BoardDAO;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Service("bService")
 public class BoardServiceImpl implements BoardService{
@@ -86,6 +88,14 @@ public class BoardServiceImpl implements BoardService{
 	public int deleteTIWBoard(int boardNo) {
 		// TODO Auto-generated method stub
 		return bDAO.deleteTIWBoard(sqlSession, boardNo);
+	}
+
+	
+
+	@Override
+	public int getSearchResultListCount(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchResultListCount(sqlSession, sc);
 	}
 
 	

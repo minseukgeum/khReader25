@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Repository("bDAO")
 public class BoardDAO {
@@ -66,6 +68,13 @@ public class BoardDAO {
 	public int deleteTIWBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
+	}
+
+	public int getSearchResultListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		
+		
+		
+		return sqlSession.update("boardMapper.SearchResultListCount", sc);
 	}
 
 }
