@@ -109,18 +109,17 @@
 				
 				<c:forEach var="b" items="${bList}">
 					<tr class="contentTR">
+						<td>${ b.boardNo }</td>
 						<td>
 							<c:url var="noDetail" value="ndetail.no">
-								<c:param name="boardNo" value="${ bList.boardNo }"/>
+								<c:param name="boardNo" value="${ b.boardNo }"/>
 								<c:param name="page" value="${pi.currentPage }"/>
 							</c:url>
-							<a href="${ noDetail }">${ bList.boardNo }</a>
+							<a href="${ noDetail }">${ b.bTitle }</a>
 						</td>
-						
-						<td>${ bList.bTitle }</td>
-						<td>${ bList.bCount }</td>
-						<td>${ bList.comCount }</td>
-						<td>${ bList.enrollDay }</td>
+						<td>${ b.bCount }</td>
+						<td>${ b.comCount }</td>
+						<td>${ b.enrollDay }</td>
 					</tr>
 				</c:forEach>
 			</table>

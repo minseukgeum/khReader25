@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
@@ -58,25 +59,27 @@ public class BoardController {
 	// (3) 글작성
 	@RequestMapping("ninsert.no")
 	public String insertNotice(@ModelAttribute Board b,
-							@RequestParam("uploadFile") MultipartFile uploadFile,
+							@RequestParam("uploadFile") MultipartFile[] uploadFile,
 							HttpServletRequest request) {
-		System.out.println(uploadFile);
-		if(uploadFile != null && !uploadFile.isEmpty()) {
-			
-			b.setCode(0);
-			ArrayList<Attachment> atList = new ArrayList<Attachment>();
-			while(uploadFile.getOriginalFilename() != null) {
-				Attachment at = saveFile(uploadFile, request);
+		ArrayList<Attachment> atList =  new ArrayList<Attachment>();
+		if(uploadFile.length != 0) {
+			b.setCode(0); //공지사항 코드
+			for(int i = 0; i < uploadFile.length; i++ ){
+				Attachment at = saveFile(uploadFile[i], request);
+				if(i == uploadFile.length) {
+					at.setAtvLevel(0);
+				}
 				at.setAtvLevel(1);
 				atList.add(at);
 			}
-			int result = bService.insertBoardAndFiles(b, atList);
-			
-			if(result <= 0) {
-				throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
-			}
 		}
-		return "redirect:notice.no";
+		int result = bService.insertBoardAndFiles(b, atList);
+
+		if(result > 0) {
+			return "redirect:notice.no";
+		}else {
+			throw new BoardException("공지사항 게시글 작성에 실패하였습니다.");
+		}
 	}
 	
 	// 문의사항 = 1----------------------------------------------------
