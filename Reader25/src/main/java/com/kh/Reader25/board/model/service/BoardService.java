@@ -27,5 +27,9 @@ public interface BoardService {
 
 	int deleteTIWBoard(int boardNo);
 
+	Board selectBoard(int boardNo);
+
+	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
 	
 }

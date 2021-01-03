@@ -22,7 +22,7 @@
 #img_td{width:40%}
 #myimg{
 		max-width: 300px;
-		margin-left: 10%;
+		margin-left: 5%;
 		margin-right: 10%;
 	}
 .title, .cate1, .date, .cate2, .writer, .like, .count  {
@@ -114,10 +114,20 @@
 						<td colspan="9" align="center">
 							<button class="btn1" onclick="location.href='${ TIWUpdateView }'">수정하기</button>
 							<button class="btn2" onclick="location.href='${ TIWDelete }'">삭제하기</button>
+							<button class="btn3" onclick="location.href='${ goTIWList }'">목록으로</button>
 						</td>
 					</tr>
 				</c:if>
 			</table>
+			
+			<c:choose>
+			  <c:when test="${mno ne null}">
+			    <a href='javascript: like_func();'><img src='./images/dislike.png' id='like_img'></a>
+			  </c:when>
+			  <c:otherwise>
+			    <a href='javascript: login_need();'><img src='./images/dislike.png'></a>
+			  </c:otherwise>
+			</c:choose>
 			
 			<table class="replyTable">
 				<tr>
