@@ -56,11 +56,11 @@
 <body>
 	<nav>
 		<ul class="nav-ul">
-			<li><a href="memberList.jsp" class="nav-a">회원 정보 조회</a></li>
-			<li><a href="payment.jsp" class="nav-a">결제 리스트</a></li>
-			<li><a href="inquire.jsp" class="nav-a">문의 사항</a></li>
-			<li><a href="notice.jsp" class="nav-a">공지 사항</a></li>
-			<li><a href="statistic.jsp" class="nav-a">통계자료</a></li>
+			<li><a href="admin.ad" class="nav-a">회원 정보 조회</a></li>
+			<li><a href="paylist.ad" class="nav-a">결제 리스트</a></li>
+			<li><a href="inquiry.ad" class="nav-a">문의 사항</a></li>
+			<li><a href="notice.ad" class="nav-a">공지 사항</a></li>
+			<li><a href="statistic.ad" class="nav-a">통계자료</a></li>
 		</ul>
 	</nav>
 </body>

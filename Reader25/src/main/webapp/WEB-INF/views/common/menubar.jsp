@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="${ contextPath }/resources/js/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
 <style>
 	.wrap{background: #F5715C; width: 80%; height: 50px; margin:auto; min-width: 1000px;}
@@ -23,13 +25,26 @@
 </style>
 </head>
 <body>
+
+<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
+
 	<div class="menubar">
 		<div class="small-menu">
 			<ul>
-				<li><a href="/login.me">로그인</a></li>
-				<li class="li"><a href="notice">공지사항</a></li>
-				<li><a href="inquiry">문의사항</a></li>
-			</ul>
+				<c:if test="${ empty sessionScope.loginUser }">
+					<li><a href="loginView.me">로그인</a></li>
+					<li class="li"><a href="notice.no">공지사항</a></li>
+					<li><a href="inquiry.in">문의사항</a></li>
+				</c:if>
+				<c:if test="${ sessionScope.loginUser eq 'admin'}">
+					<li><a href="admin.ad">관리자창</a></li>
+				</c:if>
+				<c:if test="${ !empty sessionScope.loginUser }">
+					<li><a href="logout.me">로그아웃</a></li>
+					<li><a href="mypage.me">마이페이지</a></li>
+					<li class="li"><a href="notice.no">공지사항</a></li>
+					<li><a href="inquiry.in">문의사항</a></li>
+				</c:if>
 		</div>
 		<div class="top_logo">
 			<img
@@ -40,13 +55,24 @@
 		<br clear="all"> <br>
 		<div class="wrap">
 			<nav>
-				<div class="menu" onclick="goHome();">HOME</div>
+				<div class="menu" onclick="home();">HOME</div>
 				<div class="menu" onclick="goNotice();">토론 게시판</div>
-				<div class="menu" onclick="goBoard();">책을 읽고</div>
-				<div class="menu" onclick="goThumbnail0();">오늘 의작가</div>
+				<div class="menu" onclick="goBookReview();">책을 읽고</div>
+				<div class="menu" onclick="goTIW();">오늘의 작가</div>
 				<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
 			</nav>
 		</div>
 	</div>
+	<script>
+		function goBookReview(){
+			location.href = "book.re";
+		}
+		function home(){
+			location.href = "home.do";
+		}
+		function goTIW(){
+			location.href = "goTIWList.to";
+		}
+	</script>
 </body>
 </html>

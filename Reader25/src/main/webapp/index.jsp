@@ -9,7 +9,6 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/views/common/menubar.jsp"></c:import>
-	<!-- 메인 화면 넣기 -->
-	
+	<!-- 메인 화면 넣기!! -->
 </body>
 </html>

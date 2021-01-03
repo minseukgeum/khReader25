@@ -10,8 +10,10 @@
 <style>
   	section{
   		background:rgba(246, 246, 246, 1);
+  		border: 1px solid rgba(246, 246, 246, 1);
   		width: 80%;
   		margin:auto;
+  		min-width: 1000px;
   	}
 	.title-div{
 		width: 80%;
@@ -110,6 +112,7 @@
 </style>
 </head>
 <body>
+	<%@include file="../common/menubar.jsp" %>
 	<section>
 		<form action="#" id="write-book" method="post">
 			<div class="title-div">
