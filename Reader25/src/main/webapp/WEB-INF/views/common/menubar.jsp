@@ -73,6 +73,9 @@
 		function goTIW(){
 			location.href = "goTIWList.to";
 		}
+		function goThumbnail1(){
+			location.href= "gobooklist.bo"
+		}
 	</script>
 </body>
 </html>

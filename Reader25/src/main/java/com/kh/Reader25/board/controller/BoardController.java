@@ -305,6 +305,13 @@ public class BoardController {
 		return mv;
 	}
 	
+	// B ---------------------------------------------------------금민석
+	@RequestMapping("booklist.bo")
+	public String bookListView() {
+		return "noticeWriteForm"; //수정한 jsp파일 이름 집어넣기 !
+	}
+	
+	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
