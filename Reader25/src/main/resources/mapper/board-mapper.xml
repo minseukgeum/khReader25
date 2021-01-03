@@ -82,10 +82,9 @@
 	</insert>
 	
 	<insert id="insertAttachmentList" parameterType="java.util.List">
-			insert all into attachment
-			values
-		<foreach collection="list" item="item" separator=" , " >
-			(
+		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" >
+			into attachment
+			values(
 				seq_atc.nextval,
 				#{item.atcLevel},
 				#{item.atcCode},
