@@ -27,8 +27,6 @@ import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
 
-@SessionAttributes("loginUser")
-
 @Controller
 public class BoardController {
 	@Autowired
@@ -215,22 +213,28 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
-	public ModelAndView boardDetail(@RequestParam("loginUser") String loginUser, @RequestParam("boardNo") int boardNo,
+	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
 									@RequestParam("page") int page, ModelAndView mv) {
 		
-		//System.out.println("boardNo"+boardNo);
+		System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
 		
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		//map.put("loginUser", loginUser);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("loginUser", loginUser);
 		map.put("boardNo", boardNo);
 		
-		//int likeResult = bService.findLike();
+		//int likeResult = bService.findLike(map);
 		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)
 				.setViewName("TIWDetailView");
+			
+			//if(likeResult > 0) {
+			//	mv.addObject(likeResult);
+			//} else {
+			//	mv.addObject(likeResult);
+			//}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
 		}

@@ -116,4 +116,17 @@
 		<result property="atcStatus" column="ATC_STATUS"/>
 		<result property="boardNo" column="BOARD_NO"/>
 	</resultMap>
+	
+	<select id="findLike" resultType="_int">
+		select like_check
+		from liketo
+		where boardno = #{boardNo} and mno = #{loginUser} and like_check = '1'
+	</select>
+	
+	<resultMap type="Liketo" id="LiketoResultSet">
+		<id property="l_no" column="LIKENO"/>
+		<result property="b_no" column="BOARDNO"/>
+		<result property="m_no" column="MNO"/>
+		<result property="l_check" column="LIKE_CHECK"/>
+	</resultMap>
 </mapper>

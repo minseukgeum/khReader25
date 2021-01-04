@@ -44,6 +44,7 @@
 						<c:url var="TIWdetail" value="TIWdetail.to">
 							<c:param name="boardNo" value="${ b.boardNo }"/>
 							<c:param name="page" value="${ pi.currentPage }"/>
+							<c:param name="User" value="${ loginUser.id }"/>
 						</c:url>
 						<a href="${ TIWdetail }">${ b.bTitle }(${ b.comCount })	</a>
 					</c:if>
@@ -103,12 +104,7 @@
 					<a href="${ blistNext }">></a>
 				</c:if>
 			</div>
-		<div class="insertbuttonArea" align="right">
-		
-			<c:url var="writeTIW" value="writeTIW.to">
-				<c:param name="loginUser" value="${ loginUser }"/>
-			</c:url>
-				
+		<div class="insertbuttonArea" align="right">			
 			<c:if test="${ loginUser ne null }">
 				<input type="button" onclick="location.href='${ writeTIW }'" id="writeTIWBtn" class="btn1" value="글쓰기">
 			</c:if>

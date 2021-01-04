@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,20 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Attachment> selectAttachmentList(int boardNo) {
 		return bDAO.selectAttachmentList(sqlSession, boardNo);
 	}
+
+//	@Override
+//	public int findLike(HashMap<String, Object> map) {
+//		int result = bDAO.findLike(sqlSession, map);
+//		
+//		if(result > 0) {
+//			result = 1;
+//		} else {
+//			result = 0;
+//		}
+//		
+//		return result;
+//	}
+
 
 	
 	

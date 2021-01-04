@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
@@ -30,6 +31,9 @@ public interface BoardService {
 	Board selectBoard(int boardNo);
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
+	//int findLike(HashMap<String, Object> map);
+
 
 	
 }
