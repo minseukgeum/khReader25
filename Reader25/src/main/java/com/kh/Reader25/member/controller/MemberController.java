@@ -86,10 +86,10 @@ public class MemberController {
 								@RequestParam("joinAddress1") String address1,
 								@RequestParam("joinAddress2") String address2) {
 		
-		System.out.println(m);
-		System.out.println(post);
-		System.out.println(address1);
-		System.out.println(address2);
+		//System.out.println(m);
+		//System.out.println(post);
+		//System.out.println(address1);
+		//System.out.println(address2);
 		
 		m.setAddress(post+"/"+address1+"/"+address2);
 		

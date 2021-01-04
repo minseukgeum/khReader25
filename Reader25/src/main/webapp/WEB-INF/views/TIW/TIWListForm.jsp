@@ -104,9 +104,14 @@
 				</c:if>
 			</div>
 		<div class="insertbuttonArea" align="right">
-		<%-- <% if(loginUser != null) { %> --%>
-		<input type="button" onclick="location.href='writeTIW.to'" id="writeTIWBtn" class="btn1" value="글쓰기">
-		<%-- <% } %> --%>
+		
+			<c:url var="writeTIW" value="writeTIW.to">
+				<c:param name="loginUser" value="${ loginUser }"/>
+			</c:url>
+				
+			<c:if test="${ loginUser ne null }">
+				<input type="button" onclick="location.href='${ writeTIW }'" id="writeTIWBtn" class="btn1" value="글쓰기">
+			</c:if>
 		</div>
 	</div>
 	

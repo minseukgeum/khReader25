@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +25,9 @@ import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
+import com.kh.Reader25.member.model.vo.Member;
+
+@SessionAttributes("loginUser")
 
 @Controller
 public class BoardController {
@@ -210,10 +215,17 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
-	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView boardDetail(@RequestParam("loginUser") String loginUser, @RequestParam("boardNo") int boardNo,
+									@RequestParam("page") int page, ModelAndView mv) {
 		
 		//System.out.println("boardNo"+boardNo);
 		Board board = bService.selectTIWBoard(boardNo);
+		
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		//map.put("loginUser", loginUser);
+		map.put("boardNo", boardNo);
+		
+		//int likeResult = bService.findLike();
 		
 		if(board != null) {
 			mv.addObject("board", board)
