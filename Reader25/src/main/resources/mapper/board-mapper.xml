@@ -81,21 +81,10 @@
 				default, sysdate, sysdate, null, #{code}, #{userId})
 	</insert>
 	
-	<insert id="insertAttachmentList" parameterType="java.util.List">
-		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" >
-			into attachment
-			values(
-				seq_atc.nextval,
-				#{item.atcLevel},
-				#{item.atcCode},
-				#{item.atcOrigin},
-				#{item.atcName},
-				#{item.atcPath},
-				sysdate,
-				default,
-				seq_bid.currentval
-			)
-		</foreach>
+	<insert id="insertAttachment">
+		insert into attachment
+		values(seq_atc.nextval, #{atcLevel}, #{atcCode}, #{atcOrigin}, #{atcName},
+				#{atcPath}, sysdate, default,seq_bid.currval)
 	</insert>
 	
 	<update id="addReadCount">
