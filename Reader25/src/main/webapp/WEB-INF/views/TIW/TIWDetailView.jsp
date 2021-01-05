@@ -20,6 +20,7 @@
 			min-height: 500px;
 		}
 #img_td{width:40%}
+#like_img, #unlike_img{max-width: 100px;}
 #myimg{
 		max-width: 300px;
 		margin-left: 5%;
@@ -118,16 +119,22 @@
 						</td>
 					</tr>
 				</c:if>
+				
+				<tr>
+					<td colspan="9" align="center">
+						<c:choose>
+						  <c:when test="${m_no ne null}">
+						    <a href='javascript: like_func();'><img src="resources/images/like/like.png" id='like_img'></a>
+						  </c:when>
+						  <c:otherwise>
+						    <a href='javascript: login_need();'><img src="resources/images/like/unlike.png" id='unlike_img'></a>
+						  </c:otherwise>
+						</c:choose>
+					</td>
+				</tr>
 			</table>
 			
-			<c:choose>
-			  <c:when test="${mno ne null}">
-			    <a href='javascript: like_func();'><img src='./images/dislike.png' id='like_img'></a>
-			  </c:when>
-			  <c:otherwise>
-			    <a href='javascript: login_need();'><img src='./images/dislike.png'></a>
-			  </c:otherwise>
-			</c:choose>
+			
 			
 			<table class="replyTable">
 				<tr>

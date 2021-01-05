@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -88,5 +89,19 @@ public class BoardDAO {
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
 	}
+
+//	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+//		String result = sqlSession.selectOne("boardMapper.findLike", map);
+//		
+//		int result2;
+//		
+//		if((result == null) || (result =='1')) {
+//			result2 = 0;
+//		} else {
+//			result2 = 0;
+//		}
+//		
+//		return result2;
+//	}
 
 }
