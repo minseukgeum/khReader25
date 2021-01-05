@@ -90,8 +90,12 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
 	}
 
-	public ArrayList<Attachment> selectAttachmentTList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentTList");
+	public ArrayList<Attachment> selectAttachmentTList(SqlSessionTemplate sqlSession, int atcCode) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentTList", atcCode);
+	}
+
+	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.insert("boardMapper.insertAttachment", at);
 	}
 
 //	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {

@@ -108,7 +108,7 @@
 	<select id="selectAttachmentTList" resultMap="attachmentResultSet">
 		select *
 		from attachment
-		where atc_status = 'Y' and atc_level = 0
+		where atc_status = 'Y' and atc_level = 0 and atc_code = #{atcCode}
 	</select>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">

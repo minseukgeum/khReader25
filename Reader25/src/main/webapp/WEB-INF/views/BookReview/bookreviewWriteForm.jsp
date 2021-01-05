@@ -117,35 +117,35 @@
 		<form action="inset.re" id="write-book" method="post" enctype="multipart/form-data" >
 			<div class="title-div">
 				<div class="title">title</div>
-				<input type="text" placeholder="제목을 작성하세요">
-				<select>
+				<input type="text" name="bTitle" placeholder="제목을 작성하세요">
+				<select name="cate">
 					<option selected="selected">분류</option>
-					<option>총류</option>
-					<option>철학</option>
-					<option>종교</option>
-					<option>사회 과학</option>
-					<option>자연 과학</option>
-					<option>기술 과학</option>
-					<option>예술</option>
-					<option>언어</option>
-					<option>문학</option>
-					<option>역사</option>
+					<option value="총류">총류</option>
+					<option value="철학">철학</option>
+					<option value="종교">종교</option>
+					<option value="사회과학">사회 과학</option>
+					<option value="자연과학">자연 과학</option>
+					<option value="기술과학">기술 과학</option>
+					<option value="예술">예술</option>
+					<option value="언어">언어</option>
+					<option value="문학">문학</option>
+					<option value="역사">역사</option>
 				</select>
 			</div>
 			<div class="content">
 				<div class="file-div">
-					<input type="file" id="input-file" name="image" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
+					<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
 					<div class="file-img" id="file-img">
 						<img src="#" id="load-img" >
 					</div>
 				</div>
 				<div class="tag-div">
-					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" placeholder="제목">
+					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" placeholder="책제목">
 					<p class="tag">#</p><input type="text" class="bookInfo" name="author" placeholder="작가">
 				</div>
 				
 				<div class="content-edit" style="text-align:center;">
-					<textarea name="smart_edit"id="smart_edit" style="width:100%;"></textarea>
+					<textarea name="bContent" id="smart_edit" style="width:100%;"></textarea>
 				</div>
 			</div>
 			<div class="btn">

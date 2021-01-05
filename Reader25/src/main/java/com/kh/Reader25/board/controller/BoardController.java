@@ -11,12 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.Reader25.board.model.exception.BoardException;
@@ -25,7 +24,6 @@ import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
-import com.kh.Reader25.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -68,7 +66,7 @@ public class BoardController {
 		if(uploadFile.length != 0) {
 			b.setCode(0); //공지사항 코드
 			for(int i = 0; i < uploadFile.length; i++ ){
-				Attachment at = saveFile(uploadFile[i], request);
+				Attachment at = saveFile(uploadFile[i], request, 0);
 				if(i == uploadFile.length) {
 					at.setAtcLevel(0);
 				}else {
@@ -142,7 +140,7 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
-		ArrayList<Attachment> atList = bService.selectAttachmentTList();
+		ArrayList<Attachment> atList = bService.selectAttachmentTList(code);
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
@@ -171,7 +169,25 @@ public class BoardController {
 		}
 		return mv;
 	}
-	
+	@RequestMapping("insert.re")
+	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
+									HttpServletRequest request,
+									@RequestParam("booktitle") String booktitle,
+									@RequestParam("author") String author) {
+		String content = "#책제목"+ booktitle + b.getbContent();
+		
+		Attachment at = null;
+		if(uploadFile != null && !uploadFile.isEmpty()) {
+			at = saveFile(uploadFile, request, 2);
+		}
+		int result = bService.insertBoardAndFile(b, at);
+		
+		if(result > 0) {
+			return "redirect:book.re";
+		}else {
+			throw new BoardException("책리뷰 게시물 작성에 실패하였습니다.");
+		}
+	}
 
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 	
@@ -356,7 +372,7 @@ public class BoardController {
 	}
 	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
-	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
+	public Attachment saveFile(MultipartFile file, HttpServletRequest request, int code) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
 		File folder = new File(savePath);
@@ -369,7 +385,7 @@ public class BoardController {
 								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
 		String renamePath = folder + "\\" + renameFileName;
 		Attachment at = new Attachment();
-		at.setAtcCode(0);
+		at.setAtcCode(code);
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);

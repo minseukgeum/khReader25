@@ -32,7 +32,9 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
-	ArrayList<Attachment> selectAttachmentTList();
+	ArrayList<Attachment> selectAttachmentTList(int atcCode);
+
+	int insertBoardAndFile(Board b, Attachment at);
 
 
 	//int findLike(HashMap<String, Object> map);

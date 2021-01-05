@@ -106,8 +106,17 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public ArrayList<Attachment> selectAttachmentTList() {
-		return bDAO.selectAttachmentTList(sqlSession);
+	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
+		return bDAO.selectAttachmentTList(sqlSession, atcCode);
+	}
+
+	@Override
+	public int insertBoardAndFile(Board b, Attachment at) {
+		int result = bDAO.insertBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.insertAttachment(sqlSession, at);
+		}
+		return result;
 	}
 
 //	@Override
