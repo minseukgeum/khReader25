@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -164,13 +163,12 @@ public class BoardController {
 	@RequestMapping("redetail.re")
 	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
 										ModelAndView mv) {
-		System.out.println("boardNo : " + boardNo);
-		
 		Board board = bService.selectBoard(boardNo);
 		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
 		if(board != null) {
 			mv.addObject("board", board);
 			mv.addObject("atList", at);
+			mv.addObject("page", page);
 			mv.setViewName("bookReviewDetail");
 		}
 		return mv;
@@ -180,12 +178,18 @@ public class BoardController {
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
 									@RequestParam("author") String author) {
-		String content = "#책제목"+ booktitle + b.getbContent();
+		String contentAddTag = "#책제목"+ booktitle + "#작가" + author + b.getbContent();
+		b.setbContent(contentAddTag);
+		
+		Member member = (Member)(request.getSession().getAttribute("loginUser"));
+		String userId = member.getId();
+		b.setUserId(userId);
 		
 		Attachment at = null;
 		if(uploadFile != null && !uploadFile.isEmpty()) {
 			at = saveFile(uploadFile, request, 2);
 		}
+		b.setCode(2);
 		int result = bService.insertBoardAndFile(b, at);
 		
 		if(result > 0) {
@@ -436,37 +440,47 @@ public class BoardController {
 	}
 	
 	
-	@RequestMapping("Mblist.me")
-	public ModelAndView boardList(@RequestParam(value = "page", required = false) Integer page, ModelAndView mv) {
-		// 마이페이지에 보여줄 게시글 
+	@RequestMapping("mBlistDelete.me")
+	public ModelAndView boardList(@RequestParam(value = "inFo", required = false) String inFo, ModelAndView mv ,@RequestParam(value = "code", required = false) Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
+	
 
-		int currentPage = 1;
-
-		if (page != null) {
-
-			currentPage = page;
+		
+		
+		
+		
+		String list = inFo;
+		
+		String [] lists = list.split(",");
+		
+		for(String s : lists) {
+			
+			System.out.println(s);
+			
+			
+			
 		}
 		
-		int code = 2;
 		
+		int result = bService.deletemBList(lists);
 		
 		
 
-		int listCount = bService.getListCount(code);
+	
 
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-
-		ArrayList<Board> list = bService.selectList(pi,code);
-		
-		System.out.println("list= " +list);
-
-		if (list != null) {
+		if (result > 0) {
 
 			mv.addObject("list", list);
-			mv.addObject("pi", pi);
+			
+			mv.addObject("page", page);
+			
 
+			
+			
+			mv.addObject("code",code);
+			
+			
+			
 			mv.setViewName("myPageList");
-
 		} else {
 
 			throw new BoardException("마이페이지 게시글 조회 실패");

@@ -147,6 +147,11 @@ public class BoardDAO {
 
 	}
 
+	public int deletemBList(SqlSessionTemplate sqlSession, String s) {
+		
+		return sqlSession.update("boardMapper.deletemBList",s);
+	}
+
 //	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 //		String result = sqlSession.selectOne("boardMapper.findLike", map);
 //		

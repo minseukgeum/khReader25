@@ -42,6 +42,7 @@ public interface BoardService {
 	ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi);
 
 
+
 	int findLike(HashMap<String, Object> map);
 
 	void deleteLike(Liketo like);
@@ -51,6 +52,8 @@ public interface BoardService {
 	ArrayList<Attachment> selectAttachmentTList(int atcCode);
 
 	int insertBoardAndFile(Board b, Attachment at);
+
+	int deletemBList(String[] lists);
 
 
 

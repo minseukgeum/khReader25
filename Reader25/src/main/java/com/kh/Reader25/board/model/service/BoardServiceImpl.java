@@ -6,8 +6,10 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.Reader25.board.model.dao.BoardDAO;
+import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Liketo;
@@ -155,6 +157,31 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi) {
 		
 		return bDAO.selectSeachResultList(sqlSession,sc, pi);
+	}
+	
+	
+	@Transactional
+	@Override
+	public int deletemBList(String[] lists) {
+		
+		
+		int result = 0;
+		
+		for(String s: lists) {			
+			
+			result += bDAO.deletemBList(sqlSession, s);
+
+		}
+		
+		
+		if(result != lists.length) {
+			
+			throw new BoardException("마이페이지 리스트 삭제 실패");
+		}
+		
+		
+		
+		return result;
 	}
 
 	
