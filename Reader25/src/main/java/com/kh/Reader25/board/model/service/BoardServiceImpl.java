@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.Reader25.board.model.dao.BoardDAO;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -138,6 +139,24 @@ public class BoardServiceImpl implements BoardService{
 			result = bDAO.insertAttachment(sqlSession, at);
 		}
 		return result;
+	}
+
+	@Override
+	public int insertComments(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.insertComments(sqlSession, c);
+	}
+
+	@Override
+	public int updateCount(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.updateCount(sqlSession, c);
+	}
+
+	@Override
+	public ArrayList<Comments> selectCommentsList(int bId) {
+		// TODO Auto-generated method stub
+		return bDAO.selectCommentsList(sqlSession, bId);
 	}
 
 

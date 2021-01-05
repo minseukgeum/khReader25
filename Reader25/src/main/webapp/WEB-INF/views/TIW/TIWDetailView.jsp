@@ -50,6 +50,7 @@
 	<input type="hidden" name="user" value="${ loginUser.id }">
 		<div class="page">
 		<h2 class="txt_TIW" align="center">오늘은 나도 작가</h2>
+		<h5 align="center">${ board.boardNo }번 글 상세보기</h5>
 		</div>
 		<br>
 		<div id ="content">
@@ -144,27 +145,22 @@
 			
 			 
 			
-			<table class="replyTable"  align="center">
+			<table class="commentsTable"  align="center">
 				<tr>
-					<td><textarea rows="3" cols="55" id="rContent"></textarea></td>
-					<td><button id="rSubmit">등록하기</button></td>
+					<td><textarea rows="3" cols="55" id="cContent"></textarea></td>
+					<td><button id="cSubmit">등록하기</button></td>
 				</tr>
 			</table>
 			
-			<table class="replyTable" id="rtb">
+			<table class="commentsTable" id="ctb">
 				<thead>
 					<tr>
-						<td colspan=2><b id="rCount"></b></td>
+						<td colspan=2><b id="cCount"></b></td>
 					</tr>
 				</thead>
 				<tbody></tbody>
 			</table>
-			
 		</div>
-		
-		
-	
-	
 	</div>
 
 </body>
@@ -211,17 +207,17 @@
 	});
 	
 	//댓글 등록
-	$('#rSubmit').on('click', function(){
-		var rContent = $('#rContent').val();
-		var refBid = ${board.boardNo};
+	$('#cSubmit').on('click', function(){
+		var cContent = $('#cContent').val();
+		var cefBid = ${board.boardNo};
 		
 		$.ajax({
-			url: "addReply.bo",
-			data: {rContent:rContent, refBid:refBid},
+			url: "addComments.to",
+			data: {cContent:cContent, cefBid:cefBid},
 			success: function(data){
 				console.log(data);
 				if(data=="success"){
-					$("#rContent").val("");
+					$("#cContent").val("");
 					getReplyList();
 					alert("댓글이 등록되었습니다.");
 				}
@@ -230,40 +226,40 @@
 	});		
 			
 // 댓글 리스트 불러오기
-	function getReplyList(){
+	function getCommentsList(){
 		var bId = ${ board.boardNo };
 		
 		$.ajax({
-			url: "rList.bo",
+			url: "cList.to",
 			data: {bId:bId},
 			success: function(data){
-				$tableBody = $("#rtb tbody");
+				$tableBody = $("#ctb tbody");
 				$tableBody.html('');
 				
 				var $tr;
-				var $rWriter;
-				var $rContent;
-				var $rCreateDate;
+				var $cWriter;
+				var $cContent;
+				var $cCreateDate;
 				
-				$('#rCount').text('댓글 (' + data.length + ')');
+				$('#cCount').text('댓글 (' + data.length + ')');
 				
 				if(data.length > 0){
 					for(var i in data){
 						$tr = $('<tr>');
-						$rWriter = $('<td width="100">').text(data[i].rWriter);
-						$rContent = $('<td>').text(decodeURIComponent(data[i].rContent.replace(/\+/g, ' ')));
-						$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
+						$cWriter = $('<td width="100">').text(data[i].cWriter);
+						$cContent = $('<td>').text(decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')));
+						$cCreateDate = $('<td width="100">').text(data[i].cCreateDate);
 						
-						$tr.append($rWriter);
-						$tr.append($rContent);
-						$tr.append($rCreateDate);
+						$tr.append($cWriter);
+						$tr.append($cContent);
+						$tr.append($cCreateDate);
 						$tableBody.append($tr);
 					}
 				} else {
 					$tr = $('<tr>');
-					$rContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
+					$cContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
 					
-					$tr.append($rContent);
+					$tr.append($cContent);
 					$tableBody.append($tr);
 				}
 			}
@@ -271,9 +267,9 @@
 	}
 
 	$(function(){
-		getReplyList();
+		getCommentsList();
 		setInterval(function(){
-			getReplyList();
+			getCommentsList();
 		}, 1000);
 	});
 	

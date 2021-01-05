@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -33,18 +34,24 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
-<<<<<<< HEAD
+
 	int findLike(HashMap<String, Object> map);
 
 	void deleteLike(Liketo like);
 
 	void insertLike(Liketo like);
-=======
+
 	ArrayList<Attachment> selectAttachmentTList(int atcCode);
 
 	int insertBoardAndFile(Board b, Attachment at);
 
->>>>>>> branch 'master' of https://github.com/kawai23/Reader25.git
+	int insertComments(Comments c);
+
+	int updateCount(Comments c);
+
+	ArrayList<Comments> selectCommentsList(int bId);
+
+
 
 	//int findLike(HashMap<String, Object> map);
 
