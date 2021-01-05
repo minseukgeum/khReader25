@@ -58,7 +58,16 @@ public class BoardDAO {
 	}
 
 	public int insertAttachmentList(SqlSessionTemplate sqlSession, ArrayList<Attachment> atList) {
-		return sqlSession.insert("boardMapper.insertAttachmentList", atList);
+		int result = 0;
+		for(Attachment at: atList) {
+			result += sqlSession.insert("boardMapper.insertAttachment", at);
+		}
+		if(result == atList.size()) {
+			result = 1;
+		}else {
+			result = 0;
+		}
+		return result;
 	}
 	public int updateTIWBoard(SqlSessionTemplate sqlSession, Board b) {
 		// TODO Auto-generated method stub
@@ -107,5 +116,19 @@ public class BoardDAO {
 		
 		
 	}
+
+//	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+//		String result = sqlSession.selectOne("boardMapper.findLike", map);
+//		
+//		int result2;
+//		
+//		if((result == null) || (result =='1')) {
+//			result2 = 0;
+//		} else {
+//			result2 = 0;
+//		}
+//		
+//		return result2;
+//	}
 
 }

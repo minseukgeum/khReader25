@@ -42,7 +42,7 @@
 				<c:if test="${ !empty sessionScope.loginUser }">
 					<li><a href="logout.me">로그아웃</a></li>
 <!-- 					<li><a href="mypage.me">마이페이지</a></li> -->
-					<li><a href="Mblist.me">마이페이지</a></li>
+					<li><a href="mSearch.me?code=2">마이페이지</a></li>
 					<li class="li"><a href="notice.no">공지사항</a></li>
 					<li><a href="inquiry.in">문의사항</a></li>
 				</c:if>

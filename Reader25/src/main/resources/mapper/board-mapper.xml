@@ -82,21 +82,10 @@
 				default, sysdate, sysdate, null, #{code}, #{userId})
 	</insert>
 	
-	<insert id="insertAttachmentList" parameterType="java.util.List">
-		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" >
-			into attachment
-			values(
-				seq_atc.nextval,
-				#{item.atcLevel},
-				#{item.atcCode},
-				#{item.atcOrigin},
-				#{item.atcName},
-				#{item.atcPath},
-				sysdate,
-				default,
-				seq_bid.currentval
-			)
-		</foreach>
+	<insert id="insertAttachment">
+		insert into attachment
+		values(seq_atc.nextval, #{atcLevel}, #{atcCode}, #{atcOrigin}, #{atcName},
+				#{atcPath}, sysdate, default,seq_bid.currval)
 	</insert>
 	
 
@@ -193,6 +182,20 @@
 		<result property="atcDate" column="ATC_DATE"/>
 		<result property="atcStatus" column="ATC_STATUS"/>
 		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+
+	
+	<select id="findLike" resultType="_int">
+		select like_check
+		from liketo
+		where boardno = #{boardNo} and mno = #{loginUser} and like_check = '1'
+	</select>
+	
+	<resultMap type="Liketo" id="LiketoResultSet">
+		<id property="l_no" column="LIKENO"/>
+		<result property="b_no" column="BOARDNO"/>
+		<result property="m_no" column="MNO"/>
+		<result property="l_check" column="LIKE_CHECK"/>
 	</resultMap>
 
 </mapper>

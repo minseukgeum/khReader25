@@ -36,7 +36,9 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
+
 	ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi);
+
 
 
 	

@@ -9,8 +9,12 @@
 		<typeAlias type="com.kh.Reader25.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Attachment" alias="Attachment"/>
+
 		<typeAlias type="com.kh.Reader25.board.model.vo.SearchCondition" alias="SearchCondition"/>
 		
+
+		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
+
 	</typeAliases>
 	
 	<mappers>

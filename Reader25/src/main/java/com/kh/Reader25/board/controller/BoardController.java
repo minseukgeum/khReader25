@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -212,15 +214,28 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
-	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
+									@RequestParam("page") int page, ModelAndView mv) {
 		
-		//System.out.println("boardNo"+boardNo);
+		System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("loginUser", loginUser);
+		map.put("boardNo", boardNo);
+		
+		//int likeResult = bService.findLike(map);
 		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)
 				.setViewName("TIWDetailView");
+			
+			//if(likeResult > 0) {
+			//	mv.addObject(likeResult);
+			//} else {
+			//	mv.addObject(likeResult);
+			//}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
 		}
@@ -397,7 +412,7 @@ public class BoardController {
 	
 	
 	@RequestMapping("mSearch.me")
-	public ModelAndView mSearchList(@RequestParam String inFo, ModelAndView mv , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
+	public ModelAndView mSearchList(@RequestParam(value = "inFo", required = false) String inFo, ModelAndView mv ,@RequestParam(value = "code", required = false) Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
 		// 마이페이지에서 검색
 		
 		
@@ -405,24 +420,9 @@ public class BoardController {
 	 	
 	 	String mId = loginUser.getId();
 		
-		
-		String [] lists = inFo.split(",");
-		
-		for(String s : lists) {
-			
-			System.out.println(s);
-				
-		}
-		
-		System.out.println( lists[0]);
-		
-		
-		
-		String condition = lists[0];
-		
-		String value =  lists[1];
-		
-		int code = Integer.parseUnsignedInt(lists[2]);
+	 	
+	 	
+	
 		
 		
 
@@ -443,15 +443,32 @@ public class BoardController {
 		
 		sc.setmId(mId);
 		
-		if (condition.equals("Title")) {
+		
+		String condition =null;
+		
+		String value =null;
+		
+		if(inFo != null) {
 			
-			sc.setTitle(value);;
-		}else if (condition.equals("이름")) {
+			String [] lists = inFo.split(",");
 			
-			sc.setContent(value);
+			condition = lists[0];
+			
+			value =  lists[1];
+			
+			
+			if (condition.equals("Title")) {
+				
+				sc.setTitle(value);;
+			}else if (condition.equals("이름")) {
+				
+				sc.setContent(value);
+			}
 		}
 		
-		System.out.println(sc);
+		
+		
+		System.out.println("sc= " +sc);
 		
 		
 		try {
@@ -472,9 +489,14 @@ public class BoardController {
 			
 			mv.addObject("pi", pi);
 			
-			mv.addObject("searchCondition",condition);
 			
+			
+			mv.addObject("searchCondition",condition);
+				
 			mv.addObject("searchValue",value);
+			
+			mv.addObject("code",code);
+			
 			
 			
 			mv.setViewName("myPageList");
