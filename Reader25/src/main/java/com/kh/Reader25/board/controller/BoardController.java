@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
+import com.kh.Reader25.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -395,9 +397,13 @@ public class BoardController {
 	
 	
 	@RequestMapping("mSearch.me")
-	public ModelAndView mSearchList(@RequestParam String inFo, ModelAndView mv , @RequestParam(value = "page", required = false) Integer page) {
+	public ModelAndView mSearchList(@RequestParam String inFo, ModelAndView mv , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
 		// 마이페이지에서 검색
 		
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+	 	
+	 	String mId = loginUser.getId();
 		
 		
 		String [] lists = inFo.split(",");
@@ -435,11 +441,9 @@ public class BoardController {
 		
 		sc.setCode(code);
 		
-		if(condition.equals("ID")) {
-			
-			sc.setmId(value);
-			
-		}else if (condition.equals("Title")) {
+		sc.setmId(mId);
+		
+		if (condition.equals("Title")) {
 			
 			sc.setTitle(value);;
 		}else if (condition.equals("이름")) {
