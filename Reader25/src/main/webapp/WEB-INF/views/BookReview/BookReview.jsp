@@ -123,6 +123,7 @@ select::-ms-expand {
 }
 .content-div {
 	background: white;
+	height: 100px;
 }
 
 .content-ul {
@@ -134,6 +135,7 @@ select::-ms-expand {
 
 .content-ul>li {
 	margin: 0;
+	margin-top: 2px;
 	width: 100%;
 }
 
@@ -262,9 +264,13 @@ select::-ms-expand {
 		</div>
 		
 		<script>
-			$('.list-div').click(function(){
+			$('.list-div').on('click',function(){
 				var boardNo = $(this).children('#boardNo').val();
 				location.href = "redetail.re?boardNo="+boardNo+"&page="+${pi.currentPage};
+			}).mouseenter(function(){
+				$(this).css({'cursor':'pointer','box-shadow':'2px 2px 2px 2px lightgray', });
+			}).mouseout(function(){
+				$(this).css('box-shadow','none');
 			});
 		</script>
 		

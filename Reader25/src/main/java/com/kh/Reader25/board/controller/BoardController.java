@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -171,6 +170,17 @@ public class BoardController {
 		Board board = bService.selectBoard(boardNo);
 		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
 		if(board != null) {
+			
+			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
+			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
+			String author = exbook.substring(0,exbook.indexOf("#"));
+			String content = author.substring(exbook.indexOf("#") + 1);
+			
+			System.out.println(booktitle);
+			System.out.println(exbook);
+			System.out.println(author);
+			System.out.println(content);
+			
 			mv.addObject("board", board);
 			mv.addObject("atList", at);
 			mv.addObject("page", page);
@@ -183,7 +193,7 @@ public class BoardController {
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
 									@RequestParam("author") String author) {
-		String contentAddTag = "#책제목"+ booktitle + "#작가" + author + b.getbContent();
+		String contentAddTag =  booktitle + "#"  + author + "#" + b.getbContent();
 		b.setbContent(contentAddTag);
 		
 		Member member = (Member)(request.getSession().getAttribute("loginUser"));
