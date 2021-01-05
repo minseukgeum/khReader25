@@ -263,7 +263,7 @@ public class BoardController {
 	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
 									@RequestParam("page") int page, ModelAndView mv) {
 		
-		System.out.println("loginUser"+loginUser);
+		//System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -271,7 +271,7 @@ public class BoardController {
 		map.put("boardNo", boardNo);
 				
 		int heart = bService.findLike(map);
-		System.out.println("heart"+heart);
+		//System.out.println("heart"+heart);
 		
 		if(board != null) {
 			mv.addObject("board", board)
@@ -319,7 +319,9 @@ public class BoardController {
 	
 	@RequestMapping("addComments.to")
 	@ResponseBody
-	public String addReply(@ModelAttribute Comments c, HttpSession session) {
+	public String addComments(@ModelAttribute Comments c, HttpSession session) {
+		System.out.println("ok");
+		System.out.println(c);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String cWriter = loginUser.getId();
 		
@@ -338,7 +340,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("cList.to")
-	public void getReplyList(@RequestParam("bId") int bId, HttpServletResponse response) {
+	public void getCommentsList(@RequestParam("bId") int bId, HttpServletResponse response) {
 		
 		ArrayList<Comments> cList = bService.selectCommentsList(bId);
 		

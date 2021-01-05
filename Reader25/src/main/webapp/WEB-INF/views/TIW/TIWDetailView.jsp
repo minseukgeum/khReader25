@@ -218,7 +218,7 @@
 				console.log(data);
 				if(data=="success"){
 					$("#cContent").val("");
-					getReplyList();
+					getCommentsList();
 					alert("댓글이 등록되었습니다.");
 				}
 			}
