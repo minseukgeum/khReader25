@@ -270,8 +270,8 @@ public class BoardController {
 		map.put("loginUser", loginUser);
 		map.put("boardNo", boardNo);
 				
-		int heart = bService.findLike(map);
-		//System.out.println("heart"+heart);
+		int heart = bService.findLike(map) == 1? 1:0;
+		System.out.println("heart"+heart);
 		
 		if(board != null) {
 			mv.addObject("board", board)
@@ -279,9 +279,11 @@ public class BoardController {
 				.setViewName("TIWDetailView");
 			
 			if(heart > 0) {
-				mv.addObject(heart);
+				mv.addObject("heart", heart);
+				//System.out.println("heart00"+heart);
 			} else {
-				mv.addObject(heart);
+				mv.addObject("heart", heart);
+				//System.out.println("heart000"+heart);
 			}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
@@ -293,15 +295,17 @@ public class BoardController {
 	// 오늘은 나도 작가 = 5 좋아요 클릭 컨트롤러
 	@ResponseBody
     @RequestMapping("heart.to")
-    public int heart(HttpServletRequest httpRequest) throws Exception {
+    public int heart(HttpServletRequest httpRequest) {
 
         int heart = Integer.parseInt(httpRequest.getParameter("heart"));
-        int boardId = Integer.parseInt(httpRequest.getParameter("boardId"));
-        String userid = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
+        int b_no = Integer.parseInt(httpRequest.getParameter("boardNo"));
+        System.out.println("b_no"+b_no);
+        String m_no = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
+        System.out.println("userid"+m_no);
         Liketo Like = new Liketo();
 
-        Like.setB_no(boardId);
-        Like.setM_no(userid);
+        Like.setB_no(b_no);
+        Like.setM_no(m_no);
 
         System.out.println(heart);
 
@@ -320,14 +324,14 @@ public class BoardController {
 	@RequestMapping("addComments.to")
 	@ResponseBody
 	public String addComments(@ModelAttribute Comments c, HttpSession session) {
-		System.out.println("ok");
-		System.out.println(c);
+		//System.out.println("ok");
+		//System.out.println(c);
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String cWriter = loginUser.getId();
 		
 		c.setUserId(cWriter);
 		 
-		System.out.println(c);
+		//System.out.println(c);
 		
 		int result = bService.insertComments(c);
 		int upCount = bService.updateCount(c);

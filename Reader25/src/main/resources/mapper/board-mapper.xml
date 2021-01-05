@@ -141,16 +141,12 @@
 		WHERE boardno = #{boardNo} AND mno = #{userid}
     </delete>
     
-	<select id="updateLike">
-		UPDATE board
-		SET
-		B_LIKE = (SELECT COUNT(*)
-						FROM liketo
-						WHERE boardno = #{boardNo})
-		WHERE BOARD_NO = #{boardNo}
-	</select>
+	<insert id="insertLike">
+		insert into liketo
+		values(SEQ_LID.nextval, #{b_no}, #{m_no}, 1)
+	</insert>
 	
-	<select id="updateBoardLike">
+	<select id="updateLike">
 		UPDATE board
 		SET
 		B_LIKE = (SELECT COUNT(*)
