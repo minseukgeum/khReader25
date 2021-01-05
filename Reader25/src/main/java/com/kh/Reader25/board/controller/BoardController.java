@@ -326,7 +326,7 @@ public class BoardController {
 		String cWriter = loginUser.getId();
 		
 		c.setUserId(cWriter);
-		
+		 
 		System.out.println(c);
 		
 		int result = bService.insertComments(c);
