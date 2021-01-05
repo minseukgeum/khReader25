@@ -160,7 +160,7 @@
 		where board_no = #{boardNo}
 	</update>
 	
-	<select id="selectBoard" resultType="_int">
+	<select id="selectBoard" resultMap="boardResultSet">
 		select * 
 		from board
 		where board_no = #{boardNo} and b_status = 'Y'
@@ -170,6 +170,12 @@
 		select *
 		from attachment
 		where board_no = #{boardNo} and atc_status = 'Y'
+	</select>
+	
+	<select id="selectAttachmentTList" resultMap="attachmentResultSet">
+		select *
+		from attachment
+		where atc_status = 'Y' and atc_level = 0 and atc_code = #{atcCode}
 	</select>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
@@ -186,7 +192,7 @@
 
 	
 	<select id="findLike" resultType="_int">
-		select like_check
+		select count(*)
 		from liketo
 		where boardno = #{boardNo} and mno = #{loginUser} and like_check = '1'
 	</select>
@@ -197,5 +203,30 @@
 		<result property="m_no" column="MNO"/>
 		<result property="l_check" column="LIKE_CHECK"/>
 	</resultMap>
+
+	
+	<delete id="deleteLike">
+		DELETE FROM liketo
+		WHERE boardno = #{boardNo} AND mno = #{userid}
+    </delete>
+    
+	<select id="updateLike">
+		UPDATE board
+		SET
+		B_LIKE = (SELECT COUNT(*)
+						FROM liketo
+						WHERE boardno = #{boardNo})
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<select id="updateBoardLike">
+		UPDATE board
+		SET
+		B_LIKE = (SELECT COUNT(*)
+						FROM liketo
+						WHERE boardno = #{boardNo})
+		WHERE BOARD_NO = #{boardNo}
+        </select>
+	
 
 </mapper>

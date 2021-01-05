@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +25,7 @@ import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
@@ -69,7 +72,7 @@ public class BoardController {
 		if(uploadFile.length != 0) {
 			b.setCode(0); //공지사항 코드
 			for(int i = 0; i < uploadFile.length; i++ ){
-				Attachment at = saveFile(uploadFile[i], request);
+				Attachment at = saveFile(uploadFile[i], request, 0);
 				if(i == uploadFile.length) {
 					at.setAtcLevel(0);
 				}else {
@@ -140,11 +143,14 @@ public class BoardController {
 		}
 		int code = 2;
 		int listCount = bService.getListCount(code);
+		
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
+		ArrayList<Attachment> atList = bService.selectAttachmentTList(code);
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
+				.addObject("atList", atList)
 				.setViewName("BookReview");
 		}else {
 			throw new BoardException("책리뷰 게시글 전체 조회에 실패하였습니다.");
@@ -155,7 +161,39 @@ public class BoardController {
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
-	
+	@RequestMapping("redetail.re")
+	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
+										ModelAndView mv) {
+		System.out.println("boardNo : " + boardNo);
+		
+		Board board = bService.selectBoard(boardNo);
+		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
+		if(board != null) {
+			mv.addObject("board", board);
+			mv.addObject("atList", at);
+			mv.setViewName("bookReviewDetail");
+		}
+		return mv;
+	}
+	@RequestMapping("insert.re")
+	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
+									HttpServletRequest request,
+									@RequestParam("booktitle") String booktitle,
+									@RequestParam("author") String author) {
+		String content = "#책제목"+ booktitle + b.getbContent();
+		
+		Attachment at = null;
+		if(uploadFile != null && !uploadFile.isEmpty()) {
+			at = saveFile(uploadFile, request, 2);
+		}
+		int result = bService.insertBoardAndFile(b, at);
+		
+		if(result > 0) {
+			return "redirect:book.re";
+		}else {
+			throw new BoardException("책리뷰 게시물 작성에 실패하였습니다.");
+		}
+	}
 
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 	
@@ -223,25 +261,53 @@ public class BoardController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("loginUser", loginUser);
 		map.put("boardNo", boardNo);
-		
-		//int likeResult = bService.findLike(map);
+				
+		int heart = bService.findLike(map);
+		System.out.println("heart"+heart);
 		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)
 				.setViewName("TIWDetailView");
 			
-			//if(likeResult > 0) {
-			//	mv.addObject(likeResult);
-			//} else {
-			//	mv.addObject(likeResult);
-			//}
+			if(heart > 0) {
+				mv.addObject(heart);
+			} else {
+				mv.addObject(heart);
+			}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
 		}
 		
 		return mv;
 	}
+	
+	// 오늘은 나도 작가 = 5 좋아요 클릭 컨트롤러
+	@ResponseBody
+    @RequestMapping("heart.to")
+    public int heart(HttpServletRequest httpRequest) throws Exception {
+
+        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
+        int boardId = Integer.parseInt(httpRequest.getParameter("boardId"));
+        String userid = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
+        Liketo Like = new Liketo();
+
+        Like.setB_no(boardId);
+        Like.setM_no(userid);
+
+        System.out.println(heart);
+
+        if(heart >= 1) {
+            bService.deleteLike(Like);
+            heart=0;
+        } else {
+        	bService.insertLike(Like);
+            heart=1;
+        }
+
+        return heart;
+
+    }
 	
 	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
 	@RequestMapping("TIWUpdateView.to")
@@ -340,7 +406,7 @@ public class BoardController {
 	}
 	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
-	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
+	public Attachment saveFile(MultipartFile file, HttpServletRequest request, int code) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
 		File folder = new File(savePath);
@@ -353,7 +419,7 @@ public class BoardController {
 								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
 		String renamePath = folder + "\\" + renameFileName;
 		Attachment at = new Attachment();
-		at.setAtcCode(0);
+		at.setAtcCode(code);
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);

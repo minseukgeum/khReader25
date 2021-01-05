@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.Reader25.board.model.dao.BoardDAO;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 
@@ -106,18 +107,40 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectAttachmentList(sqlSession, boardNo);
 	}
 
-//	@Override
-//	public int findLike(HashMap<String, Object> map) {
-//		int result = bDAO.findLike(sqlSession, map);
-//		
-//		if(result > 0) {
-//			result = 1;
-//		} else {
-//			result = 0;
-//		}
-//		
-//		return result;
-//	}
+	@Override
+	public int findLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return bDAO.findLike(sqlSession, map);
+	}
+
+	@Override
+	public void deleteLike(Liketo like) {
+		// TODO Auto-generated method stub
+		
+		bDAO.updateLike(sqlSession, like.getB_no());
+		bDAO.deleteLike(sqlSession, like);
+	}
+
+	@Override
+	public void insertLike(Liketo like) {
+		// TODO Auto-generated method stub
+		bDAO.insertLike(sqlSession, like);
+		bDAO.updateLike(sqlSession, like.getB_no());
+	}
+
+	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
+		return bDAO.selectAttachmentTList(sqlSession, atcCode);
+	}
+
+	@Override
+	public int insertBoardAndFile(Board b, Attachment at) {
+		int result = bDAO.insertBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.insertAttachment(sqlSession, at);
+		}
+		return result;
+	}
+
 
 
 	
