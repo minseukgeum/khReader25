@@ -10,6 +10,7 @@
 		<typeAlias type="com.kh.Reader25.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
+		<typeAlias type="com.kh.Reader25.board.model.vo.Comments" alias="Comments"/>
 	</typeAliases>
 	
 	<mappers>
