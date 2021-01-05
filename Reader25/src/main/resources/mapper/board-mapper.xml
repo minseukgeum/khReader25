@@ -124,7 +124,7 @@
 	</resultMap>
 	
 	<select id="findLike" resultType="_int">
-		select like_check
+		select count(*)
 		from liketo
 		where boardno = #{boardNo} and mno = #{loginUser} and like_check = '1'
 	</select>
@@ -135,4 +135,28 @@
 		<result property="m_no" column="MNO"/>
 		<result property="l_check" column="LIKE_CHECK"/>
 	</resultMap>
+	
+	<delete id="deleteLike">
+		DELETE FROM liketo
+		WHERE boardno = #{boardNo} AND mno = #{userid}
+    </delete>
+    
+	<select id="updateLike">
+		UPDATE board
+		SET
+		B_LIKE = (SELECT COUNT(*)
+						FROM liketo
+						WHERE boardno = #{boardNo})
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<select id="updateBoardLike">
+		UPDATE board
+		SET
+		B_LIKE = (SELECT COUNT(*)
+						FROM liketo
+						WHERE boardno = #{boardNo})
+		WHERE BOARD_NO = #{boardNo}
+        </select>
+	
 </mapper>

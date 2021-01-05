@@ -20,7 +20,7 @@
 			min-height: 500px;
 		}
 #img_td{width:40%}
-#like_img, #unlike_img{max-width: 100px;}
+#heart, #unheart{max-width: 100px;}
 #myimg{
 		max-width: 300px;
 		margin-left: 5%;
@@ -47,7 +47,7 @@
 	<c:import url="../common/menubar.jsp"/>
 	
 	<div class="outer">
-	
+	<input type="hidden" name="user" value="${ loginUser.id }">
 		<div class="page">
 		<h2 class="txt_TIW" align="center">오늘은 나도 작가</h2>
 		</div>
@@ -122,21 +122,29 @@
 				
 				<tr>
 					<td colspan="9" align="center">
+						<!-- <div style="text-align: right;">
+					       <a class="heart">
+					           <img id="heart" src="">
+					       </a>
+					   </div> -->
 						<c:choose>
-						  <c:when test="${m_no ne null}">
-						    <a href='javascript: like_func();'><img src="resources/images/like/like.png" id='like_img'></a>
+						  <c:when test="${heart eq '1'}">
+						    <a class="heart"><img id="heart" src="resources/images/like/like.png"></a>
 						  </c:when>
 						  <c:otherwise>
-						    <a href='javascript: login_need();'><img src="resources/images/like/unlike.png" id='unlike_img'></a>
+						    <a class="heart"><img id="heart" src="resources/images/like/unlike.png"></a>
 						  </c:otherwise>
 						</c:choose>
+						<dd id="likecnt" style="margin-left:5px;">${board.bLike}</dd>
 					</td>
 				</tr>
+				
+				
 			</table>
 			
+			 
 			
-			
-			<table class="replyTable">
+			<table class="replyTable"  align="center">
 				<tr>
 					<td><textarea rows="3" cols="55" id="rContent"></textarea></td>
 					<td><button id="rSubmit">등록하기</button></td>
@@ -160,4 +168,115 @@
 	</div>
 
 </body>
+
+<script>
+
+	//좋아요 클릭 ajax
+	$(document).ready(function () {
+	
+	    var heartval = ${heart};
+	
+	    if(heartval>0) {
+	        console.log(heartval);
+	        $("#heart").prop("src", "resources/images/like/like.png");
+	        $(".heart").prop('name',heartval)
+	    }
+	    else {
+	        console.log(heartval);
+	        $("#heart").prop("src", "resources/images/like/unlike.png");
+	        $(".heart").prop('name',heartval)
+	    }
+	
+	    $(".heart").on("click", function () {
+	
+	        var that = $(".heart");
+	        
+	        $.ajax({
+	            url :'heart.to',
+	            type :'POST',
+	            data : {'boardNo' : '${ board.boardNo }','user':user},
+	            success : function(data){
+	                that.prop('name',data);
+	                if(data==1) {
+	                    $('#heart').prop("src","resources/images/like/like.png");
+	                }
+	                else{
+	                    $('#heart').prop("src","resources/images/like/unlike.png");
+	                }
+	
+	
+	            }
+	        });
+	    });
+	});
+	
+	//댓글 등록
+	$('#rSubmit').on('click', function(){
+		var rContent = $('#rContent').val();
+		var refBid = ${board.boardNo};
+		
+		$.ajax({
+			url: "addReply.bo",
+			data: {rContent:rContent, refBid:refBid},
+			success: function(data){
+				console.log(data);
+				if(data=="success"){
+					$("#rContent").val("");
+					getReplyList();
+					alert("댓글이 등록되었습니다.");
+				}
+			}
+		});
+	});		
+			
+// 댓글 리스트 불러오기
+	function getReplyList(){
+		var bId = ${ board.boardNo };
+		
+		$.ajax({
+			url: "rList.bo",
+			data: {bId:bId},
+			success: function(data){
+				$tableBody = $("#rtb tbody");
+				$tableBody.html('');
+				
+				var $tr;
+				var $rWriter;
+				var $rContent;
+				var $rCreateDate;
+				
+				$('#rCount').text('댓글 (' + data.length + ')');
+				
+				if(data.length > 0){
+					for(var i in data){
+						$tr = $('<tr>');
+						$rWriter = $('<td width="100">').text(data[i].rWriter);
+						$rContent = $('<td>').text(decodeURIComponent(data[i].rContent.replace(/\+/g, ' ')));
+						$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
+						
+						$tr.append($rWriter);
+						$tr.append($rContent);
+						$tr.append($rCreateDate);
+						$tableBody.append($tr);
+					}
+				} else {
+					$tr = $('<tr>');
+					$rContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
+					
+					$tr.append($rContent);
+					$tableBody.append($tr);
+				}
+			}
+		});
+	}
+
+	$(function(){
+		getReplyList();
+		setInterval(function(){
+			getReplyList();
+		}, 1000);
+	});
+	
+</script>
+
 </html>
