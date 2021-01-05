@@ -363,9 +363,8 @@ font-size: 20px;
 line-height: 29px;
 
 color: #FFFFFF;
-
-
 }
+
 .Sign_Up_font{
 
 font-family: Roboto;
@@ -373,11 +372,9 @@ font-style: normal;
 font-weight: normal;
 font-size: 20px;
 line-height: 29px;
-
 color: #000000;
-
-
 }
+
 #logo_size {
 
 position: absolute;
@@ -446,21 +443,27 @@ margin-top : 40px;
 <button class = "font_white" id = "tomonth_button1">일간</button>
 <button class = "font_white" id = "tomonth_button2">주간</button>
 <button class = "font_white" id = "tomonth_button3">월간</button>
-<div id = "list_rect_recommendation"></div>
+<div id = "list_rect_recommendation">
+
+</div>
 <a id = "best_review">best 리뷰</a>
 <button class = "font_white" id = "best_button1">월간</button>
 <button class = "font_white" id = "best_button2">주간</button>
 <button class = "font_white" id = "best_button3">일간</button>
-<div id = "list_rect_best"></div>
+<div id = "list_rect_best">
+
+</div>
 <a id = "real_time_discussion">실시간 토론 현황</a>
 <button class = "font_white" id = "discussion_button1">조회수</button>
 <button class = "font_white" id = "discussion_button2">댓글순</button>
 <button class = "font_white" id = "discussion_button3">최신순</button>
-<div id = "list_rect_discussion"></div>
+<div id = "list_rect_discussion">
+</div>
 <a id = "today_Author">오나작 인기글</a>
 <button class = "font_white" id = "author_button1">조회수</button>
 <button class = "font_white" id = "author_button2">댓글순</button>
 <button class = "font_white" id = "author_button3">최신순</button>
-<div id = "list_rect_author"></div>
+<div id = "list_rect_author">
+</div>
 </body>
 </html>
