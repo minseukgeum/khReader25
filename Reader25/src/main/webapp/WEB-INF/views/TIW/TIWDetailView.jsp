@@ -174,20 +174,29 @@
 	//좋아요 클릭 ajax
 	$(document).ready(function () {
 	
-	    var heartval = ${heart};
+		
+		
+// 	    var heartval = ${heart};
 	
-	    if(heartval>0) {
-	        console.log(heartval);
-	        $("#heart").prop("src", "resources/images/like/like.png");
-	        $(".heart").prop('name',heartval)
-	    }
-	    else {
-	        console.log(heartval);
-	        $("#heart").prop("src", "resources/images/like/unlike.png");
-	        $(".heart").prop('name',heartval)
-	    }
+// 	    if(heartval>0) {
+// 	        console.log(heartval);
+// 	        $("#heart").prop("src", "resources/images/like/like.png");
+// 	        $(".heart").prop('name',heartval)
+// 	    }
+// 	    else {
+// 	        console.log(heartval);
+// 	        $("#heart").prop("src", "resources/images/like/unlike.png");
+// 	        $(".heart").prop('name',heartval)
+// 	    }
+	    
 	
+	    
+	    
+	    
 	    $(".heart").on("click", function () {
+	    	
+	    	
+	    	console.log('?');
 	
 	        var that = $(".heart");
 	        
