@@ -8,7 +8,6 @@
 <body>
 	<c:import url="common/menubar.jsp"></c:import>
 	<c:import url="common/mainPage.jsp"></c:import>
-	<!-- 메인 화면 넣기 -->
 	
 </body>
 </html>

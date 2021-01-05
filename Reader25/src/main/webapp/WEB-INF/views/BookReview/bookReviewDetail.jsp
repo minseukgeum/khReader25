@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+	.bookreview-div{
+		margin-top: 20px;
+	}
 	.info{
 		width: 80%;
 		margin:auto;
@@ -126,12 +129,20 @@
 </style>
 </head>
 <body>
+	<%@include file="../common/menubar.jsp" %>
 	<section>
 		<div class="bookreview-div">
 			<div class="info">
-				<div class="img-div"><img src="../../images/bookreview/book.jpg"/></div>
+				<div class="img-div">
+					<c:if test="${at != null }">
+						<img src="/resources/buploadFiles/${ at.atcName}"/>
+					</c:if>
+					<c:if test="${at == null }">
+						<img />
+					</c:if>
+				</div>
 				<div class="info-content">
-					<h3 class="title">Scale</h3>
+					<h3 class="title">${ board.bTitle }</h3>
 					<p class="tag">#</p>
 					<span class="info" id="author">작가</span>
 					<p class="tag">#</p>
