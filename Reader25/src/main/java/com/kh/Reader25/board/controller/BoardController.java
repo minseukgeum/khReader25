@@ -144,6 +144,7 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
 		ArrayList<Attachment> atList = bService.selectAttachmentTList(code);
+		
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
@@ -188,6 +189,8 @@ public class BoardController {
 			at = saveFile(uploadFile, request, 2);
 		}
 		b.setCode(2);
+		// ! 만일 파일이 한 개 일 시
+		at.setAtcLevel(0);
 		int result = bService.insertBoardAndFile(b, at);
 		
 		if(result > 0) {

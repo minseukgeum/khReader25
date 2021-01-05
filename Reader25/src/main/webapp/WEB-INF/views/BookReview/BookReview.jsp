@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList, com.kh.Reader25.board.model.vo.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -107,15 +108,19 @@ select::-ms-expand {
 
 .img-div {
 	background: rgba(229, 229, 229, 1);
-	line-height: 180px; /* 이미지 가운데로 넣기 */
+	height: 200px; 
 }
-
+.img-div>img{
+	max-height:200px;
+  	object-fit: cover;
+  	vertical-align: middle;
+}
 .list-img {
+	display:block;
 	height: auto;
-	width: 100%;
 	vertical-align: middle;
+	margin:auto;
 }
-
 .content-div {
 	background: white;
 }
@@ -227,29 +232,33 @@ select::-ms-expand {
 		</div>
 		
 		<div class="list-all-div">
-			<c:forEach items="${bList}" var="b">
+			
+			<%
+				ArrayList<Board> bList = (ArrayList<Board>)request.getAttribute("bList");
+				ArrayList<Attachment> atList = (ArrayList<Attachment>)request.getAttribute("atList");
+			%>
+			<% for(Board b : bList){ %>
 				<div class="list-div">
 					<div class="img-div">
-					<img class="list-img" src="#">
-					<c:forEach items="${atList}" var="a">
-						<c:if test="${a.boardNo == b.boardNo }">
-							<img class="list-img" src="${ contextPath }/resources/buploadFiles/${a.atcName}">
-						</c:if>
-					</c:forEach>
-					
+						<%for(Attachment at: atList){%>
+							<%if(b.getBoardNo() == at.getBoardNo()){ %>
+								<img class="list-img" src="resources/buploadFiles/<%=at.getAtcName()%>">
+							<%}else{ %>
+								<img class="list-img">
+							<%} %>
+						<%} %>
 					</div>
-					
-					<input type="hidden" id="boardNo" value="${ b.boardNo }">
+					<input type="hidden" id="boardNo" value="<%=b.getBoardNo()%>">
 					<div class="content-div">
 						<ul class="content-ul">
-							<li class="title-li">${b.bTitle }</li>
+							<li class="title-li"><%=b.getbTitle()%></li>
 							<li class="tag-li">#작가 #분야</li>
-							<li class="writer-li">${b.userId }</li>
+							<li class="writer-li"><%=b.getUserId() %></li>
 							<li class="wise-li">명언</li>
 						</ul>
 					</div>
 				</div>
-			</c:forEach>
+			<%} %>
 		</div>
 		
 		<script>
@@ -288,7 +297,7 @@ select::-ms-expand {
 				<c:url var="next" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }"/>
 				</c:url>
-				<a href="${next }">&gt;</a>
+				<a href="${next}">&gt;</a>
 			</c:if>
 			<c:if test="${pi.currentPage < pi.endPage }">
 				<p>&gt;</p>
