@@ -210,6 +210,73 @@
 	    });
 	});
 	
+	//댓글 등록
+	$('#rSubmit').on('click', function(){
+		var rContent = $('#rContent').val();
+		var refBid = ${board.boardNo};
+		
+		$.ajax({
+			url: "addReply.bo",
+			data: {rContent:rContent, refBid:refBid},
+			success: function(data){
+				console.log(data);
+				if(data=="success"){
+					$("#rContent").val("");
+					getReplyList();
+					alert("댓글이 등록되었습니다.");
+				}
+			}
+		});
+	});		
+			
+// 댓글 리스트 불러오기
+	function getReplyList(){
+		var bId = ${ board.boardNo };
+		
+		$.ajax({
+			url: "rList.bo",
+			data: {bId:bId},
+			success: function(data){
+				$tableBody = $("#rtb tbody");
+				$tableBody.html('');
+				
+				var $tr;
+				var $rWriter;
+				var $rContent;
+				var $rCreateDate;
+				
+				$('#rCount').text('댓글 (' + data.length + ')');
+				
+				if(data.length > 0){
+					for(var i in data){
+						$tr = $('<tr>');
+						$rWriter = $('<td width="100">').text(data[i].rWriter);
+						$rContent = $('<td>').text(decodeURIComponent(data[i].rContent.replace(/\+/g, ' ')));
+						$rCreateDate = $('<td width="100">').text(data[i].rCreateDate);
+						
+						$tr.append($rWriter);
+						$tr.append($rContent);
+						$tr.append($rCreateDate);
+						$tableBody.append($tr);
+					}
+				} else {
+					$tr = $('<tr>');
+					$rContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
+					
+					$tr.append($rContent);
+					$tableBody.append($tr);
+				}
+			}
+		});
+	}
+
+	$(function(){
+		getReplyList();
+		setInterval(function(){
+			getReplyList();
+		}, 1000);
+	});
+	
 </script>
 
 </html>
