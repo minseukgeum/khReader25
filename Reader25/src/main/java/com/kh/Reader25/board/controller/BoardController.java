@@ -138,6 +138,7 @@ public class BoardController {
 		int listCount = bService.getListCount(code);
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
+		ArrayList<Attachment> atList = bService.selectAttachmentList(pi, code);
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
