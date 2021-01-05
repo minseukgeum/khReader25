@@ -319,7 +319,7 @@ public class BoardController {
 
         Like.setB_no(b_no);
         Like.setM_no(m_no);
-
+ 
         System.out.println(heart);
 
         if(heart >= 1) {
