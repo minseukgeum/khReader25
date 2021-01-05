@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
 public interface BoardService {
@@ -31,6 +32,12 @@ public interface BoardService {
 	Board selectBoard(int boardNo);
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
+	int findLike(HashMap<String, Object> map);
+
+	void deleteLike(Liketo like);
+
+	void insertLike(Liketo like);
 
 	//int findLike(HashMap<String, Object> map);
 

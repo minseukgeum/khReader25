@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
 @Repository("bDAO")
@@ -88,6 +89,26 @@ public class BoardDAO {
 
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
+	}
+
+	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+			
+		return sqlSession.selectOne("boardMapper.findLike", map);
+	}
+
+	public int deleteLike(SqlSessionTemplate sqlSession, Liketo like) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("boardMapper.deleteLike",like);
+	}
+
+	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateLike",b_no);
+	}
+
+	public int insertLike(SqlSessionTemplate sqlSession, Liketo like) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("boardMapper.insertLike",like);
 	}
 
 //	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {

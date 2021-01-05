@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -23,6 +24,7 @@ import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
@@ -222,25 +224,54 @@ public class BoardController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("loginUser", loginUser);
 		map.put("boardNo", boardNo);
-		
-		//int likeResult = bService.findLike(map);
+				
+		int heart = bService.findLike(map);
+		System.out.println("heart"+heart);
 		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)
 				.setViewName("TIWDetailView");
 			
-			//if(likeResult > 0) {
-			//	mv.addObject(likeResult);
-			//} else {
-			//	mv.addObject(likeResult);
-			//}
+			if(heart > 0) {
+				mv.addObject(heart);
+			} else {
+				mv.addObject(heart);
+			}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
 		}
 		
 		return mv;
 	}
+	
+	// 오늘은 나도 작가 = 5 좋아요 클릭 컨트롤러
+	@ResponseBody
+    @RequestMapping("heart.to")
+    public int heart(HttpServletRequest httpRequest) throws Exception {
+
+        int heart = Integer.parseInt(httpRequest.getParameter("heart"));
+        int boardId = Integer.parseInt(httpRequest.getParameter("boardId"));
+        String userid = ((Member) httpRequest.getSession().getAttribute("login")).getId();
+
+        Liketo Like = new Liketo();
+
+        Like.setB_no(boardId);
+        Like.setM_no(userid);
+
+        System.out.println(heart);
+
+        if(heart >= 1) {
+            bService.deleteLike(Like);
+            heart=0;
+        } else {
+        	bService.insertLike(Like);
+            heart=1;
+        }
+
+        return heart;
+
+    }
 	
 	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
 	@RequestMapping("TIWUpdateView.to")
