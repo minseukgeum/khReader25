@@ -127,18 +127,19 @@ public class BoardServiceImpl implements BoardService{
 		bDAO.updateLike(sqlSession, like.getB_no());
 	}
 
-//	@Override
-//	public int findLike(HashMap<String, Object> map) {
-//		int result = bDAO.findLike(sqlSession, map);
-//		
-//		if(result > 0) {
-//			result = 1;
-//		} else {
-//			result = 0;
-//		}
-//		
-//		return result;
-//	}
+	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
+		return bDAO.selectAttachmentTList(sqlSession, atcCode);
+	}
+
+	@Override
+	public int insertBoardAndFile(Board b, Attachment at) {
+		int result = bDAO.insertBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.insertAttachment(sqlSession, at);
+		}
+		return result;
+	}
+
 
 
 	

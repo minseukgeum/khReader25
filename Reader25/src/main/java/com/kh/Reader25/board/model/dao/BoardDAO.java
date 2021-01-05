@@ -111,6 +111,15 @@ public class BoardDAO {
 		return sqlSession.insert("boardMapper.insertLike",like);
 	}
 
+	public ArrayList<Attachment> selectAttachmentTList(SqlSessionTemplate sqlSession, int atcCode) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentTList", atcCode);
+	}
+
+	public int insertAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.insert("boardMapper.insertAttachment", at);
+
+	}
+
 //	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 //		String result = sqlSession.selectOne("boardMapper.findLike", map);
 //		
