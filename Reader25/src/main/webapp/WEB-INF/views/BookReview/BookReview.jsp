@@ -230,15 +230,15 @@ select::-ms-expand {
 			<c:forEach items="${bList}" var="b">
 				<div class="list-div">
 					<div class="img-div">
+					<img class="list-img" src="#">
 					<c:forEach items="${atList}" var="a">
 						<c:if test="${a.boardNo == b.boardNo }">
 							<img class="list-img" src="${ contextPath }/resources/buploadFiles/${a.atcName}">
 						</c:if>
-						<c:if test="${a.boardNo != b.boardNo }">
-							<img class="list-img" src="#">
-						</c:if>
 					</c:forEach>
+					
 					</div>
+					
 					<input type="hidden" id="boardNo" value="${ b.boardNo }">
 					<div class="content-div">
 						<ul class="content-ul">

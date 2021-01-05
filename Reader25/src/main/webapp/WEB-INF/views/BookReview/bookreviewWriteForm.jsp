@@ -114,7 +114,7 @@
 <body>
 	<%@include file="../common/menubar.jsp" %>
 	<section>
-		<form action="inset.re" id="write-book" method="post" enctype="multipart/form-data" >
+		<form action="insert.re" id="write-book" method="post" enctype="multipart/form-data" >
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" name="bTitle" placeholder="제목을 작성하세요">
