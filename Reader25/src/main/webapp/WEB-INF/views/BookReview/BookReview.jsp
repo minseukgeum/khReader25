@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>BookReview</title>
-<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 <style>
 section {
 	background: rgba(246, 246, 246, 1);
@@ -228,38 +227,38 @@ select::-ms-expand {
 		</div>
 		
 		<div class="list-all-div">
-			<% for(int i = 0; i < 12; i++){ %>
-			<div class="list-div">
-				<div class="img-div">
-					<img class="list-img" src="${ contextPath }/resources/images/bookreview/book.jpg">
-				</div>
-				<div class="content-div">
-					<ul class="content-ul">
-						<li class="title-li">제목</li>
-						<li class="tag-li">#작가 #분야</li>
-						<li class="writer-li">회원ID</li>
-						<li class="wise-li">명언</li>
-					</ul>
-				</div>
-			</div>
-			<%} %>
 			<c:forEach items="${bList}" var="b">
 				<div class="list-div">
 					<div class="img-div">
-						<img class="list-img" src="${ contextPath }/resources/${atList}">
+					<c:forEach items="${atList}" var="a">
+						<c:if test="${a.boardNo == b.boardNo }">
+							<img class="list-img" src="${ contextPath }/resources/buploadFiles/${a.atcName}">
+						</c:if>
+						<c:if test="${a.boardNo != b.boardNo }">
+							<img class="list-img" src="#">
+						</c:if>
+					</c:forEach>
 					</div>
+					<input type="hidden" id="boardNo" value="${ b.boardNo }">
 					<div class="content-div">
 						<ul class="content-ul">
-							<li class="title-li">제목</li>
+							<li class="title-li">${b.bTitle }</li>
 							<li class="tag-li">#작가 #분야</li>
-							<li class="writer-li">회원ID</li>
+							<li class="writer-li">${b.userId }</li>
 							<li class="wise-li">명언</li>
 						</ul>
 					</div>
 				</div>
 			</c:forEach>
-			
 		</div>
+		
+		<script>
+			$('.list-div').click(function(){
+				var boardNo = $(this).children('#boardNo').val();
+				location.href = "redetail.re?boardNo="+boardNo+"&page="+${pi.currentPage};
+			});
+		</script>
+		
 		<div class="paging-div">
 			<!-- 이전 -->
 			<c:if test="${ pi.currentPage <=1 }">

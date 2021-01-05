@@ -93,7 +93,7 @@
 		where board_no = #{boardNo}
 	</update>
 	
-	<select id="selectBoard" resultType="_int">
+	<select id="selectBoard" resultMap="boardResultSet">
 		select * 
 		from board
 		where board_no = #{boardNo} and b_status = 'Y'
@@ -103,6 +103,12 @@
 		select *
 		from attachment
 		where board_no = #{boardNo} and atc_status = 'Y'
+	</select>
+	
+	<select id="selectAttachmentTList" resultMap="attachmentResultSet">
+		select *
+		from attachment
+		where atc_status = 'Y' and atc_level = 0
 	</select>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">

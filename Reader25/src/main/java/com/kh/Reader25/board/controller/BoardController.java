@@ -139,12 +139,14 @@ public class BoardController {
 		}
 		int code = 2;
 		int listCount = bService.getListCount(code);
+		
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
-		ArrayList<Attachment> atList = bService.selectAttachmentList(pi, code);
+		ArrayList<Attachment> atList = bService.selectAttachmentTList();
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
+				.addObject("atList", atList)
 				.setViewName("BookReview");
 		}else {
 			throw new BoardException("책리뷰 게시글 전체 조회에 실패하였습니다.");
@@ -154,6 +156,20 @@ public class BoardController {
 	@RequestMapping("write.re")
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
+	}
+	@RequestMapping("redetail.re")
+	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
+										ModelAndView mv) {
+		System.out.println("boardNo : " + boardNo);
+		
+		Board board = bService.selectBoard(boardNo);
+		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
+		if(board != null) {
+			mv.addObject("board", board);
+			mv.addObject("atList", at);
+			mv.setViewName("bookReviewDetail");
+		}
+		return mv;
 	}
 	
 

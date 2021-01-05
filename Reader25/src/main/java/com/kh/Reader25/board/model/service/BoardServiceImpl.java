@@ -105,6 +105,11 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectAttachmentList(sqlSession, boardNo);
 	}
 
+	@Override
+	public ArrayList<Attachment> selectAttachmentTList() {
+		return bDAO.selectAttachmentTList(sqlSession);
+	}
+
 //	@Override
 //	public int findLike(HashMap<String, Object> map) {
 //		int result = bDAO.findLike(sqlSession, map);
