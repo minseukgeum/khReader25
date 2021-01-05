@@ -33,18 +33,15 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
-<<<<<<< HEAD
 	int findLike(HashMap<String, Object> map);
 
 	void deleteLike(Liketo like);
 
 	void insertLike(Liketo like);
-=======
 	ArrayList<Attachment> selectAttachmentTList(int atcCode);
 
 	int insertBoardAndFile(Board b, Attachment at);
 
->>>>>>> branch 'master' of https://github.com/kawai23/Reader25.git
 
 	//int findLike(HashMap<String, Object> map);
 
