@@ -90,7 +90,7 @@
 	
 
 	
-	<select id="SearchResultListCount" parameterType="SearchCondition" resultType="_int">
+	<select id="SearchMyListCount" parameterType="SearchCondition" resultType="_int">
 	
 		select count(*)
 		from board
@@ -121,7 +121,7 @@
 	</select>
 	
 	
-	<select id="selectSeachResultList" parameterType="SearchCondition" resultMap="boardResultSet">
+	<select id="SeachMyList" parameterType="SearchCondition" resultMap="boardResultSet">
  	
  	
  		select *
@@ -151,6 +151,13 @@
  		order by BOARD_NO desc
  	
  	</select>
+ 	
+ 	<update id="deletemBList">
+ 	
+ 		UPDATE board SET B_STATUS = 'N' WHERE BOARD_NO=#{s}
+ 	
+ 	
+ 	</update>
 	
 	
 
@@ -210,6 +217,11 @@
 		WHERE boardno = #{boardNo} AND mno = #{userid}
     </delete>
     
+	<insert id="insertLike">
+		insert into liketo
+		values(SEQ_LID.nextval, #{b_no}, #{m_no}, 1)
+	</insert>
+	
 	<select id="updateLike">
 		UPDATE board
 		SET
@@ -219,14 +231,33 @@
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 	
-	<select id="updateBoardLike">
-		UPDATE board
-		SET
-		B_LIKE = (SELECT COUNT(*)
-						FROM liketo
-						WHERE boardno = #{boardNo})
-		WHERE BOARD_NO = #{boardNo}
-        </select>
+	<insert id="insertComments">
+		insert into comments
+		values (com_seq.nextval, #{cContent}, sysdate, default, #{cefBid}, #{cWriter})
+	</insert>
+	
+	<update id="updateCount">
+		update board
+		set comCount = comCount + 1
+		where board_no = #{cefBid}
+	</update>
+	
+	<select id="selectCommentsList" resultMap="commentsResultSet">
+		select *
+		from comments c
+		    join board b on(c.board_no = b.board_no)
+		where c.board_no=#{bid}
+		order by c.board_no desc
+	</select>
+	
+	<resultMap type="Comments" id="commentsResultSet">
+		<id property="comNo" column="COM_NO"></id>
+		<result property="comment" column="CONTENT"></result>
+		<result property="comDate" column="COM_DATE"></result>
+		<result property="status" column="STATUS"></result>
+		<result property="boardNo" column="BOARD_NO"></result>
+		<result property="userId" column="USER_ID"></result>
+	</resultMap>
 	
 
 </mapper>

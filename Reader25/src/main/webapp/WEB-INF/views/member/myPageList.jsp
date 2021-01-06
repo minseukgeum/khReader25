@@ -51,11 +51,13 @@
 						<a href="#" class="list-group-item">회원 탈퇴 </a> 
 						<hr>
 						
-						<a href="mSearch.me?code=2" class="list-group-item" id="c2">내가 쓴 리뷰</a>
+						<a href="mSearch.me?code=2" class="list-group-item"	 id="c2">내가 쓴 리뷰</a>
 						<a href="mSearch.me?code=4" class="list-group-item"  id="c4">책방 리스트</a>
-						<a href="mSearch.me?code=5" class="list-group-item">주문 리스트</a>
-						<a href="#" class="list-group-item">내가 쓴 책</a>
+						<a href="#" class="list-group-item"  >주문 리스트</a>
+						<a href="mSearch.me?code=5" class="list-group-item" id="c5">내가 쓴 책</a>
 						<a href="#" class="list-group-item">좋아요/북마크</a>
+						
+						<a href="mSearch.me?code=1" class="list-group-item" id="c1">문의사항</a>
 
 				
 				<br>
@@ -182,15 +184,19 @@
 					case 1:
 						
 						
-						
+						$('#c1').addClass('active');
 						break;
 						
 					case 2:
-						$('#c2').addClass('active')
+						$('#c2').addClass('active');
 						break;
 						
 					case 4:
-						$('#c4').addClass('active')
+						$('#c4').addClass('active');
+						break;
+						
+					case 5:
+						$('#c5').addClass('active');
 						break;
 
 					
@@ -264,19 +270,14 @@
 				 <ul class="pagination">
 				      
 				      
-				      <c:if test="${searchValue eq null }">
+				     
 				
+					
+					
+					
+						<c:set var="loc" value="mSearch.me"></c:set>
+					
 				
-						<c:set var="loc" value="/Mblist.me"></c:set>
-					
-					</c:if>
-				
-					<c:if test="${searchValue ne null }">
-					
-					
-						<c:set var="loc" value="/search.bo"></c:set>
-					
-					</c:if>
 				    
 				    
 				    
@@ -292,12 +293,14 @@
 				<c:if test="${ pi.currentPage > 1 }">
 					<c:url var="before" value="${ loc }">
 						<c:param name="page" value="${ pi.currentPage - 1 }"/>
+						<c:param name="code" value="${code }"></c:param>
 						
 						
 						<c:if test="${searchValue ne null }">
 						
 							<c:param name="searchCondition" value="${searchCondition }"></c:param>
 							<c:param name="searchValue" value="${searchValue }"></c:param>
+						
 						
 						</c:if>
 						<c:param name="page" value="${pi.currentPage - 1  }"/>
@@ -329,6 +332,7 @@
 						<c:url var="pagination" value="${ loc }">
 						
 							<c:param name="page" value="${ p }"/>
+							<c:param name="code" value="${code }"></c:param>
 					
 						
 						
@@ -336,6 +340,7 @@
 						
 								<c:param name="searchCondition" value="${searchCondition }"></c:param>
 								<c:param name="searchValue" value="${searchValue }"></c:param>
+								
 						
 							</c:if>
 						</c:url>
@@ -358,11 +363,13 @@
 						<c:if test="${ pi.currentPage < pi.maxPage }">
 							<c:url var="after" value="${ loc }">
 								<c:param name="page" value="${ pi.currentPage + 1 }"/>
+								<c:param name="code" value="${code }"></c:param>
 								
 								<c:if test="${searchValue ne null }">
 						
 									<c:param name="searchCondition" value="${searchCondition }"></c:param>
 									<c:param name="searchValue" value="${searchValue }"></c:param>
+									
 							
 								</c:if>
 							</c:url> 
@@ -429,7 +436,7 @@
 					        
 						        $('#yBtn').click(function() {
 									
-									
+						        	var code = ${code};
 						        	
 						        	
 									var select_obj = '';
@@ -451,18 +458,20 @@
 								    
 								    
 								    
-//					 			    if(select_obj == '' || select_obj.length == 0){
+					 			    if(select_obj == '' || select_obj.length == 0){
 								    	
 								    	
-					<%-- 			    	 location.href='<%=request.getContextPath()%>/mdelete.do?inFo='+Id; --%>
+								    	 location.href='mBlistDelete.me?inFo='+Id + "&code=" + code+'&page='+ ${pi.currentPage};
 								    	
-//					 			    }else{
+					 			    }else{
 								    	
-//					 			    	console.log("데이터 : "+select_obj);
+					 			    	console.log("데이터 : "+select_obj);
+					 			    	
+					 			    	
 									    
-					<%-- 				    location.href='<%=request.getContextPath()%>/mdelete.do?inFo='+select_obj; --%>
+									    location.href='mBlistDelete.me?inFo='+select_obj+"&code=" + code+'&page='+ ${pi.currentPage};
 								    	
-//					 			    }
+					 			    }
 								    
 
 							});

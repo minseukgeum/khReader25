@@ -12,6 +12,7 @@ import com.kh.Reader25.board.model.dao.BoardDAO;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
@@ -143,20 +144,38 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	@Override
+	public int insertComments(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.insertComments(sqlSession, c);
+	}
+
+	@Override
+	public int updateCount(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.updateCount(sqlSession, c);
+	}
+
+	@Override
+	public ArrayList<Comments> selectCommentsList(int bId) {
+		// TODO Auto-generated method stub
+		return bDAO.selectCommentsList(sqlSession, bId);
+	}
+
 
 
 	
 
 	@Override
-	public int getSearchResultListCount(SearchCondition sc) {
+	public int getSearchMyListCount(SearchCondition sc) {
 		// TODO Auto-generated method stub
-		return bDAO.getSearchResultListCount(sqlSession, sc);
+		return bDAO.getSearchMyListCount(sqlSession, sc);
 	}
 
 	@Override
-	public ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi) {
+	public ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi) {
 		
-		return bDAO.selectSeachResultList(sqlSession,sc, pi);
+		return bDAO.SeachMyList(sqlSession,sc, pi);
 	}
 	
 	

@@ -15,6 +15,8 @@
 
 		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
 
+		<typeAlias type="com.kh.Reader25.board.model.vo.Comments" alias="Comments"/>
+
 	</typeAliases>
 	
 	<mappers>

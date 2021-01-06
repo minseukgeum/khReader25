@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
@@ -97,15 +98,15 @@ public class BoardDAO {
 	}
 	
 	
-	public int getSearchResultListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+	public int getSearchMyListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
 		
 		
 		
-		return sqlSession.selectOne("boardMapper.SearchResultListCount", sc);
+		return sqlSession.selectOne("boardMapper.SearchMyListCount", sc);
 		
 	}
 
-	public ArrayList<Board> selectSeachResultList(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
+	public ArrayList<Board> SeachMyList(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
 		
 		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit(); 
 		
@@ -113,7 +114,7 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		
-		return  (ArrayList)sqlSession.selectList("boardMapper.selectSeachResultList",sc , rowBounds);
+		return  (ArrayList)sqlSession.selectList("boardMapper.SeachMyList",sc , rowBounds);
 		
 		
 	}
@@ -147,6 +148,7 @@ public class BoardDAO {
 
 	}
 
+
 	public int deletemBList(SqlSessionTemplate sqlSession, String s) {
 		
 		return sqlSession.update("boardMapper.deletemBList",s);
@@ -165,5 +167,22 @@ public class BoardDAO {
 //		
 //		return result2;
 //	}
+
+	public int insertComments(SqlSessionTemplate sqlSession, Comments c) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("boardMapper.insertComments", c);
+	}
+
+	public int updateCount(SqlSessionTemplate sqlSession, Comments c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateCount", c);
+	}
+
+	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int bId) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", bId);
+	}
+
+
 
 }

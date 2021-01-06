@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.board.model.vo.SearchCondition;
@@ -31,7 +32,7 @@ public interface BoardService {
 	int deleteTIWBoard(int boardNo);
 
 
-	int getSearchResultListCount(SearchCondition sc);
+	int getSearchMyListCount(SearchCondition sc);
 
 	Board selectBoard(int boardNo);
 
@@ -39,7 +40,7 @@ public interface BoardService {
 
 
 
-	ArrayList<Board> selectSeachResultList(SearchCondition sc, PageInfo pi);
+	ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi);
 
 
 
@@ -53,9 +54,14 @@ public interface BoardService {
 
 	int insertBoardAndFile(Board b, Attachment at);
 
+
 	int deletemBList(String[] lists);
 
+	int insertComments(Comments c);
 
+	int updateCount(Comments c);
+
+	ArrayList<Comments> selectCommentsList(int bId);
 
 
 
