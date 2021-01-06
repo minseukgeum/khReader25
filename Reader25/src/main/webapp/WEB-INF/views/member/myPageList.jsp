@@ -72,7 +72,7 @@
 	  
 	  
 	  
-	   <div class="col-sm-7" style="border: 1px solid black;" >
+	   <div class="col-sm-8" style="border: 1px solid black;" >
 	   
 	   <table id="mytable" class="table table-bordred table-striped" >
 
