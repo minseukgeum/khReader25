@@ -116,6 +116,7 @@
 		<servlet-name>tiwServlet</servlet-name>
 		<url-pattern>*.to</url-pattern>
 	</servlet-mapping>
+
 	<!-- 3. 도서 거래 -->
 	<!-- 도서거래 페이지-->
 	<servlet>
@@ -130,6 +131,21 @@
 		<servlet-name>booktradeServlet</servlet-name>
 		<url-pattern>*.tr</url-pattern>
 	</servlet-mapping>
+
+	<!-- 토론방 관련 -->
+	<servlet>
+		<servlet-name>discussServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/discuss-context.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>discussServlet</servlet-name>
+		<url-pattern>*.di</url-pattern>
+	</servlet-mapping>
+	
 	<!-- 공용 에러페이지 등록 -->
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>

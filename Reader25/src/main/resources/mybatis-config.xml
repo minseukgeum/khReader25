@@ -11,10 +11,12 @@
 		<typeAlias type="com.kh.Reader25.board.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Comments" alias="Comments"/>
+		<typeAlias type="com.kh.Reader25.discuss.model.vo.Discuss" alias="Discuss"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>
+		<mapper resource="mapper/discuss-mapper.xml"/>
 	</mappers>
 </configuration>
