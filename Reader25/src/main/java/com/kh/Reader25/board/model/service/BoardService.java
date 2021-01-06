@@ -58,6 +58,12 @@ public interface BoardService {
 
 	int updateLike(Liketo like);
 
+	int getCommentListCount(int boardNo);
+
+	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
+
+
+
 
 
 	

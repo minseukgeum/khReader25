@@ -201,4 +201,16 @@
 		<result property="userId" column="USER_ID"></result>
 	</resultMap>
 	
+	<!-- <select id="getCommentListCount" resultType="_int">
+		select count(*)
+		from comments
+		where board_no = #{boardNo}
+	</select>
+	
+	<select id="selectCommentsList" resultMap="commentsResultSet">
+		select *
+		from comments
+		where board_no =#{boardNo}
+		order by com_no desc
+	</select> -->
 </mapper>
