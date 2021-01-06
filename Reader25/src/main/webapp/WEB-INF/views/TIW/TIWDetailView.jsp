@@ -299,9 +299,11 @@
 	                that.prop('name',data);
 	                if(data==1) {
 	                    $('#heart').prop("src","resources/images/like/like.png");
+	                    location.reload();
 	                }
 	                else{
 	                    $('#heart').prop("src","resources/images/like/unlike.png");
+	                    location.reload();
 	                }
 	
 	
