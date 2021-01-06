@@ -274,7 +274,7 @@ public class BoardController {
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
 	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
-									@RequestParam("page") int page, ModelAndView mv) {
+									@RequestParam("page") int page, @RequestParam(value="cpage", required=false) Integer cpage, ModelAndView mv) {
 		
 		//System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
@@ -286,6 +286,21 @@ public class BoardController {
 		int heart = bService.findLike(map) == 1? 1:0;
 		System.out.println("heart"+heart);
 		
+//		int currentPage = 1;
+//		if(cpage != null) {
+//			currentPage = cpage;
+//		}
+//		
+//		int listCount = bService.getCommentListCount(boardNo);
+//		
+//		PageInfo pi = Pagination.getPageInfo5_1(currentPage, listCount);
+//		
+//		HashMap<String, Object> hpage = new HashMap<String, Object>();
+//		hpage.put("pi", pi);
+//		hpage.put("boardNo", boardNo);
+//		
+//		ArrayList<Comments> list = bService.selectCommentsList(hpage);
+//		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)

@@ -165,6 +165,25 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.updateLike(sqlSession, like.getB_no());
 	}
 
+	@Override
+	public int getCommentListCount(int boardNo) {
+		// TODO Auto-generated method stub
+		return bDAO.getCommentListCount(sqlSession, boardNo);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+
 
 
 	
