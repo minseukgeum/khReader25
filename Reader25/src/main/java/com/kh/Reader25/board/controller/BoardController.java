@@ -193,7 +193,7 @@ public class BoardController {
 	// 이 책의 다른 리뷰보기
 	@RequestMapping("reList.re")
 	public void getAnotherList(@RequestParam(value="page1", required=false) Integer page1,
-							   @RequestParam("booktitle") String book) {
+							   @RequestParam("booktitle") String book, HttpServletResponse response) {
 		int currentPage1 = 1;
 		if(page1 != null) {
 			currentPage1 = page1;
@@ -201,8 +201,16 @@ public class BoardController {
 		int listCount = bService.getReListCount(book);
 		PageInfo pi = Pagination.getPageInfo3(currentPage1, listCount);
 		ArrayList<Board> reList = bService.selectAnotherReview(book, pi);
+		Gson gson = new Gson();
 		if(reList != null) {
-			
+			try {
+				gson.toJson(reList, response.getWriter());
+				gson.toJson(pi, response.getWriter());
+			} catch (JsonIOException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

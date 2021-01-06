@@ -194,10 +194,7 @@
 				<p>&lt;</p>
 			</c:if>
 			<c:if test="${ pi1.currentPage > 1 }">
-				<c:url var="before" value="${ loc }">
-					<c:param name="page1" value="${ pi1.currentPage -1 }" />
-				</c:url>
-				<a href="${ before }">&lt;</a>
+				<a onclick="before1();">&lt;</a>
 			</c:if>
 			<!-- 번호 -->
 			<c:forEach begin="${ pi1.startPage }" end="${ pi1.endPage }" var="p">
@@ -205,19 +202,13 @@
 					<p>${ p }</p>
 				</c:if>
 				<c:if test="${ pi1.currentPage ne p }">
-					<c:url var="pNo" value="${ loc }">
-						<c:param name="page1" value="${ p }" />
-					</c:url>
-					<a href="${ pNo }">${ p }</a>
+					<a onclick="p1();">${ p }</a>
 				</c:if>
 			</c:forEach>
 
 			<!-- 다음 -->
 			<c:if test="${ pi1.currentPage >= pi1.endPage }">
-				<c:url var="next" value="${ loc }">
-					<c:param name="page1" value="${ pi1.currentPage + 1 }" />
-				</c:url>
-				<a href="${next}">&gt;</a>
+				<a onclick="next1();">&gt;</a>
 			</c:if>
 			<c:if test="${pi1.currentPage < pi1.endPage }">
 				<p>&gt;</p>
@@ -230,12 +221,18 @@
 				setInterval(function(){
 					getAnotherReview();
 				}, 5000);
+				$('.review-a').click(function(){
+					getAnotherReview();
+				});
 			});
+			function before1(){
+				var page1 = 
+			}
 			function getAnotherReview(){
 				var booktitle = ${booktitle};
 				$.ajax({
 					url: 'reList.re',
-					data: {booktitle:booktitle},
+					data: {booktitle:booktitle, page1:page1},
 					success: function(data){
 						console.log(data);
 					}
