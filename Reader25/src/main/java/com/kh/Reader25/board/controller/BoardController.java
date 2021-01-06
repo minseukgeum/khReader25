@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
@@ -117,6 +119,9 @@ public class BoardController {
 		if(page != null) {
 			currentPage = page;
 		}
+		if(page == 0) {
+			currentPage = 1;
+		}
 		int code = 1;
 		int listCount = bService.getListCount(code);
 		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
@@ -165,29 +170,57 @@ public class BoardController {
 		return "bookreviewWriteForm";
 	}
 	@RequestMapping("redetail.re")
-	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
-										ModelAndView mv) {
+	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo,
+											 @RequestParam("page") int page,
+											 ModelAndView mv) {
 		Board board = bService.selectBoard(boardNo);
-		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
+		Attachment at = bService.selectAttachment(boardNo);
 		if(board != null) {
 			
 			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
 			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
 			String author = exbook.substring(0,exbook.indexOf("#"));
-			String content = author.substring(exbook.indexOf("#") + 1);
+			String content = exbook.substring(exbook.indexOf("#") + 1);
 			
-			System.out.println(booktitle);
-			System.out.println(exbook);
-			System.out.println(author);
-			System.out.println(content);
+			board.setbContent(content);
 			
 			mv.addObject("board", board);
-			mv.addObject("atList", at);
+			mv.addObject("at", at);
+			mv.addObject("booktitle", booktitle);
+			mv.addObject("author", author);
 			mv.addObject("page", page);
 			mv.setViewName("bookReviewDetail");
 		}
 		return mv;
 	}
+	// 이 책의 다른 리뷰보기
+	@RequestMapping("reList.re")
+	public void getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
+							   @RequestParam("booktitle") String book, HttpServletResponse response,
+							   Model model) {
+		response.setContentType("application/json; charset=UTF-8");
+		int currentPage1 = 1;
+		if(page1 != null) {
+			currentPage1 = page1;
+		}
+		
+		int listCount = bService.getReListCount(book);
+		PageInfo pi1 = Pagination.getPageInfo3(currentPage1, listCount);
+		ArrayList<Board> reList = bService.selectAnotherReview(book, pi1);
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("reList", reList);
+		map.put("pi1", pi1);
+		
+		Gson gson = new Gson();
+		 try {
+			gson.toJson(map, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping("insert.re")
 	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request,
@@ -274,7 +307,7 @@ public class BoardController {
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
 	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
-									@RequestParam("page") int page, ModelAndView mv) {
+									@RequestParam("page") int page, @RequestParam(value="cpage", required=false) Integer cpage, ModelAndView mv) {
 		
 		//System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
@@ -286,6 +319,21 @@ public class BoardController {
 		int heart = bService.findLike(map) == 1? 1:0;
 		System.out.println("heart"+heart);
 		
+//		int currentPage = 1;
+//		if(cpage != null) {
+//			currentPage = cpage;
+//		}
+//		
+//		int listCount = bService.getCommentListCount(boardNo);
+//		
+//		PageInfo pi = Pagination.getPageInfo5_1(currentPage, listCount);
+//		
+//		HashMap<String, Object> hpage = new HashMap<String, Object>();
+//		hpage.put("pi", pi);
+//		hpage.put("boardNo", boardNo);
+//		
+//		ArrayList<Comments> list = bService.selectCommentsList(hpage);
+//		
 		if(board != null) {
 			mv.addObject("board", board)
 				.addObject("page", page)

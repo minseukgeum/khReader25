@@ -111,6 +111,12 @@
 		where atc_status = 'Y' and atc_level = 0 and atc_code = #{atcCode}
 	</select>
 	
+	<select id="selectAttachment" resultMap="attachmentResultSet">
+		select *
+		from attachment
+		where atc_status = 'Y' and board_no = #{boardNo}
+	</select>
+	
 	<resultMap type="Attachment" id="attachmentResultSet">
 		<id property="atcNo" column="ATC_NO"/>
 		<result property="atcLevel" column="ATC_LEVEL"/>
@@ -123,6 +129,18 @@
 		<result property="boardNo" column="BOARD_NO"/>
 	</resultMap>
 	
+	<select id="getReListCount" resultType="_int">
+		select count(*)
+		from board
+		where code = 2 and b_status = 'Y' 
+			and b_content like '%' || #{book} || '%'
+	</select>
+	<select id="selectAnotherReview" resultMap="boardResultSet">
+		select *
+		from board
+		where code = 2 and b_status = 'Y'
+			and b_content like '%' || #{book} || '%'
+	</select>
 	<select id="findLike" resultType="_int">
 		select count(*)
 		from liketo
@@ -183,4 +201,16 @@
 		<result property="userId" column="USER_ID"></result>
 	</resultMap>
 	
+	<!-- <select id="getCommentListCount" resultType="_int">
+		select count(*)
+		from comments
+		where board_no = #{boardNo}
+	</select>
+	
+	<select id="selectCommentsList" resultMap="commentsResultSet">
+		select *
+		from comments
+		where board_no =#{boardNo}
+		order by com_no desc
+	</select> -->
 </mapper>

@@ -160,10 +160,43 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public Attachment selectAttachment(int boardNo) {
+		return bDAO.selectAttachment(sqlSession, boardNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectAnotherReview(String book, PageInfo pi) {
+		return bDAO.selectAnotherReview(sqlSession, book, pi);
+	}
+
+	@Override
+	public int getReListCount(String book) {
+		return bDAO.getReListCount(sqlSession, book);
+	}
+	@Override
 	public int updateLike(Liketo like) {
 		// TODO Auto-generated method stub
 		return bDAO.updateLike(sqlSession, like.getB_no());
 	}
+
+	@Override
+	public int getCommentListCount(int boardNo) {
+		// TODO Auto-generated method stub
+		return bDAO.getCommentListCount(sqlSession, boardNo);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
 
 
 
