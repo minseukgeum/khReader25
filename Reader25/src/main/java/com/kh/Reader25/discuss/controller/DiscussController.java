@@ -57,6 +57,7 @@ public class DiscussController {
 		return "discussWriteForm";
 	}
 	
+	// 토론방 작성
 	@RequestMapping("discussInsert.di")
 	public String discussInsert(@ModelAttribute Discuss d, @RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest request, @RequestParam("dchose") String dchose) {
 		d.setdWriter(((Member)(request.getSession().getAttribute("loginUser"))).getId());
@@ -76,6 +77,19 @@ public class DiscussController {
 		} else {
 			throw new DiscussException("토론방 작성에 실패하였습니다.");
 		}
+	}
+	
+	// 토론방 상세페이지 이동
+	@RequestMapping("dDetail.di")
+	public ModelAndView discussDetailForm(@RequestParam("dNo") int dNo, @RequestParam("page") int page, ModelAndView mv) {
+		Discuss discuss = dService.selectDiscuss(dNo);
+		
+		if(discuss != null) {
+			mv.addObject("d", discuss).addObject("page", page).setViewName("discussDetail");
+		} else {
+			throw new DiscussException("토론방 상세보기 실패하였습니다.");
+		}
+		return mv;
 	}
 	
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {

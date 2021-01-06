@@ -14,4 +14,6 @@ public interface DiscussService {
 
 	int insertDiscuss(Discuss d, Attachment at);
 
+	Discuss selectDiscuss(int dNo);
+
 }

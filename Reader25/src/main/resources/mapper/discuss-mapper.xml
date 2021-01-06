@@ -44,4 +44,10 @@
 		VALUES(D_SEQ.NEXTVAL, #{dTitle}, #{dContent}, SYSDATE, #{dPros}, #{dCons}, DEFAULT, DEFAULT, DEFAULT, SEQ_ATC.CURRVAL, #{dWriter})
 	</insert>
 	
+	<!-- 토론방 상세페이지 -->
+	<select id="selectDiscuss" resultMap="discussResultSet">
+		SELECT *
+		FROM DISCUSS
+		WHERE D_STATUS='Y' AND D_NO = ${dNo}
+	</select>
 </mapper>

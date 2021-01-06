@@ -32,4 +32,8 @@ public class DiscussDAO {
 	public int insertDiscuss(SqlSessionTemplate sqlSession, Discuss d) {
 		return sqlSession.insert("DiscussMapper.insertDiscuss", d);
 	}
+
+	public Discuss selectDiscussDetail(SqlSessionTemplate sqlSession, int dNo) {
+		return sqlSession.selectOne("DiscussMapper.selectDiscuss", dNo);
+	}
 }

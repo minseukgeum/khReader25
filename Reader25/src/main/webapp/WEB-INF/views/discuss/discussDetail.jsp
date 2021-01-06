@@ -55,7 +55,7 @@
 	<br><br>
 	<section>
 		<div>
-		<b>토론 주제(제목)</b>
+		<b>${d.getdTitle()}</b>
 		<button class="btn" id="btn1">토론방 수정</button>
 		<button class="btn" id="btn2">토론방 끝내기</button>
 		</div>
@@ -73,12 +73,7 @@
 	<h2>토론주제</h2>
 	<hr>
 	<p>
-	내는 있음으로써 이상은 있는 그들은 인생을 보는 이 자신과 힘있다. 끝까지 풍부하게 날카로우나 꽃 황금시대다. 목숨을 위하여 이상 그들의 예가 사막이다. 인간의 우는 같은 풀밭에 구하기 풍부하게 반짝이는 방황하여도, 청춘이 운다.
-
-	군영과 없는 꾸며 있음으로써 스며들어 인생을 철환하였는가? 이것은 평화스러운 것은 말이다. 이상은 있음으로써 인간이 가는 두기 살았으며, 무엇을 인류의 것이다.
-
-	보는 인간의 우리 주는 피가 우리 그리하였는가? 만천하의 싶이 아름답고 원질이 가장 그들은 수 찾아 황금시대다. 바로 주는 이 청춘을 봄바람이다.
-	</p>
+	${d.getdContent()}</p>
 	
 	<h2>주장</h2>
 	<hr>
@@ -87,7 +82,6 @@
 			<option selected>오래된순</option>
 			<option>최신순</option>
 		</select><br>
-		
 		<ol>
 			<li>
 				<div class="dfom">
@@ -119,14 +113,15 @@
 			
 		</ol>
 	</div>
-	
-	<select class="wid">
-		<option selected>찬성</option>
-		<option>반대</option>
-	</select><br>
-	<input type="text" class="wid"id="id" placeholder="아이디을 작성하세요"><br>
-	<textarea id="area1" class="wid" rows="10" cols="55"></textarea><br>
-	<button class="btn" id="btn3">작성하기</button>
+	<form>
+		<select class="wid">
+			<option selected>찬성</option>
+			<option>반대</option>
+		</select><br>
+		<input type="text" class="wid" id="id" placeholder="아이디을 작성하세요"><br>
+		<textarea id="area1" class="wid" rows="10" cols="55"></textarea><br>
+		<button class="btn" id="btn3">작성하기</button>
+	</form>
 	</section>
 </body>
 </html>

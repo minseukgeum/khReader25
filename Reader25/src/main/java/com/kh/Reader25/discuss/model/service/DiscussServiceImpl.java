@@ -42,4 +42,9 @@ public class DiscussServiceImpl  implements DiscussService{
 		return result;
 	}
 
+	@Override
+	public Discuss selectDiscuss(int dNo) {
+		return dDAO.selectDiscussDetail(sqlSession, dNo);
+	}
+
 }

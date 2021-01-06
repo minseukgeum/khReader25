@@ -133,38 +133,16 @@
 			<div id="body">
 				<table id="orderTable">
 				<c:forEach var="d" items="${ dList }">
-					<tr>
-						<td><img src="" id="bimg"/></td>
+					<tr class="dtr">
+						<td><input type="hidden" value="${ d.getdNo() }"><img src="" id="bimg"/></td>
 						<td><p>${ d.getdContent() }</p></td>
 					</tr>
-					<tr>
-						<td>찬반여론</td>
+					<tr class="dtr">
+						<td><input type="hidden" value="${ d.getdNo() }">찬반여론</td>
 <%-- 						<td>찬성 : ${ ((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdCons())*100}% 중립: ${((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdCons())*100}% 반대: ${((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdNeutrality())*100}% 댓글참여 : ${ d.getdCount() }개</td> --%>
 						<td>찬성 : ${d.getdPros()}% 중립 : ${ d.getdNeutrality() }% 반대 : ${ d.getdCons() }% 댓글참여 : ${ d.getdCount() }개</td>
 					</tr>					
 				</c:forEach>
-					<tr>
-						<td><img src="" id="bimg"/></td>
-						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
-						친절한 트렌드 뒷담화 2021 책에서 나온 트렌드의 변화에 
-						대한 이야기에 대해 이야기해볼 필요가있다...</p></td>
-					</tr>
-					<tr>
-						<td>찬반여론</td>
-						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
-					</tr>
-					
-					<tr>
-						<td><img src="" id="bimg"/></td>
-						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
-						친절한 트렌드 뒷담화 2021 책에서 나온 트렌드의 변화에 
-						대한 이야기에 대해 이야기해볼 필요가있다...</p></td>
-					</tr>
-					<tr>
-						<td>찬반여론</td>
-						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
-					</tr>
-					
 					<!-- 페이징 처리 -->
 					<tr align="center" height="20" id="buttonTab">
 						<td colspan="6">
@@ -206,6 +184,16 @@
 						</td>
 					</tr>
 				</table>
+				<script>
+					$(function(){
+						$('.dtr').mouseenter(function(){
+							$(this).css({'cursor':'pointer'});
+						}).click(function(){
+							var dNo = $(this).children().children().val();
+							location.href='dDetail.di?dNo=' + dNo + '&page=' + ${pi.currentPage};
+						});
+					});
+				</script>
 			</div>
 		</div>
 	</section>
