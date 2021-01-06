@@ -146,12 +146,12 @@
 		
 		<table class="commentsTable"  align="center">
 			<tr>
-				<td><textarea rows="3" cols="55" id="cContent"></textarea></td>
+				<td><textarea rows="3" cols="55" id="comment"></textarea></td>
 				<td><button id="cSubmit">등록하기</button></td>
 			</tr>
 		</table>
 			
-		<table class="commentsTable" id="ctb">
+		<table class="commentsTable" id="ctb"  align="center">
 			<thead>
 				<tr>
 					<td colspan=2><b id="cCount"></b></td>
@@ -159,19 +159,21 @@
 			</thead>
 			<tbody></tbody>
 		</table>
+		
 		<script>
+		
 		//댓글 등록
 		$('#cSubmit').on('click', function(){
-			var cContent = $('#cContent').val();
-			var cefBid = ${board.boardNo};
+			var comment = $('#comment').val();
+			var boardNo = ${board.boardNo};
 			
 			$.ajax({
 				url: "addComments.to",
-				data: {cContent:cContent, cefBid:cefBid},
+				data: {comment:comment, boardNo:boardNo},
 				success: function(data){
 					console.log(data);
 					if(data=="success"){
-						$("#cContent").val("");
+						$("#comment").val("");
 						getCommentsList();
 						alert("댓글이 등록되었습니다.");
 					}
@@ -181,39 +183,40 @@
 				
 		// 댓글 리스트 불러오기
 		function getCommentsList(){
-			var bId = ${ board.boardNo };
+			var boardNo = ${ board.boardNo };
 			
 			$.ajax({
 				url: "cList.to",
-				data: {bId:bId},
+				data: {boardNo:boardNo},
 				success: function(data){
 					$tableBody = $("#ctb tbody");
 					$tableBody.html('');
 					
 					var $tr;
-					var $cWriter;
-					var $cContent;
-					var $cCreateDate;
+					var $userId;
+					var $comment;
+					var $comDate;
 					
 					$('#cCount').text('댓글 (' + data.length + ')');
 					
 					if(data.length > 0){
 						for(var i in data){
+							console.log(data);
 							$tr = $('<tr>');
-							$cWriter = $('<td width="100">').text(data[i].cWriter);
-							$cContent = $('<td>').text(decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')));
-							$cCreateDate = $('<td width="100">').text(data[i].cCreateDate);
+							$userId = $('<td width="100">').text(data[i].userId);
+							$comment = $('<td>').text(data[i].comment);
+							$comDate = $('<td width="100">').text(data[i].comDate);
 							
-							$tr.append($cWriter);
-							$tr.append($cContent);
-							$tr.append($cCreateDate);
+							$tr.append($userId);
+							$tr.append($comment);
+							$tr.append($comDate);
 							$tableBody.append($tr);
 						}
 					} else {
 						$tr = $('<tr>');
 						$cContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
 						
-						$tr.append($cContent);
+						$tr.append($comment);
 						$tableBody.append($tr);
 					}
 				}
