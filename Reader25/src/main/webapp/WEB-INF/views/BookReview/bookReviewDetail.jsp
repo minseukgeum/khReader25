@@ -1,10 +1,12 @@
 <%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList, com.kh.Reader25.board.model.vo.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
 <style>
 	.bookreview-div{
@@ -207,25 +209,26 @@
 			<c:if test="${pi1.currentPage < pi1.endPage }">
 				<p>&gt;</p>
 			</c:if>
-
 		</div>
+		<%
+		
+			ArrayList<Board> reList = (ArrayList<Board>)request.getAttribute("reList");
+			System.out.println(reList);
+		%>
 		<script>
 			$(function(){
-				getAnotherReview(1);
+				getReList(1);
 				console.log("${reList}");
 				console.log("${pi1}");
 			});
 			function getReList(page1){
 				var booktitle = "${booktitle}";
 				var page1 = page1;
+				console.log(booktitle);
 				console.log("page1 : " + page1);
 				$.ajax({
-					type:"post",
 					url: 'reList.re',
-					data: {booktitle:booktitle, page1:page1},
-					success: function(data){
-						console.log(data);
-					}
+					data: {booktitle:booktitle, page1:page1}
 				});
 			}
 		</script>

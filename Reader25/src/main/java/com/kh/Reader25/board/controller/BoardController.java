@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
@@ -194,7 +195,7 @@ public class BoardController {
 	}
 	// 이 책의 다른 리뷰보기
 	@RequestMapping("reList.re")
-	public Model getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
+	public String getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
 							   @RequestParam("booktitle") String book, HttpServletResponse response,
 							   Model model) {
 		int currentPage1 = 1;
@@ -205,10 +206,17 @@ public class BoardController {
 		int listCount = bService.getReListCount(book);
 		PageInfo pi1 = Pagination.getPageInfo3(currentPage1, listCount);
 		ArrayList<Board> reList = bService.selectAnotherReview(book, pi1);
-		model.addAttribute("reList", reList);
-		model.addAttribute("pi1", pi1);
+		System.out.println("Controller: "+reList);
 		
-		return model;
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("reList", reList);
+		map.put("pi1", pi1);
+		
+		JsonObject obj = new JsonObject();
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(map);
+		return jsonString;
 	}
 	
 	@RequestMapping("insert.re")
