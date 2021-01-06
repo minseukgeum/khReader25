@@ -31,5 +31,11 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
+	ArrayList<Attachment> selectAttachmentTList(int code);
+
+
+
+
+
 	
 }

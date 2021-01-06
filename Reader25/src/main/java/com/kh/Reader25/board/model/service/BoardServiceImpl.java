@@ -104,6 +104,12 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectAttachmentList(sqlSession, boardNo);
 	}
 
-	
-	
+	@Override
+	public ArrayList<Attachment> selectAttachmentTList(int code) {
+		// TODO Auto-generated method stub
+		return bDAO.selectAttachmentList(sqlSession, code);
+	}
+
+
+
 }
