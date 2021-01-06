@@ -1,3 +1,4 @@
+<%@page import="org.apache.ibatis.reflection.SystemMetaObject"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -100,21 +101,7 @@
 		margin: auto;
 		margin-top: 10px;
 	}
-	.paging-btn>a{
-		background:rgba(229, 229, 229, 1);
-		color:rgba(85, 83, 83, 1);
-		border: none;
-		width: 20px;
-		height: 20px;
-	}
-	.paging-btn>p {
-		background:rgba(39, 50, 56, 1);
-		color: white;
-	}
-	.paging-btn>a:hover{
-		background: rgba(210, 210, 210, 1);
-		font-weight: bolder;
-	}
+
 	.write-div{
 		width: 80px;
 		font-size: 18px;
@@ -177,13 +164,20 @@
 			</div>
 			<div class="list-contents">
 				<table class="list-table">
-					<%for(int i = 0; i < 10; i++){ %>
-					<tr>
-						<td class="td-left">이 책 정말 재밌네</td>
-						<td>강건강</td>
-						<td>2020.01.01</td>
-					</tr>
-					<%} %>
+					<c:if test="${ reList eq null }">
+						<tr>
+						<td class="td-left" colspan="3"> 다른 리뷰가 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:if test="${ reList ne null }">
+						<c:forEach var="re" items="${ reList }">
+							<tr>
+								<td class="td-left">${ re.bTitle }</td>
+								<td>${re.userId }</td>
+								<td>${re.updateDay }</td>
+							</tr>
+						</c:forEach>
+					</c:if>
 				</table>
 			</div>
 		</div>
@@ -194,7 +188,7 @@
 				<p>&lt;</p>
 			</c:if>
 			<c:if test="${ pi1.currentPage > 1 }">
-				<a onclick="before1();">&lt;</a>
+				<a onclick="getReList(${pi1.currentPage -1});">&lt;</a>
 			</c:if>
 			<!-- 번호 -->
 			<c:forEach begin="${ pi1.startPage }" end="${ pi1.endPage }" var="p">
@@ -202,13 +196,13 @@
 					<p>${ p }</p>
 				</c:if>
 				<c:if test="${ pi1.currentPage ne p }">
-					<a onclick="p1();">${ p }</a>
+					<a onclick="getReList(${p});">${ p }</a>
 				</c:if>
 			</c:forEach>
 
 			<!-- 다음 -->
 			<c:if test="${ pi1.currentPage >= pi1.endPage }">
-				<a onclick="next1();">&gt;</a>
+				<a onclick="getReList(${pi1.currentPage + 1});">&gt;</a>
 			</c:if>
 			<c:if test="${pi1.currentPage < pi1.endPage }">
 				<p>&gt;</p>
@@ -217,20 +211,16 @@
 		</div>
 		<script>
 			$(function(){
-				getAnotherReview();
-				setInterval(function(){
-					getAnotherReview();
-				}, 5000);
-				$('.review-a').click(function(){
-					getAnotherReview();
-				});
+				getAnotherReview(1);
+				console.log("${reList}");
+				console.log("${pi1}");
 			});
-			function before1(){
-				var page1 = 
-			}
-			function getAnotherReview(){
-				var booktitle = ${booktitle};
+			function getReList(page1){
+				var booktitle = "${booktitle}";
+				var page1 = page1;
+				console.log("page1 : " + page1);
 				$.ajax({
+					type:"post",
 					url: 'reList.re',
 					data: {booktitle:booktitle, page1:page1},
 					success: function(data){

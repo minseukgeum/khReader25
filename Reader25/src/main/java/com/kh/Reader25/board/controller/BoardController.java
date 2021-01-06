@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +33,6 @@ import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
-
-import oracle.net.aso.b;
 
 @Controller
 public class BoardController {
@@ -119,6 +118,9 @@ public class BoardController {
 		if(page != null) {
 			currentPage = page;
 		}
+		if(page == 0) {
+			currentPage = 1;
+		}
 		int code = 1;
 		int listCount = bService.getListCount(code);
 		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
@@ -192,26 +194,21 @@ public class BoardController {
 	}
 	// 이 책의 다른 리뷰보기
 	@RequestMapping("reList.re")
-	public void getAnotherList(@RequestParam(value="page1", required=false) Integer page1,
-							   @RequestParam("booktitle") String book, HttpServletResponse response) {
+	public Model getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
+							   @RequestParam("booktitle") String book, HttpServletResponse response,
+							   Model model) {
 		int currentPage1 = 1;
 		if(page1 != null) {
 			currentPage1 = page1;
 		}
+		
 		int listCount = bService.getReListCount(book);
-		PageInfo pi = Pagination.getPageInfo3(currentPage1, listCount);
-		ArrayList<Board> reList = bService.selectAnotherReview(book, pi);
-		Gson gson = new Gson();
-		if(reList != null) {
-			try {
-				gson.toJson(reList, response.getWriter());
-				gson.toJson(pi, response.getWriter());
-			} catch (JsonIOException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		PageInfo pi1 = Pagination.getPageInfo3(currentPage1, listCount);
+		ArrayList<Board> reList = bService.selectAnotherReview(book, pi1);
+		model.addAttribute("reList", reList);
+		model.addAttribute("pi1", pi1);
+		
+		return model;
 	}
 	
 	@RequestMapping("insert.re")
