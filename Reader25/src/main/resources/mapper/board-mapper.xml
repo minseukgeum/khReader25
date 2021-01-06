@@ -228,25 +228,25 @@
 		B_LIKE = (SELECT COUNT(*)
 						FROM liketo
 						WHERE boardno = #{boardNo})
-		WHERE BOARD_NO = #{boardNo}
+		WHERE board_no = #{boardNo}
 	</select>
 	
 	<insert id="insertComments">
 		insert into comments
-		values (com_seq.nextval, #{cContent}, sysdate, default, #{cefBid}, #{cWriter})
+		values (com_seq.nextval, #{comment}, sysdate, default, #{boardNo}, #{userId})
 	</insert>
 	
 	<update id="updateCount">
 		update board
-		set comCount = comCount + 1
-		where board_no = #{cefBid}
+		set COM_COUNT = COM_COUNT + 1
+		where board_no = #{boardNo}
 	</update>
 	
 	<select id="selectCommentsList" resultMap="commentsResultSet">
 		select *
 		from comments c
 		    join board b on(c.board_no = b.board_no)
-		where c.board_no=#{bid}
+		where c.board_no=#{boardNo}
 		order by c.board_no desc
 	</select>
 	
