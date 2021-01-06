@@ -129,10 +129,7 @@ public class BoardDAO {
 		return sqlSession.delete("boardMapper.deleteLike",like);
 	}
 
-	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("boardMapper.updateLike",b_no);
-	}
+	
 
 	public int insertLike(SqlSessionTemplate sqlSession, Liketo like) {
 		// TODO Auto-generated method stub
@@ -181,6 +178,11 @@ public class BoardDAO {
 	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int bId) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", bId);
+	}
+
+	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateLike", b_no);
 	}
 
 
