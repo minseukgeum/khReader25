@@ -50,6 +50,8 @@ public interface BoardService {
 
 	ArrayList<Comments> selectCommentsList(int bId);
 
+	int updateLike(Liketo like);
+
 
 
 	

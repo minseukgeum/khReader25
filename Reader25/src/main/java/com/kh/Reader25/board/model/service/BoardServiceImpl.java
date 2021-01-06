@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService{
 	public void deleteLike(Liketo like) {
 		// TODO Auto-generated method stub
 		
-		bDAO.updateLike(sqlSession, like.getB_no());
+		
 		bDAO.deleteLike(sqlSession, like);
 	}
 
@@ -125,7 +125,7 @@ public class BoardServiceImpl implements BoardService{
 	public void insertLike(Liketo like) {
 		// TODO Auto-generated method stub
 		bDAO.insertLike(sqlSession, like);
-		bDAO.updateLike(sqlSession, like.getB_no());
+		
 	}
 
 	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
@@ -157,6 +157,12 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Comments> selectCommentsList(int bId) {
 		// TODO Auto-generated method stub
 		return bDAO.selectCommentsList(sqlSession, bId);
+	}
+
+	@Override
+	public int updateLike(Liketo like) {
+		// TODO Auto-generated method stub
+		return bDAO.updateLike(sqlSession, like.getB_no());
 	}
 
 
