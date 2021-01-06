@@ -63,7 +63,7 @@
 <body>
 	<%@ include file="../common/menubar.jsp" %>
 	<section>
-		<form action="#" id="write-book" method="post">
+		<form action="discussInsert.di" id="write-book" method="post">
 			<div class="title-div">
 				<h1>토론방 열기</h1>
 				<input type="text" placeholder="제목을 작성하세요">
@@ -78,9 +78,9 @@
 					<textarea name="smart_edit"id="smart_edit" style="width:100%; min-height:600px;"></textarea>
 				</div>
 				<div style="text-align:right; width:90%; padding:0;">
-					<button class="btn" id="btn2">토론방 수정</button>
-					<button class="btn" id="btn3">토론방 취소</button>
-					<button class="btn" id="btn1">토론방 열기</button>
+					<input type="button" class="btn" id="btn2" onclick="" value="토론방 수정">
+					<input type="button"class="btn" id="btn3" onclick="'javascript:history.go(-1)';">토론방 취소</button>
+					<input type="submit" class="btn" id="btn1">토론방 열기</button>
 				</div>
 			</div>
 		</form>

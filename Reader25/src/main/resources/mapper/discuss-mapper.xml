@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="DiscussMapper">
+	<select id="ListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM DISCUSS
+		WHERE D_STATUS = 'Y'
+	</select>
+	
+	<select id="selectList" resultMap="discussResultSet">
+		SELECT *
+		FROM DISCUSS
+		WHERE D_STATUS = 'Y'
+		ORDER BY D_NO DESC
+	</select>
+	
+	<resultMap type="Discuss" id="discussResultSet">
+		<id property="dNo" column="D_NO" />
+		<result property="dTitle" column="D_TITLE"/>
+		<result property="dWriter" column="D_WRITER"/>
+		<result property="dContent" column="D_CONTENT"/>
+		<result property="dCreate" column="D_CREATE"/>
+		<result property="dPros" column="D_PROS"/>
+		<result property="dCons" column="D_CONS"/>
+		<result property="dNeutrality" column="D_NEUTRALITY"/>
+		<result property="dCount" column="D_COUNT"/>
+		<result property="dStatus" column="D_STATUS"/>
+		<result property="atcNo" column="ATC_NO"/>
+	</resultMap>
+</mapper>
