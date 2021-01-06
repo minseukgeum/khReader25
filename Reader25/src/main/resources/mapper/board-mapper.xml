@@ -138,7 +138,7 @@
 	
 	<delete id="deleteLike">
 		DELETE FROM liketo
-		WHERE boardno = #{boardNo} AND mno = #{userid}
+		WHERE boardno = #{b_no} AND mno = #{m_no}
     </delete>
     
 	<insert id="insertLike">
@@ -151,7 +151,7 @@
 		SET
 		B_LIKE = (SELECT COUNT(*)
 						FROM liketo
-						WHERE boardno = #{boardNo})
+						WHERE boardno = #{b_no})
 		WHERE board_no = #{boardNo}
 	</select>
 	

@@ -324,9 +324,11 @@ public class BoardController {
 
         if(heart >= 1) {
             bService.deleteLike(Like);
+            bService.updateLike(Like);
             heart=0;
         } else {
         	bService.insertLike(Like);
+        	bService.updateLike(Like);
             heart=1;
         }
 
@@ -358,12 +360,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping("cList.to")
-	public void getCommentsList(@RequestParam("bId") int boardNo, HttpServletResponse response) {
+	public void getCommentsList(@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
 		
 		ArrayList<Comments> cList = bService.selectCommentsList(boardNo);
 		//System.out.println("cList"+cList);
 		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
 		try {
 			gson.toJson(cList, response.getWriter());
 		} catch (JsonIOException e) {
