@@ -50,6 +50,13 @@ public interface BoardService {
 
 	ArrayList<Comments> selectCommentsList(int bId);
 
+	Attachment selectAttachment(int boardNo);
+
+	int getReListCount(String book);
+
+	ArrayList<Board> selectAnotherReview(String book, PageInfo pi);
+
+
 
 
 	

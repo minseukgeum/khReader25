@@ -136,5 +136,19 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", bId);
 	}
 
+	public Attachment selectAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectAttachment", boardNo);
+	}
+
+	public ArrayList<Board> selectAnotherReview(SqlSessionTemplate sqlSession, String book, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAnotherReview", book, rowBounds);
+	}
+
+	public int getReListCount(SqlSessionTemplate sqlSession, String book) {
+		return sqlSession.selectOne("boardMapper.getReListCount", book);
+	}
+
 
 }

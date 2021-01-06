@@ -33,6 +33,8 @@ import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
 
+import oracle.net.aso.b;
+
 @Controller
 public class BoardController {
 	@Autowired
@@ -165,29 +167,45 @@ public class BoardController {
 		return "bookreviewWriteForm";
 	}
 	@RequestMapping("redetail.re")
-	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
-										ModelAndView mv) {
+	public ModelAndView bookreviewDetailView(@RequestParam("boardNo") int boardNo,
+											 @RequestParam("page") int page,
+											 ModelAndView mv) {
 		Board board = bService.selectBoard(boardNo);
-		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
+		Attachment at = bService.selectAttachment(boardNo);
 		if(board != null) {
 			
 			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
 			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
 			String author = exbook.substring(0,exbook.indexOf("#"));
-			String content = author.substring(exbook.indexOf("#") + 1);
+			String content = exbook.substring(exbook.indexOf("#") + 1);
 			
-			System.out.println(booktitle);
-			System.out.println(exbook);
-			System.out.println(author);
-			System.out.println(content);
+			board.setbContent(content);
 			
 			mv.addObject("board", board);
-			mv.addObject("atList", at);
+			mv.addObject("at", at);
+			mv.addObject("booktitle", booktitle);
+			mv.addObject("author", author);
 			mv.addObject("page", page);
 			mv.setViewName("bookReviewDetail");
 		}
 		return mv;
 	}
+	// 이 책의 다른 리뷰보기
+	@RequestMapping("reList.re")
+	public void getAnotherList(@RequestParam(value="page1", required=false) Integer page1,
+							   @RequestParam("booktitle") String book) {
+		int currentPage1 = 1;
+		if(page1 != null) {
+			currentPage1 = page1;
+		}
+		int listCount = bService.getReListCount(book);
+		PageInfo pi = Pagination.getPageInfo3(currentPage1, listCount);
+		ArrayList<Board> reList = bService.selectAnotherReview(book, pi);
+		if(reList != null) {
+			
+		}
+	}
+	
 	@RequestMapping("insert.re")
 	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request,

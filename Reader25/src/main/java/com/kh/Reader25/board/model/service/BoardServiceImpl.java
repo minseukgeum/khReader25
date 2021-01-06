@@ -159,6 +159,21 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectCommentsList(sqlSession, bId);
 	}
 
+	@Override
+	public Attachment selectAttachment(int boardNo) {
+		return bDAO.selectAttachment(sqlSession, boardNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectAnotherReview(String book, PageInfo pi) {
+		return bDAO.selectAnotherReview(sqlSession, book, pi);
+	}
+
+	@Override
+	public int getReListCount(String book) {
+		return bDAO.getReListCount(sqlSession, book);
+	}
+
 
 
 	
