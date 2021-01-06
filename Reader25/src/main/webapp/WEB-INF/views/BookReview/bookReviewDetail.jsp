@@ -210,12 +210,9 @@
 				<p>&gt;</p>
 			</c:if>
 		</div>
-		<%
 		
-			ArrayList<Board> reList = (ArrayList<Board>)request.getAttribute("reList");
-			System.out.println(reList);
-		%>
 		<script>
+			var reList;
 			$(function(){
 				getReList(1);
 				console.log("${reList}");
@@ -228,10 +225,15 @@
 				console.log("page1 : " + page1);
 				$.ajax({
 					url: 'reList.re',
-					data: {booktitle:booktitle, page1:page1}
+					data: {booktitle:booktitle, page1:page1},
+					success: function(data){
+						console.log(data);
+						reList = data.reList;
+					}
 				});
 			}
 		</script>
+		<c:set var="reList"/>
 		<div class="list">
 			<div class="list-header">
 				<p>명대사</p>
