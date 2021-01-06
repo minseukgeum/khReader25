@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,6 +35,8 @@ import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
+
+@SessionAttributes("loginUser")
 
 @Controller
 public class BoardController {
@@ -306,11 +309,15 @@ public class BoardController {
 	
 	// 오늘은 나도 작가 = 5 디테일 뷰 컨트롤러
 	@RequestMapping("TIWdetail.to")
-	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
-									@RequestParam("page") int page, @RequestParam(value="cpage", required=false) Integer cpage, ModelAndView mv) {
+	public ModelAndView boardDetail(@RequestParam("boardNo") int boardNo,
+									@RequestParam("page") int page, @RequestParam(value="cpage", required=false) Integer cpage, 
+									ModelAndView mv, HttpSession session) {
 		
 		//System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
+		
+		Member login = (Member)session.getAttribute("loginUser");
+		String loginUser = login.getId();
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("loginUser", loginUser);
@@ -384,6 +391,7 @@ public class BoardController {
 
     }
 	
+	//댓글 작성
 	@RequestMapping("addComments.to")
 	@ResponseBody
 	public String addComments(@ModelAttribute Comments c, @RequestParam("comment") String comment, HttpSession session) {
@@ -407,6 +415,7 @@ public class BoardController {
 		}
 	}
 	
+	//댓글 불러오기
 	@RequestMapping("cList.to")
 	public void getCommentsList(@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
 		
@@ -436,9 +445,10 @@ public class BoardController {
 		return mv;
 	}
 	
-	// 오늘은 나도 작가 = 5 글 작성 컨트롤러
+	// 오늘은 나도 작가 = 5 글 수정 컨트롤러
 	@RequestMapping("TIWupdate.to")
-	public ModelAndView TIWupdate(@ModelAttribute Board b, @RequestParam("code1") String code1,
+	public ModelAndView TIWupdate(
+							@ModelAttribute Board b, @RequestParam("code1") String code1,
 							@RequestParam("code2") String code2,@RequestParam("boardNo") int boardNo,
 							@RequestParam("page") int page, HttpServletRequest request,
 							ModelAndView mv) {
@@ -447,9 +457,9 @@ public class BoardController {
 		b.setBoardNo(boardNo);
 		
 		int result = bService.updateTIWBoard(b);
-		System.out.println(b);
-		System.out.println(result);
-		System.out.println(b.getBoardNo());
+		//System.out.println(b);
+		//System.out.println(result);
+		//System.out.println(b.getBoardNo());
 		
 		if(result > 0) {
 			mv.addObject("page", page)
