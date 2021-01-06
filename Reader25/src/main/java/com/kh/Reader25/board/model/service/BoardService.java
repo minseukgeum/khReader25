@@ -56,6 +56,7 @@ public interface BoardService {
 
 	ArrayList<Board> selectAnotherReview(String book, PageInfo pi);
 
+	int updateLike(Liketo like);
 
 
 

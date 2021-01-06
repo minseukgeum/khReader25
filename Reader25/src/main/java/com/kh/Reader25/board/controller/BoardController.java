@@ -338,9 +338,9 @@ public class BoardController {
 
         int heart = Integer.parseInt(httpRequest.getParameter("heart"));
         int b_no = Integer.parseInt(httpRequest.getParameter("boardNo"));
-        System.out.println("b_no"+b_no);
+        //System.out.println("b_no"+b_no);
         String m_no = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
-        System.out.println("userid"+m_no);
+        //System.out.println("userid"+m_no);
         Liketo Like = new Liketo();
 
         Like.setB_no(b_no);
@@ -350,9 +350,11 @@ public class BoardController {
 
         if(heart >= 1) {
             bService.deleteLike(Like);
+            bService.updateLike(Like);
             heart=0;
         } else {
         	bService.insertLike(Like);
+        	bService.updateLike(Like);
             heart=1;
         }
 
@@ -362,15 +364,16 @@ public class BoardController {
 	
 	@RequestMapping("addComments.to")
 	@ResponseBody
-	public String addComments(@ModelAttribute Comments c, HttpSession session) {
+	public String addComments(@ModelAttribute Comments c, @RequestParam("comment") String comment, HttpSession session) {
 		//System.out.println("ok");
-		//System.out.println(c);
+		//System.out.println("C1:"+c);
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		String cWriter = loginUser.getId();
+		String userId = loginUser.getId();
 		
-		c.setUserId(cWriter);
+		c.setUserId(userId);
+		c.setComment(comment);
 		 
-		//System.out.println(c);
+		//System.out.println("C2:"+c);
 		
 		int result = bService.insertComments(c);
 		int upCount = bService.updateCount(c);
@@ -383,12 +386,12 @@ public class BoardController {
 	}
 	
 	@RequestMapping("cList.to")
-	public void getCommentsList(@RequestParam("bId") int bId, HttpServletResponse response) {
+	public void getCommentsList(@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
 		
-		ArrayList<Comments> cList = bService.selectCommentsList(bId);
-		
+		ArrayList<Comments> cList = bService.selectCommentsList(boardNo);
+		//System.out.println("cList"+cList);
 		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
 		try {
 			gson.toJson(cList, response.getWriter());
 		} catch (JsonIOException e) {

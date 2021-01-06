@@ -102,10 +102,7 @@ public class BoardDAO {
 		return sqlSession.delete("boardMapper.deleteLike",like);
 	}
 
-	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("boardMapper.updateLike",b_no);
-	}
+	
 
 	public int insertLike(SqlSessionTemplate sqlSession, Liketo like) {
 		// TODO Auto-generated method stub
@@ -148,6 +145,10 @@ public class BoardDAO {
 
 	public int getReListCount(SqlSessionTemplate sqlSession, String book) {
 		return sqlSession.selectOne("boardMapper.getReListCount", book);
+	}
+	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateLike", b_no);
 	}
 
 
