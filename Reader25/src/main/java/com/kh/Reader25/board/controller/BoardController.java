@@ -557,7 +557,7 @@ public class BoardController {
 	
 	
 	@RequestMapping("mSearch.me")
-	public ModelAndView mSearchList(@RequestParam(value = "inFo", required = false) String inFo, ModelAndView mv ,@RequestParam("code") Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
+	public ModelAndView mSearchList(@RequestParam(value = "searchCondition", required = false) String searchCondition,@RequestParam(value = "searchValue", required = false) String searchValue, ModelAndView mv ,@RequestParam("code") Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
 		// 마이페이지에서 검색
 		
 		
@@ -593,13 +593,13 @@ public class BoardController {
 		
 		String value =null;
 		
-		if(inFo != null) {
+		if(searchValue != null) {
 			
-			String [] lists = inFo.split(",");
 			
-			condition = lists[0];
 			
-			value =  lists[1];
+			condition =searchCondition;
+			
+			value =  searchValue;
 			
 			
 			if (condition.equals("Title")) {

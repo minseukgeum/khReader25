@@ -228,14 +228,14 @@
 			    	var code = ${code};
 			    		
 			    		
-			    	data += $('#Search1').text();
-			    	data += ","+$('#seachDate').val();
+			    	var searchCondition = $('#Search1').text();
+			    	var searchValue = $('#seachDate').val();
 	
 			    	
 			    	console.log(data);
 			    
 			    	
- 		    	location.href='mSearch.me?inFo='+data+'&code='+code; 
+ 		    	location.href='mSearch.me?searchCondition='+searchCondition+'&searchValue='+searchValue+'&code='+code; 
 			    	 
 			 
 			    
@@ -276,6 +276,12 @@
 					
 					
 						<c:set var="loc" value="mSearch.me"></c:set>
+						
+						
+						
+						
+						
+						
 					
 				
 				    
@@ -283,10 +289,47 @@
 				    
 				    
 				  <!-- [이전] -->
+				  
+				 
+				  
+				  
+				  <c:if test="${ pi.currentPage <= 1 }">
+					 <li  class="disabled">
+						 <a  aria-label="Previous" >
+					        <span aria-hidden="true" class="glyphicon glyphicon-backward"></span>
+					      </a>
+				      </li>
+				</c:if>
+				<c:if test="${ pi.currentPage > 1 }">
+					<c:url var="before" value="${ loc }">
+						<c:param name="page" value="${ 1 }"/>
+						<c:param name="code" value="${code }"></c:param>
+						
+						
+						<c:if test="${searchValue ne null }">
+						
+							<c:param name="searchCondition" value="${searchCondition }"></c:param>
+							<c:param name="searchValue" value="${searchValue }"></c:param>
+						
+						
+						</c:if>
+						
+					</c:url>
+					
+					<li>
+						 <a href="${ before }" aria-label="Previous">
+					        <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+					      </a>
+				      </li>
+					
+				</c:if>
+				  
+				  
+				  
 				<c:if test="${ pi.currentPage <= 1 }">
-					 <li>
-						 <a  aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
+					 <li  class="disabled">
+						 <a  aria-label="Previous" >
+					        <span aria-hidden="true" class="glyphicon glyphicon-chevron-left"><!--  &laquo; --></span>
 					      </a>
 				      </li>
 				</c:if>
@@ -303,12 +346,12 @@
 						
 						
 						</c:if>
-						<c:param name="page" value="${pi.currentPage - 1  }"/>
+						
 					</c:url>
 					
 					 <li>
 						 <a href="${ before }" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
+					        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 					      </a>
 				      </li>
 				</c:if>
@@ -353,9 +396,9 @@
 				    
 				<!-- [다음] -->
 						<c:if test="${ pi.currentPage >= pi.maxPage }">
-						<li>
+						<li class="disabled">
 							<a  aria-label="Next">
-				       				 <span aria-hidden="true">&raquo;</span>
+				       				 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true">        <!-- &raquo--></span>
 				      			</a>
 				      			</li>
 						</c:if>
@@ -376,7 +419,37 @@
 							
 							<li>
 							<a  href="${ after }" aria-label="Next">
-				       				 <span aria-hidden="true">&raquo;</span>
+				       				 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				      			</a>
+				      			</li>
+						</c:if>
+						
+						
+						<c:if test="${ pi.currentPage >= pi.maxPage }">
+						<li class="disabled">
+							<a  aria-label="Next">
+				       				 <span class="glyphicon glyphicon-forward" aria-hidden="true">        <!-- &raquo--></span>
+				      			</a>
+				      			</li>
+						</c:if>
+						
+						<c:if test="${ pi.currentPage < pi.maxPage }">
+							<c:url var="after" value="${ loc }">
+								<c:param name="page" value="${ pi.maxPage }"/>
+								<c:param name="code" value="${code }"></c:param>
+								
+								<c:if test="${searchValue ne null }">
+						
+									<c:param name="searchCondition" value="${searchCondition }"></c:param>
+									<c:param name="searchValue" value="${searchValue }"></c:param>
+									
+							
+								</c:if>
+							</c:url> 
+							
+							<li>
+							<a  href="${ after }" aria-label="Next">
+				       				 <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
 				      			</a>
 				      			</li>
 						</c:if>
