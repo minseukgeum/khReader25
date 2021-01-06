@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +17,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.common.Pagination;
@@ -144,6 +149,7 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);
 		ArrayList<Board> bList = bService.selectList(pi, code);
 		ArrayList<Attachment> atList = bService.selectAttachmentTList(code);
+		
 		if(bList != null) {
 			mv.addObject("bList", bList)
 				.addObject("pi", pi)
@@ -164,6 +170,17 @@ public class BoardController {
 		Board board = bService.selectBoard(boardNo);
 		ArrayList<Attachment> at = bService.selectAttachmentList(boardNo);
 		if(board != null) {
+			
+			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
+			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
+			String author = exbook.substring(0,exbook.indexOf("#"));
+			String content = author.substring(exbook.indexOf("#") + 1);
+			
+			System.out.println(booktitle);
+			System.out.println(exbook);
+			System.out.println(author);
+			System.out.println(content);
+			
 			mv.addObject("board", board);
 			mv.addObject("atList", at);
 			mv.addObject("page", page);
@@ -176,7 +193,7 @@ public class BoardController {
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
 									@RequestParam("author") String author) {
-		String contentAddTag = "#책제목"+ booktitle + "#작가" + author + b.getbContent();
+		String contentAddTag =  booktitle + "#"  + author + "#" + b.getbContent();
 		b.setbContent(contentAddTag);
 		
 		Member member = (Member)(request.getSession().getAttribute("loginUser"));
@@ -188,6 +205,8 @@ public class BoardController {
 			at = saveFile(uploadFile, request, 2);
 		}
 		b.setCode(2);
+		// ! 만일 파일이 한 개 일 시
+		at.setAtcLevel(0);
 		int result = bService.insertBoardAndFile(b, at);
 		
 		if(result > 0) {
@@ -257,14 +276,14 @@ public class BoardController {
 	public ModelAndView boardDetail(@RequestParam("User") String loginUser, @RequestParam("boardNo") int boardNo,
 									@RequestParam("page") int page, ModelAndView mv) {
 		
-		System.out.println("loginUser"+loginUser);
+		//System.out.println("loginUser"+loginUser);
 		Board board = bService.selectTIWBoard(boardNo);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("loginUser", loginUser);
 		map.put("boardNo", boardNo);
 				
-		int heart = bService.findLike(map);
+		int heart = bService.findLike(map) == 1? 1:0;
 		System.out.println("heart"+heart);
 		
 		if(board != null) {
@@ -273,9 +292,11 @@ public class BoardController {
 				.setViewName("TIWDetailView");
 			
 			if(heart > 0) {
-				mv.addObject(heart);
+				mv.addObject("heart", heart);
+				//System.out.println("heart00"+heart);
 			} else {
-				mv.addObject(heart);
+				mv.addObject("heart", heart);
+				//System.out.println("heart000"+heart);
 			}
 		} else {
 			throw new BoardException("오늘은 나도 작가 게시글 상세보기를 실패하였습니다.");
@@ -287,16 +308,18 @@ public class BoardController {
 	// 오늘은 나도 작가 = 5 좋아요 클릭 컨트롤러
 	@ResponseBody
     @RequestMapping("heart.to")
-    public int heart(HttpServletRequest httpRequest) throws Exception {
+    public int heart(HttpServletRequest httpRequest) {
 
         int heart = Integer.parseInt(httpRequest.getParameter("heart"));
-        int boardId = Integer.parseInt(httpRequest.getParameter("boardId"));
-        String userid = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
+        int b_no = Integer.parseInt(httpRequest.getParameter("boardNo"));
+        System.out.println("b_no"+b_no);
+        String m_no = ((Member) httpRequest.getSession().getAttribute("loginUser")).getId();
+        System.out.println("userid"+m_no);
         Liketo Like = new Liketo();
 
-        Like.setB_no(boardId);
-        Like.setM_no(userid);
-
+        Like.setB_no(b_no);
+        Like.setM_no(m_no);
+ 
         System.out.println(heart);
 
         if(heart >= 1) {
@@ -310,6 +333,44 @@ public class BoardController {
         return heart;
 
     }
+	
+	@RequestMapping("addComments.to")
+	@ResponseBody
+	public String addComments(@ModelAttribute Comments c, HttpSession session) {
+		//System.out.println("ok");
+		//System.out.println(c);
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String cWriter = loginUser.getId();
+		
+		c.setUserId(cWriter);
+		 
+		//System.out.println(c);
+		
+		int result = bService.insertComments(c);
+		int upCount = bService.updateCount(c);
+		
+		if(result > 0) {
+			return "success";
+		} else {
+			throw new BoardException("댓글 등록에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("cList.to")
+	public void getCommentsList(@RequestParam("bId") int bId, HttpServletResponse response) {
+		
+		ArrayList<Comments> cList = bService.selectCommentsList(bId);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		try {
+			gson.toJson(cList, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
 	@RequestMapping("TIWUpdateView.to")

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.PageInfo;
 import com.kh.Reader25.discuss.model.vo.Discuss;
 
@@ -23,4 +24,12 @@ public class DiscussDAO {
 		return (ArrayList)sqlSession.selectList("DiscussMapper.selectList", rowBounds);
 	}
 
+
+	public int insertDAttachment(SqlSessionTemplate sqlSession, Attachment at) {
+		return sqlSession.insert("DiscussMapper.insertDAttachment", at);
+	}
+
+	public int insertDiscuss(SqlSessionTemplate sqlSession, Discuss d) {
+		return sqlSession.insert("DiscussMapper.insertDiscuss", d);
+	}
 }

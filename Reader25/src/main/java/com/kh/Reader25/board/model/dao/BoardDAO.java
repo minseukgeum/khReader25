@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
@@ -120,18 +121,20 @@ public class BoardDAO {
 
 	}
 
-//	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
-//		String result = sqlSession.selectOne("boardMapper.findLike", map);
-//		
-//		int result2;
-//		
-//		if((result == null) || (result =='1')) {
-//			result2 = 0;
-//		} else {
-//			result2 = 0;
-//		}
-//		
-//		return result2;
-//	}
+	public int insertComments(SqlSessionTemplate sqlSession, Comments c) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("boardMapper.insertComments", c);
+	}
+
+	public int updateCount(SqlSessionTemplate sqlSession, Comments c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("boardMapper.updateCount", c);
+	}
+
+	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, int bId) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", bId);
+	}
+
 
 }

@@ -21,10 +21,10 @@
 		margin-top: 10px;
 		padding: 0;
 	}
-	.title-div>input{
+	#dTitle{
 		height: 32px;
 		margin-left: -7px;
-		width: 75%;
+		width: 60%;
 		border:  1px solid rgba(235, 235, 235, 1);
 	}
 	.title-div>select{
@@ -34,6 +34,19 @@
 		margin-left: -6px;
 		color: rgba(85, 83, 83, 1);		
 	}
+	.file-div{
+		width: 300px;
+		margin:auto;
+	}
+	.file-img{
+		min-height: 250px;
+		margin-top: 20px;
+/* 		background: lightgray; */
+		text-align: center;
+		position: relative;
+	}
+	#input-file{border: 1px solid lightgray;}
+	#load-img{width: 300px;}
 	.content{
 		margin-top: 30px;
 	}
@@ -42,8 +55,14 @@
 		margin:auto;
 		margin-top: 20px;
 		min-height: 300px;
+		text-align:center;
 	}
-
+	#smart_edit{
+		width:99%;
+		min-height:600px;
+		background: white;
+		color: black;
+	}
 	.btn{
 		width: 165px;
 		height: 40px;
@@ -54,6 +73,8 @@
 	.btn0{
 		width: 110px;
 		height: 32px;
+		padding: 5px;
+		background: #C95F12;
 	}
 	#btn1{background: #C95F12;}
 	#btn2{background: #FFC398;}
@@ -63,24 +84,31 @@
 <body>
 	<%@ include file="../common/menubar.jsp" %>
 	<section>
-		<form action="discussInsert.di" id="write-book" method="post">
+		<form action="discussInsert.di" id="write-discuss" method="post" enctype="multipart/form-data">
 			<div class="title-div">
 				<h1>토론방 열기</h1>
-				<input type="text" placeholder="제목을 작성하세요">
-				<select>
-					<option selected="selected">찬성</option>
-					<option>반대</option>
+				<input type="text" id="dTitle" name="dTitle" placeholder="제목을 작성하세요">
+				<select name="dchose">
+					<option selected="selected" value="찬성">찬성</option>
+					<option value="반대">반대</option>
 				</select>
-				<button class="btn0" id="btn1">이미지 추가</button>
+				<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" 
+				accept="image/jpg, image/jpeg, image/png">
 			</div>
+			<div class="file-div">
+				<div class="file-img" id="file-img">
+					<img src="#" id="load-img" >
+				</div>
+			</div>
+<!-- 				<span class="btn0" id="spanbtn">이미지 추가</span> -->
 			<div class="content">
-				<div class="content-edit" style="text-align:center;">
-					<textarea name="smart_edit"id="smart_edit" style="width:100%; min-height:600px;"></textarea>
+				<div class="content-edit">
+					<textarea name="dContent" id="smart_edit"></textarea>
 				</div>
 				<div style="text-align:right; width:90%; padding:0;">
 					<input type="button" class="btn" id="btn2" onclick="" value="토론방 수정">
-					<input type="button"class="btn" id="btn3" onclick="'javascript:history.go(-1)';">토론방 취소</button>
-					<input type="submit" class="btn" id="btn1">토론방 열기</button>
+					<input type="button"class="btn" id="btn3" onclick="'javascript:history.go(-1)';" value="토론방 취소">
+					<input type="button" class="btn" id="btn1" value="토론방 열기">
 				</div>
 			</div>
 		</form>
@@ -94,11 +122,26 @@
 			      sSkinURI : "<%=request.getContextPath()%>/smartedit/SmartEditor2Skin.html",
 			      fCreator: "createSEditor2"
 			});
-			$('#submit-btn').click(function(){
+			$('#btn1').click(function(){
 				oEditors.getById["smart_edit"].exec("UPDATE_CONTENTS_FIELD",[]);
 				
-				$('#write-book').submit();
+				$('#write-discuss').submit();
 			});
+			
+			$('#file-img').click(function(){
+				$('#input-file')[0].click();
+			});
+			function loadImg(value) {
+				if (value.files[0]) {
+					var reader = new FileReader();
+					fileCheck = true;
+					reader.onload = function(e) {
+ 						$('#load-img').attr('src', e.target.result);
+					}
+					reader.readAsDataURL(value.files[0]);
+				}
+			}
+			
 		</script>
 	</section>
 </body>
