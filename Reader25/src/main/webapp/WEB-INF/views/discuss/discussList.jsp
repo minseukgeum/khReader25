@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -133,8 +134,17 @@
 			<div id="body">
 				<table id="orderTable">
 				<c:forEach var="d" items="${ dList }">
-					<tr class="dtr">
-						<td><input type="hidden" value="${ d.getdNo() }"><img src="" id="bimg"/></td>
+					<tr class="dtr2">
+						<c:forEach var="at" items="${ atList }">
+							<c:choose>
+								<c:when test="${ d.atcNo == at.atcNo}">
+									<td><input type="hidden" value="${ d.getdNo() }"><img src="<%=request.getContextPath() %>/resources/buploadFiles/${ at.atcName }" id="bimg"/></td>
+								</c:when>
+								<c:otherwise>
+									<td><input type="hidden" value="${ d.getdNo() }"><img src="<%=request.getContextPath() %>/resources/images/bookreview/book.jpg" id="bimg"/></td>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 						<td><p>${ d.getdContent() }</p></td>
 					</tr>
 					<tr class="dtr">
@@ -190,6 +200,14 @@
 							$(this).css({'cursor':'pointer'});
 						}).click(function(){
 							var dNo = $(this).children().children().val();
+							location.href='dDetail.di?dNo=' + dNo + '&page=' + ${pi.currentPage};
+						});
+
+						$('.dtr2').mouseenter(function(){
+							$(this).css({'cursor':'pointer'});
+						}).click(function(){
+							var dNo = $(this).children().children().val();
+							console.log(dNo);
 							location.href='dDetail.di?dNo=' + dNo + '&page=' + ${pi.currentPage};
 						});
 					});

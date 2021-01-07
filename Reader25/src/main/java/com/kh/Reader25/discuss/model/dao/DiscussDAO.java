@@ -36,4 +36,24 @@ public class DiscussDAO {
 	public Discuss selectDiscussDetail(SqlSessionTemplate sqlSession, int dNo) {
 		return sqlSession.selectOne("DiscussMapper.selectDiscuss", dNo);
 	}
+
+	public ArrayList<Attachment> selectAtList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("DiscussMapper.selectAtList");
+	}
+
+	public Attachment selectAt(SqlSessionTemplate sqlSession, int atcNo) {
+		return sqlSession.selectOne("DiscussMapper.selectAt", atcNo);
+	}
+
+	public int updateDiscuss(SqlSessionTemplate sqlSession, Discuss d) {
+		return sqlSession.update("DiscussMapper.updateDiscuss", d);
+	}
+
+	public int updateAtno(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.update("DiscussMapper.updateAt", att);
+	}
+
+	public int deleteDisucss(SqlSessionTemplate sqlSession, int dNo) {
+		return sqlSession.update("DiscussMapper.deleteDiscuss", dNo);
+	}
 }
