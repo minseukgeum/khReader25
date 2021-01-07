@@ -33,6 +33,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
 
@@ -472,17 +473,63 @@ public class BoardController {
 	}
 	
 	//오늘은 나도 작가 = 5 게시글 삭제 
-		@RequestMapping("TIWDelete.to")
-		public String boardDelete(@RequestParam("boardNo") int boardNo) {
+	@RequestMapping("TIWDelete.to")
+	public String boardDelete(@RequestParam("boardNo") int boardNo) {
 			
-			int result = bService.deleteTIWBoard(boardNo);
+		int result = bService.deleteTIWBoard(boardNo);
 			
-			if(result > 0) {
-				return "redirect:goTIWList.to";
-			} else {
-				throw new BoardException("게시글 삭제에 실패했습니다.");
-			}
+		if(result > 0) {
+			return "redirect:goTIWList.to";
+		} else {
+			throw new BoardException("게시글 삭제에 실패했습니다.");
 		}
+	}
+	
+	//오늘은 나도 작가 = 5 게시글 검색
+	@RequestMapping("searchTIW.to")
+	public ModelAndView searchTIW(@ModelAttribute SearchCondition serchC,HttpServletRequest request, HttpServletResponse response, 
+									ModelAndView mv) {
+		String condition = request.getParameter("searchCondition");
+		String value = request.getParameter("searchValue");
+		//System.out.println("condition"+condition);
+		//System.out.println("value"+value);
+		
+		if(condition.equals("writer")) {
+			serchC.setWriter(value);
+		} else if(condition.equals("title")) {
+			serchC.setTitle(value);
+		} else if(condition.contentEquals("content")) {
+			serchC.setContent(value);
+		}
+		
+		//currentPage 설정
+		int currentPage = 1; //기본
+		if(request.getParameter("currentPage") != null) { //currentPage가 들어 왔다면
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			//넘어온 currentPage 값을 넣어준다
+		}
+		
+		int listCount = bService.getSearchTIWResultListCount(serchC);
+		//검색을 어떤걸로 할지에 따라 세팅된 sc를 매개변수로 넣어줘야한다
+		
+		PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+		
+		ArrayList<Board> list = bService.selectSerchTIWResultList(serchC, pi);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.addObject("searchCondition", condition);
+			mv.addObject("searchValue", value);
+			mv.addObject("searchValue", value);
+			mv.setViewName("TIWListForm");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 검색 조회에 실패했습니다.");
+		}
+		
+		return mv;
+		
+	}
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 

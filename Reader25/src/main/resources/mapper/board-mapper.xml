@@ -201,6 +201,42 @@
 		<result property="userId" column="USER_ID"></result>
 	</resultMap>
 	
+	<select id="getSearchTIWResultListCount" resultType="_int">
+		select count(*)
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+		
+		<if test="writer != null">
+			and b.user_id = #{writer}
+		</if>
+		<if test="title != null">
+			and b_title like '%' || #{title} || '%'
+		</if>
+		<if test="content != null">
+			and b_content like '%' || #{content} || '%'
+		</if>
+	</select>
+	
+	<select id="selectSearchTIWResultList" resultMap="boardResultSet">
+		select *
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+		<choose>
+			<when test="writer != null">
+				and b.user_id = #{writer}
+			</when>
+			<when test="title != null">
+				and b_title like '%' || #{title} || '%'
+			</when>
+			<otherwise>
+				and b_content like '%' || #{content} || '%'
+			</otherwise>
+		</choose>
+		order by board_no desc
+	</select>
+	
 	<!-- <select id="getCommentListCount" resultType="_int">
 		select count(*)
 		from comments

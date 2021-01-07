@@ -109,6 +109,28 @@
 				<input type="button" onclick="location.href='writeTIW.to';" id="writeTIWBtn" class="btn1" value="글쓰기">
 			</c:if>
 		</div>
+		
+		<!---------------- 3. 게시물 검색 ------------------>
+		<div id="searchArea" align="center">
+			<label>찾아보기</label>
+			<select id="searchCondition" name="searchCondition">
+				<option>-------</option>
+				<option value="writer">작가</option>
+				<option value="title">글 제목</option>
+				<option value="content">내용</option>
+			</select>
+			
+			<input id="searchValue" type="search">
+			<button onclick="searchBoard();">검색!</button>
+		</div>
+		<script type="text/javascript">
+			function searchBoard(){
+				var searchCondition = $("#searchCondition").val();
+				var searchValue = $("#searchValue").val();
+				
+				location.href="searchTIW.to?searchCondition="+searchCondition+"&searchValue="+searchValue;
+			}
+		</script>
 	</div>
 	
 	<%-- <%@ include file="../common/footer.jsp" %> --%>
