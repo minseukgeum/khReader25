@@ -201,8 +201,7 @@ public class BoardController {
 	// 이 책의 다른 리뷰보기
 	@RequestMapping("reList.re")
 	public void getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
-							   @RequestParam("booktitle") String book, HttpServletResponse response,
-							   Model model) {
+							   @RequestParam("booktitle") String book, HttpServletResponse response) {
 		response.setContentType("application/json; charset=UTF-8");
 		int currentPage1 = 1;
 		if(page1 != null) {
