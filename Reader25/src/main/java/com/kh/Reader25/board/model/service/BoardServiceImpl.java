@@ -1,6 +1,7 @@
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.kh.Reader25.board.model.dao.BoardDAO;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
+import com.kh.Reader25.board.model.vo.Comments;
+import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
 
 @Service("bService")
@@ -112,4 +115,98 @@ public class BoardServiceImpl implements BoardService{
 
 
 
+	public int findLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return bDAO.findLike(sqlSession, map);
+	}
+
+	@Override
+	public void deleteLike(Liketo like) {
+		// TODO Auto-generated method stub
+		
+		
+		bDAO.deleteLike(sqlSession, like);
+	}
+
+	@Override
+	public void insertLike(Liketo like) {
+		// TODO Auto-generated method stub
+		bDAO.insertLike(sqlSession, like);
+		
+	}
+
+	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
+		return bDAO.selectAttachmentTList(sqlSession, atcCode);
+	}
+
+	@Override
+	public int insertBoardAndFile(Board b, Attachment at) {
+		int result = bDAO.insertBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.insertAttachment(sqlSession, at);
+		}
+		return result;
+	}
+
+	@Override
+	public int insertComments(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.insertComments(sqlSession, c);
+	}
+
+	@Override
+	public int updateCount(Comments c) {
+		// TODO Auto-generated method stub
+		return bDAO.updateCount(sqlSession, c);
+	}
+
+	@Override
+	public ArrayList<Comments> selectCommentsList(int bId) {
+		// TODO Auto-generated method stub
+		return bDAO.selectCommentsList(sqlSession, bId);
+	}
+
+	@Override
+	public Attachment selectAttachment(int boardNo) {
+		return bDAO.selectAttachment(sqlSession, boardNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectAnotherReview(String book, PageInfo pi) {
+		return bDAO.selectAnotherReview(sqlSession, book, pi);
+	}
+
+	@Override
+	public int getReListCount(String book) {
+		return bDAO.getReListCount(sqlSession, book);
+	}
+	@Override
+	public int updateLike(Liketo like) {
+		// TODO Auto-generated method stub
+		return bDAO.updateLike(sqlSession, like.getB_no());
+	}
+
+	@Override
+	public int getCommentListCount(int boardNo) {
+		// TODO Auto-generated method stub
+		return bDAO.getCommentListCount(sqlSession, boardNo);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+
+
+
+	
+	
 }

@@ -9,10 +9,14 @@
 		<typeAlias type="com.kh.Reader25.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.Reader25.board.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
+		<typeAlias type="com.kh.Reader25.board.model.vo.Comments" alias="Comments"/>
+		<typeAlias type="com.kh.Reader25.book.model.vo.Book" alias="Book"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
 		<mapper resource="mapper/board-mapper.xml"/>
+		<mapper resource="mapper/book-mapper.xml"/>
 	</mappers>
 </configuration>

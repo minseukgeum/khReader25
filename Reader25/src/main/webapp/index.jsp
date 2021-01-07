@@ -6,9 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<c:import url="/WEB-INF/views/common/menubar.jsp"></c:import>
-	<!-- 메인 화면 넣기!! -->
+	<c:import url="/WEB-INF/views/common/mainPage.jsp"></c:import>
+
 </body>
 </html>
