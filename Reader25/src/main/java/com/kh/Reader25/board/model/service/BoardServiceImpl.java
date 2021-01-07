@@ -222,16 +222,6 @@ public class BoardServiceImpl implements BoardService{
 //	private SqlSessionTemplate sqlSession;
 //	
 //	@Override
-//	public int getListCount(int code) {
-//		return bDAO.getListCount(sqlSession, code);
-//	}
-//
-//	@Override
-//	public ArrayList<Board> selectList(PageInfo pi, int code) {
-//		return bDAO.selectList(sqlSession, pi, code);
-//	}
-//
-//	@Override
 //	public int insertTIW(Board b) {
 //		// TODO Auto-generated method stub
 //		return bDAO.insertTIW(sqlSession, b);
@@ -261,16 +251,6 @@ public class BoardServiceImpl implements BoardService{
 //		return b;
 //	}
 //
-//	@Override
-//	public int insertBoardAndFiles(Board b, ArrayList<Attachment> atList) {
-//		int result = bDAO.insertBoard(sqlSession, b);
-//		if(result > 0) {
-//			result = bDAO.insertAttachmentList(sqlSession, atList);
-//		}
-//		
-//		return result;
-//	}
-//
 //	public Board selectupTIWBoard(int boardNo) {
 //		Board b = null;
 //		
@@ -290,23 +270,6 @@ public class BoardServiceImpl implements BoardService{
 //		// TODO Auto-generated method stub
 //		return bDAO.deleteTIWBoard(sqlSession, boardNo);
 //	}
-//
-//	@Override
-//	public Board selectBoard(int boardNo) {
-//		Board b = null;
-//		// 1. 조회수 증가
-//		int result = bDAO.addReadCount(sqlSession, boardNo);
-//		if(result > 0) {
-//			b = bDAO.selectBoard(sqlSession, boardNo);
-//		}
-//		return b;
-//	}
-//
-//	@Override
-//	public ArrayList<Attachment> selectAttachmentList(int boardNo) {
-//		return bDAO.selectAttachmentList(sqlSession, boardNo);
-//	}
-//
 //
 //	public int findLike(HashMap<String, Object> map) {
 //		// TODO Auto-generated method stub
@@ -328,18 +291,6 @@ public class BoardServiceImpl implements BoardService{
 //		
 //	}
 //
-//	public ArrayList<Attachment> selectAttachmentTList(int atcCode) {
-//		return bDAO.selectAttachmentTList(sqlSession, atcCode);
-//	}
-//
-//	@Override
-//	public int insertBoardAndFile(Board b, Attachment at) {
-//		int result = bDAO.insertBoard(sqlSession, b);
-//		if(result > 0) {
-//			result = bDAO.insertAttachment(sqlSession, at);
-//		}
-//		return result;
-//	}
 //
 //	@Override
 //	public int insertComments(Comments c) {
@@ -369,10 +320,7 @@ public class BoardServiceImpl implements BoardService{
 //		return bDAO.selectAnotherReview(sqlSession, book, pi);
 //	}
 //
-//	@Override
-//	public int getReListCount(String book) {
-//		return bDAO.getReListCount(sqlSession, book);
-//	}
+
 //	@Override
 //	public int updateLike(Liketo like) {
 //		// TODO Auto-generated method stub
@@ -398,9 +346,5 @@ public class BoardServiceImpl implements BoardService{
 ////	}
 
 
-
-
-	
-	
 }
 
