@@ -16,6 +16,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Service("bService")
@@ -255,8 +256,171 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
+
 	
 	
+
+
+	@Override
+	public int getSearchCateResultListCount(SearchCate serCa) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchCateResultListCount(sqlSession, serCa);
+	}
+
+	@Override
+	public ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return bDAO.selectSearchCateResultList(sqlSession, serCa, pi);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+//
+//
+//
+//
+
+//@Service("bService")
+//public class BoardServiceImpl implements BoardService{
+//	@Autowired
+//	private BoardDAO bDAO;
+//	@Autowired
+//	private SqlSessionTemplate sqlSession;
+//	
+//	@Override
+//	public int insertTIW(Board b) {
+//		// TODO Auto-generated method stub
+//		return bDAO.insertTIW(sqlSession, b);
+//	}
+//
+//	@Override
+//	public int getTIWListCount() {
+//		// TODO Auto-generated method stub
+//		return bDAO.getTIWListCount(sqlSession);
+//	}
+//
+//	@Override
+//	public ArrayList<Board> selectTIWList(PageInfo pi) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectTIWList(sqlSession, pi);
+//	}
+//
+//	@Override
+//	public Board selectTIWBoard(int boardNo) {
+//		int result = bDAO.addTIWReadCount(sqlSession, boardNo);
+//		
+//		Board b = null;
+//		if(result > 0) {
+//			b = bDAO.selectTIWBoard(sqlSession, boardNo);
+//		}
+//		
+//		return b;
+//	}
+//
+//	public Board selectupTIWBoard(int boardNo) {
+//		Board b = null;
+//		
+//		b = bDAO.selectTIWBoard(sqlSession, boardNo);
+//		
+//		return b;
+//	}
+//
+//	@Override
+//	public int updateTIWBoard(Board b) {
+//		// TODO Auto-generated method stub
+//		return bDAO.updateTIWBoard(sqlSession, b);
+//	}
+//
+//	@Override
+//	public int deleteTIWBoard(int boardNo) {
+//		// TODO Auto-generated method stub
+//		return bDAO.deleteTIWBoard(sqlSession, boardNo);
+//	}
+//
+//	public int findLike(HashMap<String, Object> map) {
+//		// TODO Auto-generated method stub
+//		return bDAO.findLike(sqlSession, map);
+//	}
+//
+//	@Override
+//	public void deleteLike(Liketo like) {
+//		// TODO Auto-generated method stub
+//		
+//		
+//		bDAO.deleteLike(sqlSession, like);
+//	}
+//
+//	@Override
+//	public void insertLike(Liketo like) {
+//		// TODO Auto-generated method stub
+//		bDAO.insertLike(sqlSession, like);
+//		
+//	}
+//
+//
+//	@Override
+//	public int insertComments(Comments c) {
+//		// TODO Auto-generated method stub
+//		return bDAO.insertComments(sqlSession, c);
+//	}
+//
+//	@Override
+//	public int updateCount(Comments c) {
+//		// TODO Auto-generated method stub
+//		return bDAO.updateCount(sqlSession, c);
+//	}
+//
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(int bId) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, bId);
+//	}
+//
+//	@Override
+//	public Attachment selectAttachment(int boardNo) {
+//		return bDAO.selectAttachment(sqlSession, boardNo);
+//	}
+//
+//	@Override
+//	public ArrayList<Board> selectAnotherReview(String book, PageInfo pi) {
+//		return bDAO.selectAnotherReview(sqlSession, book, pi);
+//	}
+//
+
+//	@Override
+//	public int updateLike(Liketo like) {
+//		// TODO Auto-generated method stub
+//		return bDAO.updateLike(sqlSession, like.getB_no());
+//	}
+//
+//	@Override
+//	public int getCommentListCount(int boardNo) {
+//		// TODO Auto-generated method stub
+//		return bDAO.getCommentListCount(sqlSession, boardNo);
+//	}
+//
+////	@Override
+////	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+////		// TODO Auto-generated method stub
+////		return bDAO.selectCommentsList(sqlSession, hpage);
+////	}
+//
+////	@Override
+////	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+////		// TODO Auto-generated method stub
+////		return bDAO.selectCommentsList(sqlSession, hpage);
+////	}
+
+
 }
 
 

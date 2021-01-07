@@ -11,6 +11,7 @@
 		<typeAlias type="com.kh.Reader25.board.model.vo.Attachment" alias="Attachment"/>
 
 		<typeAlias type="com.kh.Reader25.board.model.vo.SearchCondition" alias="SearchCondition"/>
+
 		
 
 		<typeAlias type="com.kh.Reader25.board.model.vo.Liketo" alias="Liketo"/>
@@ -20,6 +21,9 @@
 		<typeAlias type="com.kh.Reader25.book.model.vo.Book" alias="Book"/>
 
 		<typeAlias type="com.kh.Reader25.board.model.vo.SearchCondition" alias="SearchCondition"/>
+
+
+		<typeAlias type="com.kh.Reader25.board.model.vo.SearchCate" alias="SearchCate"/>
 
 	</typeAliases>
 	
