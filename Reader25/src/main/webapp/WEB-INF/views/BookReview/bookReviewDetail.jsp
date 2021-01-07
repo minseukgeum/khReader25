@@ -9,6 +9,13 @@
 <script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
 <style>
+	 section{
+  		background:rgba(246, 246, 246, 1);
+  		border: 1px solid rgba(246, 246, 246, 1);
+  		width: 80%;
+  		margin:auto;
+  		min-width: 1000px;
+  	}
 	.bookreview-div{
 		margin-top: 20px;
 	}
@@ -27,7 +34,8 @@
 	}
 	.img-div img{
 		clear: both;
-		width: 350px;
+		max-width: 350px;
+		max-height:400px;
 		margin:auto;
 		vertical-align: middle;
 		text-align: center;
@@ -102,9 +110,14 @@
 		width: 200px;
 		margin: auto;
 		margin-top: 10px;
+		text-align: center;
 	}
 	.paging-btn a, .paging-btn p{
 		display:inline-block;
+	}
+	.paging-btn a:hover{
+		font-weight:bolder;
+		cursor:pointer;
 	}
 	.write-div{
 		width: 80px;
@@ -152,7 +165,7 @@
 					<div class="wise-saying">
 						<div>
 							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote1.png"/>
-							<div class="wise-content">명언은 명언이다.</div>
+							<div class="wise-content">${ wise }</div>
 							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote2.png"/>
 						</div>
 					</div>
@@ -168,25 +181,7 @@
 			</div>
 			<div class="list-contents">
 				<table class="list-table" id="reTable">
-					<c:if test="${ reList eq null }">
-						<tr>
-						<td class="td-left" colspan="3"> 다른 리뷰가 없습니다.</td>
-						</tr>
-					</c:if>
-					<c:if test="${ reList ne null }">
-						<c:forEach var="re" items="${ reList }">
-							<tr>
-								<td class="td-left">${ re.bTitle }</td>
-								<td>${re.userId }</td>
-								<td>${re.updateDay }</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-					
-					
-					
-					
-					
+					<!-- 리뷰 게시뮬 -->
 				</table>
 			</div>
 		</div>
@@ -202,7 +197,6 @@
 			function getReList(page1){
 				var booktitle = "${booktitle}";
 				var page1 = page1;
-				console.log("page1 : " );
 				$.ajax({
 					url: 'reList.re',
 					data: {booktitle:booktitle, page1:page1},
@@ -237,6 +231,8 @@
 						
 						//2) 게시물리스트 넣기
 						reList = data.reList;
+						console.log(reList);
+						
 						$reTable = $('#reTable');
 						$reTable.html('');
 						if(reList.length <= 1){
@@ -245,14 +241,14 @@
 							$tr.append($td);
 							$reTable.append($tr);
 						}else{
-							for(var i = 0; i < reList.length; i++){
-								if(reList.boardNo != ${board.boardNo}){
+							for(var i in reList){
+								if(reList[i].boardNo != '${board.boardNo}'){
 									$tr = $('<tr>');
-									$tdTile = $('<td class="td-left">').text(reList.bTitle);
-									$tdWriter = $('<td>').text(reList.userId);
-									$tdDate = $('<td>').text(reList.updateDay);
+									$tdTitle = $('<td class="td-left">').text(reList[i].bTitle);
+									$tdWriter = $('<td>').text(reList[i].userId);
+									$tdDate = $('<td>').text(reList[i].updateDay);
 
-									$tr.append(tdTitle);
+									$tr.append($tdTitle);
 									$tr.append($tdWriter);
 									$tr.append($tdDate);
 

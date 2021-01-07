@@ -181,10 +181,12 @@ public class BoardController {
 		Attachment at = bService.selectAttachment(boardNo);
 		if(board != null) {
 			
-			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
-			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
-			String author = exbook.substring(0,exbook.indexOf("#"));
-			String content = exbook.substring(exbook.indexOf("#") + 1);
+			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#책제목"));
+			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#책제목")+4);
+			String author = exbook.substring(0,exbook.indexOf("#작가"));
+			String exauthor = exbook.substring(exbook.indexOf("#작가") + 3);
+			String wise = exauthor.substring(0,exauthor.indexOf("#명언"));
+			String content = exauthor.substring(exauthor.indexOf("#명언") + 3);
 			
 			board.setbContent(content);
 			
@@ -192,6 +194,7 @@ public class BoardController {
 			mv.addObject("at", at);
 			mv.addObject("booktitle", booktitle);
 			mv.addObject("author", author);
+			mv.addObject("wise", wise);
 			mv.addObject("page", page);
 			mv.setViewName("bookReviewDetail");
 		}
@@ -228,8 +231,9 @@ public class BoardController {
 	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
-									@RequestParam("author") String author) {
-		String contentAddTag =  booktitle + "#"  + author + "#" + b.getbContent();
+									@RequestParam("author") String author,
+									@RequestParam("wise") String wise) {
+		String contentAddTag =  booktitle + "#책제목"  + author + "#작가" + wise + "#명언" + b.getbContent();
 		b.setbContent(contentAddTag);
 		
 		Member member = (Member)(request.getSession().getAttribute("loginUser"));
