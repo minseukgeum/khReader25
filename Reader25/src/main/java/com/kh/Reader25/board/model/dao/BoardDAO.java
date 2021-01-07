@@ -2,6 +2,7 @@ package com.kh.Reader25.board.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,6 +13,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Repository("bDAO")
 public class BoardDAO {
@@ -22,8 +24,8 @@ public class BoardDAO {
 
 	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi, int code) {
 		
-		int offset = pi.getBoardLimit() * (pi.getCurrentPage() -1);
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		int offset = pi.getBoardLimit() * (pi.getCurrentPage() -1); // 원래는 0부터 시작하는것을 1부터 시작하게끔 설정해주는 변수
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit()); //  RowBounds 는 올린 게시물에 낮은 번호 순서대로  입력해준다 
 		return (ArrayList)sqlSession.selectList("boardMapper.selectList", code, rowBounds);
 	}
 
@@ -91,6 +93,7 @@ public class BoardDAO {
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
 	}
+	
 
 	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 			
@@ -154,6 +157,17 @@ public class BoardDAO {
 	public int getCommentListCount(SqlSessionTemplate sqlSession, int boardNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("boardMapper.getCommentListCount", boardNo);
+	}
+
+	public int getSearchTIWResultListCount(SqlSessionTemplate sqlSession, SearchCondition serchC) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.getSearchTIWResultListCount", serchC);
+	}
+
+	public ArrayList<Board> selectSearchTIWResultList(SqlSessionTemplate sqlSession, SearchCondition serchC, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectSearchTIWResultList", serchC, rowBounds);
 	}
 
 //	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, HashMap<String, Object> hpage) {
