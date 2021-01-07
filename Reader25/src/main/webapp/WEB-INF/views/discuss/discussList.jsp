@@ -22,7 +22,24 @@
 	.sub{display:inline-block;}
 	#info{margin-top: 20px;}
 	#user-icon{width: 100px;height: 100px;}
-	
+	#find_id{ margin-top : 397px; }
+	#find_pwd{ margin-top : 397px; }
+	.login_font{
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 20px;
+		line-height: 29px;
+		color: #FFFFFF;
+	}
+	.Sign_Up_font{
+		font-family: Roboto;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 20px;
+		line-height: 29px;
+		color: #000000;
+	}
 	#subMenuDiv{
 		width: 310px; 
 	    height: 455px;
@@ -64,28 +81,38 @@
 	<br><br>
 	<section>
 		<div id="infomenu">
+		<c:if test="${ !empty loginUser }">
 			<div id="subBlue">
 				<div class="sub">
 					<img src="" id="user-icon">
 				</div>
 				<div class="sub" id="info">
-						아무개님<br>
+						${loginUser.getName() }님<br>
 						반갑습니다.<br>
-						보유포인트 = 3000PT<br>
+						보유포인트 = ${loginUser.getPoint() }PT<br>
 				</div>
 			</div>
+		</c:if>
+		<c:if test="${ empty loginUser }">
+			<button class = "login_font" id =  "login_button" onclick="location.href='loginView.me'">로그인하기</button>
+			<button class = "Sign_Up_font" id = "Sign_Up" onclick="location.href='enrollView.me'">회원가입</button>
+			<br>
+			<br>
+			<span id = "find_id"><a>아이디 찾기</a> </span>
+			<span id = "find_pwd"><a>비밀번호 찾기</a></span>
+		</c:if>
 			<br><br>
 			<div id="subMenuDiv">
 				<h2>메뉴바</h2>
 				<ul>
 					<li class="subMenuLi">
-						<a class="submenuLink" href="">도서리뷰</a>
+						<a class="submenuLink" href="book.re">도서리뷰</a>
 					</li>
 					<li class="subMenuLi">
-						<a class="submenuLink" href="">책방</a>
+						<a class="submenuLink" href="goTIWList.to">책방</a>
 					</li>
 					<li class="subMenuLi">
-						<a class="submenuLink" href="">토론방</a>
+						<a class="submenuLink" href="discuss.di">토론방</a>
 					</li>
 				 </ul>
 			</div>
@@ -94,7 +121,9 @@
 			<div id="head">
 				<div class="outerText">토론방</div>
 				<div class="outerBg">
-					<button id="btn">토론방 열기</button>
+				<c:if test="${ !empty loginUser }">
+					<button id="btn" onclick="location.href='discussWrite.di'">토론방 열기</button>
+				</c:if>
 					<input type="text" id="search-input"><!-- ajax로 검색하자 -->
 					<button class="img-span">
 						<img src="<%=request.getContextPath() %>/resources/images/bookreview/search.png" id="search-icon"/>
@@ -103,6 +132,17 @@
 			</div>
 			<div id="body">
 				<table id="orderTable">
+				<c:forEach var="d" items="${ dList }">
+					<tr>
+						<td><img src="" id="bimg"/></td>
+						<td><p>${ d.getdContent() }</p></td>
+					</tr>
+					<tr>
+						<td>찬반여론</td>
+<%-- 						<td>찬성 : ${ ((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdCons())*100}% 중립: ${((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdCons())*100}% 반대: ${((d.getdPros() + d.getdCons() + d.getdNeutrality())/d.getdNeutrality())*100}% 댓글참여 : ${ d.getdCount() }개</td> --%>
+						<td>찬성 : ${d.getdPros()}% 중립 : ${ d.getdNeutrality() }% 반대 : ${ d.getdCons() }% 댓글참여 : ${ d.getdCount() }개</td>
+					</tr>					
+				</c:forEach>
 					<tr>
 						<td><img src="" id="bimg"/></td>
 						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
@@ -125,38 +165,6 @@
 						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
 					</tr>
 					
-					<tr>
-						<td><img src="" id="bimg"/></td>
-						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
-						친절한 트렌드 뒷담화 2021 책에서 나온 트렌드의 변화에 
-						대한 이야기에 대해 이야기해볼 필요가있다...</p></td>
-					</tr>
-					<tr>
-						<td>찬반여론</td>
-						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
-					</tr>
-					
-					<tr>
-						<td><img src="" id="bimg"/></td>
-						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
-						친절한 트렌드 뒷담화 2021 책에서 나온 트렌드의 변화에 
-						대한 이야기에 대해 이야기해볼 필요가있다...</p></td>
-					</tr>
-					<tr>
-						<td>찬반여론</td>
-						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
-					</tr>
-					
-					<tr>
-						<td><img src="" id="bimg"/></td>
-						<td><p>코로나로 인한 트랜드 변화 이대로 괜찮은가?
-						친절한 트렌드 뒷담화 2021 책에서 나온 트렌드의 변화에 
-						대한 이야기에 대해 이야기해볼 필요가있다...</p></td>
-					</tr>
-					<tr>
-						<td>찬반여론</td>
-						<td>찬성 : 50% 반대: 50% 댓글참여 : 5개</td>
-					</tr>
 					<!-- 페이징 처리 -->
 					<tr align="center" height="20" id="buttonTab">
 						<td colspan="6">

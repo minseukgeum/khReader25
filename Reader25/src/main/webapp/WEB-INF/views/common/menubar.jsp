@@ -57,7 +57,7 @@
 		<div class="wrap">
 			<nav>
 				<div class="menu" onclick="home();">HOME</div>
-				<div class="menu" onclick="goNotice();">토론 게시판</div>
+				<div class="menu" onclick="goDiscuss();">토론 게시판</div>
 				<div class="menu" onclick="goBookReview();">책을 읽고</div>
 				<div class="menu" onclick="goTIW();">오늘의 작가</div>
 				<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
@@ -73,6 +73,9 @@
 		}
 		function goTIW(){
 			location.href = "goTIWList.to";
+		}
+		function goDiscuss(){
+			location.href = "discuss.di";
 		}
 	</script>
 </body>

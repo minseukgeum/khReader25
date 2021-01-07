@@ -109,16 +109,17 @@ select::-ms-expand {
 .img-div {
 	background: rgba(229, 229, 229, 1);
 	height: 200px; 
+	text-align: center;
 }
 .img-div>img{
 	max-height:200px;
+	max-width: 200px;
   	object-fit: cover;
   	vertical-align: middle;
 }
 .list-img {
-	display:block;
+	display:inline-block;
 	height: auto;
-	vertical-align: middle;
 	margin:auto;
 }
 .content-div {

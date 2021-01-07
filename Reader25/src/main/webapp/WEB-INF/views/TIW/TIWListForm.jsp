@@ -106,7 +106,7 @@
 			</div>
 		<div class="insertbuttonArea" align="right">			
 			<c:if test="${ loginUser ne null }">
-				<input type="button" onclick="location.href='${ writeTIW }'" id="writeTIWBtn" class="btn1" value="글쓰기">
+				<input type="button" onclick="location.href='writeTIW.to';" id="writeTIWBtn" class="btn1" value="글쓰기">
 			</c:if>
 		</div>
 	</div>

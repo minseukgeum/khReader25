@@ -428,7 +428,7 @@
 						<c:if test="${ pi.currentPage >= pi.maxPage }">
 						<li class="disabled">
 							<a  aria-label="Next">
-				       				 <span class="glyphicon glyphicon-forward" aria-hidden="true">        <!-- &raquo--></span>
+				       				 <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
 				      			</a>
 				      			</li>
 						</c:if>
@@ -512,6 +512,23 @@
 						        	var code = ${code};
 						        	
 						        	
+						        	var searchCondition = null;
+						        	
+						        	var searchValue = null;
+						        	
+						        	var path= "";
+						        
+						        	if( ${ !empty searchCondition} ){
+						        		
+						        		searchCondition = "${searchCondition}";
+						        		searchValue= "${searchValue}";
+						        		
+						        		
+						        		path = '&searchCondition='+searchCondition+'&searchValue='+searchValue;
+						        	}
+						        	
+						        	
+						        	
 									var select_obj = '';
 									 
 									
@@ -534,7 +551,7 @@
 					 			    if(select_obj == '' || select_obj.length == 0){
 								    	
 								    	
-								    	 location.href='mBlistDelete.me?inFo='+Id + "&code=" + code+'&page='+ ${pi.currentPage};
+								    	 location.href='mBlistDelete.me?inFo='+Id + "&code=" + code+'&page='+ ${pi.currentPage}+path;
 								    	
 					 			    }else{
 								    	
@@ -542,7 +559,7 @@
 					 			    	
 					 			    	
 									    
-									    location.href='mBlistDelete.me?inFo='+select_obj+"&code=" + code+'&page='+ ${pi.currentPage};
+									    location.href='mBlistDelete.me?inFo='+select_obj+"&code=" + code+'&page='+ ${pi.currentPage}+path;
 								    	
 					 			    }
 								    

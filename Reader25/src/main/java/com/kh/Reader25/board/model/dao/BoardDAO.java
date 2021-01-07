@@ -180,10 +180,42 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", bId);
 	}
 
+	public Attachment selectAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.selectOne("boardMapper.selectAttachment", boardNo);
+	}
+
+	public ArrayList<Board> selectAnotherReview(SqlSessionTemplate sqlSession, String book, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAnotherReview", book, rowBounds);
+	}
+
+	public int getReListCount(SqlSessionTemplate sqlSession, String book) {
+		return sqlSession.selectOne("boardMapper.getReListCount", book);
+	}
 	public int updateLike(SqlSessionTemplate sqlSession, int b_no) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("boardMapper.updateLike", b_no);
 	}
+
+	public int getCommentListCount(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.getCommentListCount", boardNo);
+	}
+
+//	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, HashMap<String, Object> hpage) {
+//		PageInfo pi = ((PageInfo)hpage.get("pi"));
+//		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+//		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+//		
+//		int boardNo = (int)hpage.get("boardNo");
+//		
+//		HashMap<String, Object> page = new HashMap<String, Object>();
+//		page.put("rowBounds", rowBounds);
+//		page.put("boardNo", boardNo);
+//		
+//		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", null, rowBounds);
+//	}
 
 
 
