@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
@@ -219,7 +217,41 @@ public class BoardController {
 		map.put("reList", reList);
 		map.put("pi1", pi1);
 		
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		 try {
+			gson.toJson(map, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	//명대사 리스트 보기
+	@RequestMapping("wiseList.re")
+	public void getWiseList(@RequestParam(value="page2", required=false) Integer page2,
+							@RequestParam("wise") String wise, HttpServletResponse response) {
+		response.setContentType("application/json; charset=UTF-8");
+		System.out.println(page2);
+		int currentPage2 = 1;
+		if(page2 != null) {
+			currentPage2 = page2;
+		}
+		int listCount = bService.getReListCount(wise);
+		PageInfo pi2 = Pagination.getPageInfo3(currentPage2, listCount);
+		ArrayList<Board> wiseList = bService.selectAnotherReview(wise, pi2);
+		
+		String[] wiseArr = new String[wiseList.size()];
+		int i = 0;
+		for(Board b : wiseList) {
+			wiseArr[i] = b.getbContent().substring(b.getbContent().indexOf("#작가") + 3, b.getbContent().indexOf("#명언"));
+			i++;
+		}
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("wiseList", wiseList);
+		map.put("pi2", pi2);
+		map.put("wiseArr", wiseArr);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		 try {
 			gson.toJson(map, response.getWriter());
 		} catch (JsonIOException | IOException e) {
