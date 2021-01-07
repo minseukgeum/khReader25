@@ -13,6 +13,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Service("bService")
@@ -196,6 +197,18 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return bDAO.selectSearchTIWResultList(sqlSession, serchC, pi);
+	}
+
+	@Override
+	public int getSearchCateResultListCount(SearchCate serCa) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchCateResultListCount(sqlSession, serCa);
+	}
+
+	@Override
+	public ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return bDAO.selectSearchCateResultList(sqlSession, serCa, pi);
 	}
 
 //	@Override

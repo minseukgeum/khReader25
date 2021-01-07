@@ -8,6 +8,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 
 public interface BoardService {
@@ -64,6 +65,10 @@ public interface BoardService {
 	int getSearchTIWResultListCount(SearchCondition serchC);
 
 	ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi);
+
+	int getSearchCateResultListCount(SearchCate serCa);
+
+	ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi);
 
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
 

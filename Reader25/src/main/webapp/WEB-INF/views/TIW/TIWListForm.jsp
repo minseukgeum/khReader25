@@ -38,7 +38,13 @@
 			<c:forEach var="b" items="${ list }">
 			<tr class="contentTR">
 				<td align="center">${ b.boardNo }</td>
-				<td align="center">${ b.cate }</td>
+				<td align="center">
+					<c:url var="searchTIWCate" value="searchTIWCate.to">
+						<c:param name="cate" value="${ b.cate }"/>
+						<c:param name="userId" value="${ b.userId }"/>
+					</c:url>
+					<a href="${ searchTIWCate }">${ b.cate }</a>
+				</td>
 				<td align="left">
 					<c:if test="${ !empty loginUser }">
 						<c:url var="TIWdetail" value="TIWdetail.to">

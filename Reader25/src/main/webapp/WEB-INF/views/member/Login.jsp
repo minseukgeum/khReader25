@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Reader들을 위한 Reader 25</title>
 
+<!-- <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script> -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
 <link rel="stylesheet" href="${contextPath}/resources/css/member/login.css" type="text/css">
 
 <style>
@@ -76,6 +79,13 @@
 					</td>
 				</tr>
 			</table>
+			
+			<%-- <div style="background-color:#15a181; width: 100%; height: 50px;text-align: center; color: white; "><h3>SIST Login</h3></div>
+			<br>
+			<!-- 네이버 로그인 화면으로 이동 시키는 URL -->
+			<!-- 네이버 로그인 화면에서 ID, PW를 올바르게 입력하면 callback 메소드 실행 요청 -->
+			<div id="naver_id_login" style="text-align:center"><a href="${url}"><img width="223" src="${pageContext.request.contextPath}/resources/img/naver_Bn_Green.PNG"/></a></div>
+			<br> --%>
 	</div>
 	<br><br><br><br><br><br><br><br><br>
 	
