@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+
 	<select id="selectListCount" resultType="_int">
 		select count(*)
 		from board
@@ -12,7 +13,9 @@
 		from board
 		where code = #{code} and b_status = 'Y'
 		order by board_no desc
-	</select>
+	</select> 
+	<!-- vo 에서 db 참고하여 작성한것들을  property에 넣은거고 
+	column은 db에 있는 값들을 그대로 가져온 것이다.   -->
 	<resultMap type="Board" id="boardResultSet">
 		<id property="boardNo" column="BOARD_NO"/>
 		<result property="bTitle" column="B_TITLE"/>
@@ -87,6 +90,79 @@
 				#{atcPath}, sysdate, default,seq_bid.currval)
 	</insert>
 	
+
+	
+	<select id="SearchMyListCount" parameterType="SearchCondition" resultType="_int">
+	
+		select count(*)
+		from board
+		where code= #{code} and b_status='Y'
+		
+		
+		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
+		
+		
+	
+	
+	</select>
+	
+	
+	<select id="SeachMyList" parameterType="SearchCondition" resultMap="boardResultSet">
+ 	
+ 	
+ 		select *
+ 		from board join member using( user_id)
+ 		where b_status = 'Y' and code=#{code}
+ 
+ 		
+ 		
+ 		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
+ 	
+ 		order by BOARD_NO desc
+ 	
+ 	</select>
+ 	
+ 	<update id="deletemBList">
+ 	
+ 		UPDATE board SET B_STATUS = 'N' WHERE BOARD_NO=#{s}
+ 	
+ 	
+ 	</update>
+	
+	
+
 	<update id="addReadCount">
 		update board
 		set b_count = b_count + 1
@@ -128,6 +204,7 @@
 		<result property="atcStatus" column="ATC_STATUS"/>
 		<result property="boardNo" column="BOARD_NO"/>
 	</resultMap>
+
 	
 	<select id="getReListCount" resultType="_int">
 		select count(*)
@@ -153,6 +230,7 @@
 		<result property="m_no" column="MNO"/>
 		<result property="l_check" column="LIKE_CHECK"/>
 	</resultMap>
+
 	
 	<delete id="deleteLike">
 		DELETE FROM liketo
@@ -201,6 +279,64 @@
 		<result property="userId" column="USER_ID"></result>
 	</resultMap>
 	
+
+	<select id="getSearchTIWResultListCount" resultType="_int">
+		select count(*)
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+		
+		<if test="writer != null">
+			and b.user_id = #{writer}
+		</if>
+		<if test="title != null">
+			and b_title like '%' || #{title} || '%'
+		</if>
+		<if test="content != null">
+			and b_content like '%' || #{content} || '%'
+		</if>
+	</select>
+	
+	<select id="selectSearchTIWResultList" resultMap="boardResultSet">
+		select *
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+		<choose>
+			<when test="writer != null">
+				and b.user_id = #{writer}
+			</when>
+			<when test="title != null">
+				and b_title like '%' || #{title} || '%'
+			</when>
+			<otherwise>
+				and b_content like '%' || #{content} || '%'
+			</otherwise>
+		</choose>
+		order by board_no desc
+	</select>
+	
+
+	<select id="getSearchCateResultListCount" resultType="_int">
+		select count(*)
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+			and b.user_id = #{userId}
+			and CATE  = #{cate}
+	</select>
+	
+	<select id="selectSearchCateResultList" resultMap="boardResultSet">
+		select *
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+			and b.user_id = #{userId}
+			and CATE  = #{cate}
+		order by board_no desc
+	</select>
+	
+
 	<!-- <select id="getCommentListCount" resultType="_int">
 		select count(*)
 		from comments
@@ -213,4 +349,5 @@
 		where board_no =#{boardNo}
 		order by com_no desc
 	</select> -->
+
 </mapper>

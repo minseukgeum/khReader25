@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList, com.kh.Reader25.board.model.vo.*" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>BookReview</title>
+<script type="text/javascript" src="<%= request.getContextPath() %>/js/jquery-3.5.1.min.js"></script>
 <style>
 section {
 	background: rgba(246, 246, 246, 1);
 	width: 80%;
-	margin: auto;
+	margin:auto;
 	min-width: 1000px;
+}
+.dddd{
+text-align: center;
+
 }
 
 .top-div {
@@ -24,8 +27,7 @@ section {
 select {
 	font-family: inherit;
 	font-size: 15px;
-	background: url('${contextPath}/resources/images/bookreview/arrow3.png') no-repeat 100%
-		50%;
+	background: url('/Reader25/images/bookreview/arrow3.png') no-repeat 100% 50%;
 	border-radius: 0px;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -108,23 +110,17 @@ select::-ms-expand {
 
 .img-div {
 	background: rgba(229, 229, 229, 1);
-	height: 200px; 
-	text-align: center;
+	line-height: 180px; /* 이미지 가운데로 넣기 */
 }
-.img-div>img{
-	max-height:200px;
-	max-width: 200px;
-  	object-fit: cover;
-  	vertical-align: middle;
-}
+
 .list-img {
-	display:inline-block;
 	height: auto;
-	margin:auto;
+	width: 100%;
+	vertical-align: middle;
 }
+
 .content-div {
 	background: white;
-	height: 100px;
 }
 
 .content-ul {
@@ -136,7 +132,6 @@ select::-ms-expand {
 
 .content-ul>li {
 	margin: 0;
-	margin-top: 2px;
 	width: 100%;
 }
 
@@ -162,19 +157,14 @@ select::-ms-expand {
 	margin: auto;
 	margin-top: 10px;
 }
-.paging-div>a, .paging-div>p {
-	padding: 0;
-	margin: 0;
-	display: inline-block;
+
+.paging-div>a, .paging-div>p{
 	width: 30px;
 	height: 30px;
 	color: rgba(85, 83, 83, 1);
-	font-size: 17px;
+	font-size: 15px;
 	background: rgba(229, 229, 229, 1);
 	border: none;
-	text-decoration: none;
-	text-align: center;
-	vertical-align: middle;
 }
 
 .paging-div>a:hover {
@@ -182,7 +172,7 @@ select::-ms-expand {
 	background: rgba(220, 220, 220, 1);
 }
 
-.paging-div>p {
+.paging-div>p{
 	background: rgba(39, 50, 56, 1);
 	color: white;
 }
@@ -210,6 +200,10 @@ select::-ms-expand {
 <body>
 	<%@include file="../common/menubar.jsp" %>
 	<section>
+		<br>
+		<h4 class="dddd">중고 책 거래</h4>
+		
+		
 		<div class="top-div">
 			<div class="search-div">
 				<select class="search-option">
@@ -234,47 +228,57 @@ select::-ms-expand {
 			</div>
 		</div>
 		
-		<div class="list-all-div">
+		      <div class="list-all-div">
+         <c:forEach items="${bList}" var="b">
+            <div class="list-div">
+               <div class="img-div">
+               <c:forEach items="${atList}" var="a">
+                  <c:if test="${a.boardNo == b.boardNo }">
+                     <img class="list-img" src="${ contextPath }/resources/buploadFiles/${a.atcName}">
+                  </c:if>
+                  <c:if test="${a.boardNo != b.boardNo }">
+                     <img class="list-img" src="#">
+                  </c:if>
+               </c:forEach>
+               </div>
+               <input type="hidden" id="boardNo" value="${ b.boardNo }">
+               <div class="content-div">
+                  <ul class="content-ul">
+                     <li class="title-li">${b.bTitle }</li>
+                     <li class="tag-li">#작가 #분야</li>
+                     <li class="writer-li">${b.userId }</li>
+                     <li class="wise-li">명언</li>
+                  </ul>
+               </div>
+            </div>
+         </c:forEach>
+      </div>
+      
+      <script>
+         $('.list-div').click(function(){
+            var boardNo = $(this).children('#boardNo').val();
+            location.href = "bookroomD.bo?boardNo="+boardNo+"&page="+${pi.currentPage}; 
+            //location.href =페이지를 넘겨주는것 게시물 번호   게시물번호를 받아온것  페이지 값을 넘겨준다  ${pi.currentPage}; = pi에 있는 커런트페이지 를 가져오는것
+         });
+      </script>
+	<%-- 	<div class="list-all-div">
+			<% for(int i = 0; i < 12; i++){ %>
+			<div class="list-div">
 			
-			<%
-				ArrayList<Board> bList = (ArrayList<Board>)request.getAttribute("bList");
-				ArrayList<Attachment> atList = (ArrayList<Attachment>)request.getAttribute("atList");
-			%>
-			<% for(Board b : bList){ %>
-				<div class="list-div">
-					<div class="img-div">
-						<%for(Attachment at: atList){%>
-							<%if(b.getBoardNo() == at.getBoardNo()){ %>
-								<img class="list-img" src="resources/buploadFiles/<%=at.getAtcName()%>">
-							<%}else{ %>
-								<img class="list-img">
-							<%} %>
-						<%} %>
-					</div>
-					<input type="hidden" id="boardNo" value="<%=b.getBoardNo()%>">
-					<div class="content-div">
-						<ul class="content-ul">
-							<li class="title-li"><%=b.getbTitle()%></li>
-							<li class="tag-li">#작가 #분야</li>
-							<li class="writer-li"><%=b.getUserId() %></li>
-							<li class="wise-li">명언</li>
-						</ul>
-					</div>
+				<div class="img-div" >
+					<img class="list-img" src="${ contextPath }/resources/images/bookreview/book.jpg">
 				</div>
+				<div class="content-div">
+					<ul class="content-ul">
+						<li class="title-li">제목</li>
+						<li class="tag-li">#작가 #분야</li>
+						<li class="writer-li">회원ID</li>
+						<li class="wise-li">명언</li>
+					</ul>
+				</div>
+			</div>
 			<%} %>
-		</div>
-		
-		<script>
-			$('.list-div').on('click',function(){
-				var boardNo = $(this).children('#boardNo').val();
-				location.href = "redetail.re?boardNo="+boardNo+"&page="+${pi.currentPage};
-			}).mouseenter(function(){
-				$(this).css({'cursor':'pointer','box-shadow':'2px 2px 2px 2px lightgray', });
-			}).mouseout(function(){
-				$(this).css('box-shadow','none');
-			});
-		</script>
-		
+		</div> --%>
 		<div class="paging-div">
 			<!-- 이전 -->
 			<c:if test="${ pi.currentPage <=1 }">
@@ -304,14 +308,14 @@ select::-ms-expand {
 				<c:url var="next" value="${ loc }">
 					<c:param name="page" value="${ pi.currentPage + 1 }"/>
 				</c:url>
-				<a href="${next}">&gt;</a>
+				<a href="${next }">&gt;</a>
 			</c:if>
 			<c:if test="${pi.currentPage < pi.endPage }">
 				<p>&gt;</p>
 			</c:if>
 			
 		</div>
-		<c:if test="${ !empty loginUser }">
+<%-- 		<c:if test="${ !empty loginUser }"> --%>
 			<div class="write-btn">
 				<img src="${contextPath}/resources/images/bookreview/write.png"/>
 			</div>
@@ -320,7 +324,7 @@ select::-ms-expand {
 					location.href="<%=request.getContextPath()%>/write.re";
 				});
 			</script>
-		</c:if>
+<%-- 		</c:if> --%>
 	</section>
 </body>
 </html>

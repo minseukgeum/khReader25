@@ -61,4 +61,7 @@
 		WHERE user_id = #{id}
 	</update>
 	
+	
+	
+	
 </mapper>

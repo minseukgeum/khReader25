@@ -8,6 +8,8 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 public interface BoardService {
 
@@ -30,9 +32,18 @@ public interface BoardService {
 
 	int deleteTIWBoard(int boardNo);
 
+
+	int getSearchMyListCount(SearchCondition sc);
+
 	Board selectBoard(int boardNo);
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
+
+
+	ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi);
+
+
 
 	int findLike(HashMap<String, Object> map);
 
@@ -43,6 +54,9 @@ public interface BoardService {
 	ArrayList<Attachment> selectAttachmentTList(int atcCode);
 
 	int insertBoardAndFile(Board b, Attachment at);
+
+
+	int deletemBList(String[] lists);
 
 	int insertComments(Comments c);
 
@@ -60,7 +74,16 @@ public interface BoardService {
 
 	int getCommentListCount(int boardNo);
 
+	int getSearchTIWResultListCount(SearchCondition serchC);
+
+	ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi);
+
+	int getSearchCateResultListCount(SearchCate serCa);
+
+	ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi);
+
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
+
 
 
 

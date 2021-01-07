@@ -9,6 +9,12 @@
 <script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
 <style>
+	 section{
+  		border: 1px solid rgba(246, 246, 246, 1);
+  		width: 80%;
+  		margin:auto;
+  		min-width: 1000px;
+  	}
 	.bookreview-div{
 		margin-top: 20px;
 	}
@@ -27,7 +33,8 @@
 	}
 	.img-div img{
 		clear: both;
-		width: 350px;
+		max-width: 350px;
+		max-height:400px;
 		margin:auto;
 		vertical-align: middle;
 		text-align: center;
@@ -102,8 +109,16 @@
 		width: 200px;
 		margin: auto;
 		margin-top: 10px;
+		text-align: center;
 	}
-
+	.paging-btn a, .paging-btn p{
+		display:inline-block;
+		margin-left: 6px;
+	}
+	.paging-btn a:hover{
+		font-weight:bolder;
+		cursor:pointer;
+	}
 	.write-div{
 		width: 80px;
 		font-size: 18px;
@@ -150,14 +165,14 @@
 					<div class="wise-saying">
 						<div>
 							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote1.png"/>
-							<div class="wise-content">명언은 명언이다.</div>
+							<div class="wise-content">${ wise }</div>
 							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote2.png"/>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="contents">
-				${ board.bContent}
+				${board.bContent}
 			</div>
 		</div>
 		<div class="list">
@@ -165,101 +180,181 @@
 				<p>이 책의 다른 리뷰</p>
 			</div>
 			<div class="list-contents">
-				<table class="list-table">
-					<c:if test="${ reList eq null }">
-						<tr>
-						<td class="td-left" colspan="3"> 다른 리뷰가 없습니다.</td>
-						</tr>
-					</c:if>
-					<c:if test="${ reList ne null }">
-						<c:forEach var="re" items="${ reList }">
-							<tr>
-								<td class="td-left">${ re.bTitle }</td>
-								<td>${re.userId }</td>
-								<td>${re.updateDay }</td>
-							</tr>
-						</c:forEach>
-					</c:if>
+				<table class="list-table" id="reTable">
+					<!-- 리뷰 게시뮬 -->
 				</table>
 			</div>
 		</div>
 
-		<div class="paging-btn">
-			<!-- 이전 -->
-			<c:if test="${ pi1.currentPage <=1 }">
-				<p>&lt;</p>
-			</c:if>
-			<c:if test="${ pi1.currentPage > 1 }">
-				<a onclick="getReList(${pi1.currentPage -1});">&lt;</a>
-			</c:if>
-			<!-- 번호 -->
-			<c:forEach begin="${ pi1.startPage }" end="${ pi1.endPage }" var="p">
-				<c:if test="${ pi1.currentPage eq p }">
-					<p>${ p }</p>
-				</c:if>
-				<c:if test="${ pi1.currentPage ne p }">
-					<a onclick="getReList(${p});">${ p }</a>
-				</c:if>
-			</c:forEach>
-
-			<!-- 다음 -->
-			<c:if test="${ pi1.currentPage >= pi1.endPage }">
-				<a onclick="getReList(${pi1.currentPage + 1});">&gt;</a>
-			</c:if>
-			<c:if test="${pi1.currentPage < pi1.endPage }">
-				<p>&gt;</p>
-			</c:if>
+		<div class="paging-btn" id="re-paging">
+		<!-- 다른 리뷰 페이징 -->
 		</div>
-		
 		<script>
 			var reList;
 			$(function(){
 				getReList(1);
-				console.log("${reList}");
-				console.log("${pi1}");
 			});
-			function getReList(page1){
+			function getReList(value){
 				var booktitle = "${booktitle}";
-				var page1 = page1;
-				console.log(booktitle);
-				console.log("page1 : " + page1);
+				var page1 = value;
+				console.log(value);
 				$.ajax({
 					url: 'reList.re',
 					data: {booktitle:booktitle, page1:page1},
 					success: function(data){
-						console.log(data);
+						
+						//1) 페이징 버튼 넣기
+						pi1 = data.pi1;
+						$repaging = $('#re-paging');
+						$repaging.html('');
+						if(pi1.currentPage <= 1){
+							$before = $('<p>').text('<');
+						}else{
+							$before = $('<a>').on('click',function(){getReList(pi1.currentPage - 1)}).text('<');
+						}
+						$repaging.append($before);
+
+						for(var i = pi1.startPage; i <= pi1.endPage; i++){
+							if(pi1.currentPage == i){
+								$pNo = $('<p>').text(i);
+							}else{
+								$pNo = $('<a>').on('click', function(){
+									getReList($(this).text());
+								}).text(i);
+							}
+							$repaging.append($pNo);
+						}
+						
+						if(pi1.currentPage >= pi1.endPage){
+							$next = $('<p>').text(">");
+						}else{
+							$next = $('<a>').on("click", function(){getReList(pi1.currentPage + 1)}).text('>');
+						}
+						
+						$repaging.append($next);
+						
+						//2) 게시물리스트 넣기
 						reList = data.reList;
+						
+						
+						$reTable = $('#reTable');
+						$reTable.html('');
+						if(reList.length <= 1){
+							$tr = $('<tr>');
+							$td = $('<td class="td-left" colspan=6>').text('다른 리뷰가 없습니다.');
+							$tr.append($td);
+							$reTable.append($tr);
+						}else{
+							for(var i in reList){
+								if(reList[i].boardNo != '${board.boardNo}'){
+									$tr = $('<tr>');
+									$tdNo = $('<td>').text(reList[i].boardNo);
+									$tdTitle = $('<td class="td-left">').text(reList[i].bTitle);
+									$tdWriter = $('<td>').text(reList[i].userId);
+									$tdDate = $('<td>').text(reList[i].updateDay);
+									$tdCount = $('<td>').text(reList[i].bCount);
+									$tr.append($tdNo);
+									$tr.append($tdTitle);
+									$tr.append($tdWriter);
+									$tr.append($tdCount);
+									$tr.append($tdDate);
+
+									$reTable.append($tr);
+								}
+							}
+						}
 					}
 				});
 			}
+			
 		</script>
-		<c:set var="reList"/>
+		
 		<div class="list">
 			<div class="list-header">
 				<p>명대사</p>
 			</div>
 			<div class="list-contents">
-				<table class="list-table">
-					<%for(int i = 0; i < 10; i++){ %>
-					<tr>
-						<td class="td-left">스케일이 남다르다.</td>
-						<td>강건강</td>
-						<td>2020.01.01</td>
-					</tr>
-					<%} %>
+				<table class="list-table" id="wiseTable">
 				</table>
 			</div>
 		</div>
-		<div class="paging-btn">
-			<button>&lt;</button>
-			<button>1</button>
-			<button>2</button>
-			<button>3</button>
-			<button>4</button>
-			<button>5</button>
-			<button>&gt;</button>
+		<div class="paging-btn" id="wise-paging">
 		</div>
+		<script>
+			$(function(){
+				getWiseList(1);
+			});
+			function getWiseList(value){
+				var wise = "${wise}";
+				var page2 = value;
+				$.ajax({
+					url: 'wiseList.re',
+					data: {wise:wise, page2:page2},
+					success: function(data){
+						
+						//1) 페이징 버튼 넣기
+						pi2 = data.pi2;
+						$wisepaging = $('#wise-paging');
+						$wisepaging.html('');
+						if(pi2.currentPage <= 1){
+							$before = $('<p>').text('<');
+						}else{
+							$before = $('<a>').on('click',function(){getWiseList(pi2.currentPage - 1)}).text('<');
+						}
+						$wisepaging.append($before);
+						for(var i = pi2.startPage; i <= pi2.endPage; i++){
+							if(pi2.currentPage == i){
+								$pNo = $('<p>').text(i);
+							}else{
+								$pNo = $('<a>').on('click', function(){getWiseList($(this).text())}).text(i);
+							}
+							$wisepaging.append($pNo);
+						}
+						if(pi2.currentPage >= pi2.endPage){
+							$next = $('<p>').text(">");
+						}else{
+							$next = $('<a>').on('click',function(){getWiseList(pi2.currentPage + 1)}).text('>');
+						}
+						$wisepaging.append($next);
+						
+						//2) 게시물리스트 넣기
+						wiseList = data.wiseList;
+						wiseArr = data.wiseArr;
+						
+						$wiseTable = $('#wiseTable');
+						$wiseTable.html('');
+						if(wiseList.length <= 1){
+							$tr = $('<tr>');
+							$td = $('<td class="td-left" colspan=6>').text('다른 리뷰가 없습니다.');
+							$tr.append($td);
+							$wiseTable.append($tr);
+						}else{
+							for(var i in wiseList){
+								if(wiseList[i].boardNo != '${board.boardNo}'){
+									$tr = $('<tr>');
+									$tdTitle = $('<td class="td-left">').text(wiseList[i].bTitle);
+									$tdWriter = $('<td>').text(wiseList[i].userId);
+									$tdDate = $('<td>').text(wiseList[i].updateDay);
+									$tdCount = $('<td>').text(wiseList[i].bCount);
+									$tdWise = $('<td>').text(wiseArr[i]);
+									
+									$tr.append($tdTitle);
+									$tr.append($tdWise);
+									$tr.append($tdWriter);
+									$tr.append($tdCount);
+									$tr.append($tdDate);
+
+									$wiseTable.append($tr);
+								}
+							}
+						}
+					}
+				});
+			}
+		</script>
+		<c:if test="${loginUser ne null }">
 		<div class="write-div"><button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button></div>
+		</c:if>
 	</section>
 </body>
 </html>

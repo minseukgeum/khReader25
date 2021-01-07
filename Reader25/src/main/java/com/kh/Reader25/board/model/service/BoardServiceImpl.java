@@ -1,3 +1,4 @@
+
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
@@ -6,13 +7,17 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.Reader25.board.model.dao.BoardDAO;
+import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Service("bService")
 public class BoardServiceImpl implements BoardService{
@@ -201,5 +206,86 @@ public class BoardServiceImpl implements BoardService{
 
 
 	
+
+	@Override
+	public int getSearchMyListCount(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchMyListCount(sqlSession, sc);
+	}
+
+	@Override
+	public ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi) {
+		
+		return bDAO.SeachMyList(sqlSession,sc, pi);
+	}
 	
+	
+	@Transactional
+	@Override
+	public int deletemBList(String[] lists) {
+		
+		
+		int result = 0;
+		
+		for(String s: lists) {			
+			
+			result += bDAO.deletemBList(sqlSession, s);
+
+		}
+		
+		
+		if(result != lists.length) {
+			
+			throw new BoardException("마이페이지 리스트 삭제 실패");
+		}
+		
+		
+		
+		return result;
+	}
+
+	@Override
+	public int getSearchTIWResultListCount(SearchCondition serchC) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
+	
+
+
+	@Override
+	public int getSearchCateResultListCount(SearchCate serCa) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchCateResultListCount(sqlSession, serCa);
+	}
+
+	@Override
+	public ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return bDAO.selectSearchCateResultList(sqlSession, serCa, pi);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+//
+//
+//
+//
 }

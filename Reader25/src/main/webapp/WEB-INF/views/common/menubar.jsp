@@ -41,7 +41,8 @@
 				</c:if>
 				<c:if test="${ !empty sessionScope.loginUser }">
 					<li><a href="logout.me">로그아웃</a></li>
-					<li><a href="mypage.me">마이페이지</a></li>
+
+					<li><a href="myList.me?code=2">마이페이지</a></li>
 					<li class="li"><a href="notice.no">공지사항</a></li>
 					<li><a href="inquiry.in">문의사항</a></li>
 				</c:if>
@@ -60,6 +61,7 @@
 				<div class="menu" onclick="goBookReview();">책을 읽고</div>
 				<div class="menu" onclick="goTIW();">오늘의 작가</div>
 				<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
+				<div class="menu" onclick="gobookr()">책방</div>
 			</nav>
 		</div>
 	</div>
@@ -72,6 +74,12 @@
 		}
 		function goTIW(){
 			location.href = "goTIWList.to";
+		}
+		function goThumbnail1(){
+			location.href= "gobooklist.bo";
+		}
+		function gobookr(){
+			location.href= "gobookr.bo";
 		}
 		function goDiscuss(){
 			location.href = "discuss.di";

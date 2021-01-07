@@ -52,11 +52,17 @@
 		margin:auto;
 	}
 	.file-img{
-		min-height: 250px;
+		height: 250px;
+		line-height:250px;
 		margin-top: 20px;
 		background: lightgray;
 		text-align: center;
-		position: relative;
+	}
+	.file-img>img{
+		max-height:100%;
+		max-width: 100%;
+		object-fit: cover;
+		vertical-align: middle;
 	}
 	#input-file{
 		border: 1px solid lightgray;
@@ -64,26 +70,34 @@
 	#file-img:hover{
 		background: LightSalmon;
 	}
-	#load-img{
-		max-width: 100%;
-		height: auto;
-		margin: 0; 
- 		position: absolute;/* 수직 정렬 */
- 		top: 50%;
- 		left: 50%;
- 		transform: translate(-50%, -50%);
-	}
 	.tag{display:inline; color:rgba(245, 113, 92, 1);}
 	.bookInfo{
 		background: none;
  		border: none; 
 	}
 	.tag-div{
-		display:inline-block; 
 		height: 40px; 
 		width: 400px; 
-		margin-left: 33%;
-		margin-top:10px;
+		margin:auto;
+		margin-top: 10px;
+	}
+	.wise-div{
+		width: 300px;
+		margin: auto;
+		margin-top: 10px;
+		height: 40px;
+		vertical-align: middle;
+	}
+	.wise-div>img{
+		width: 40px;
+	}
+	.wise-div>input{
+		background: none;
+		position: relative;
+		top:-15px;
+		width: 190px;
+		border: none;
+		text-align: center;
 	}
 	.content-edit{
 		width: 80%;
@@ -136,14 +150,18 @@
 				<div class="file-div">
 					<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
 					<div class="file-img" id="file-img">
-						<img src="#" id="load-img" >
+						<img id="load-img" >
 					</div>
+				</div>
+				<div class="wise-div">
+					<img src="resources/images/bookreview/quote4.png">
+					<input name="wise" type="text" placeholder="명언을 작성해주세요">
+					<img src="resources/images/bookreview/quote3.png">
 				</div>
 				<div class="tag-div">
 					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" placeholder="책제목">
 					<p class="tag">#</p><input type="text" class="bookInfo" name="author" placeholder="작가">
 				</div>
-				
 				<div class="content-edit" style="text-align:center;">
 					<textarea name="bContent" id="smart_edit" style="width:100%;"></textarea>
 				</div>
