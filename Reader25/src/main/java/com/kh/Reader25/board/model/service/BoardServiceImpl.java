@@ -243,7 +243,20 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	@Override
+	public int getSearchTIWResultListCount(SearchCondition serchC) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }
+
 

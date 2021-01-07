@@ -235,5 +235,36 @@ public class MemberController {
 	}
 	
 	
+	@RequestMapping("myUpdateForm.me")
+	public String myUpdateForm() {
+	
+
+		
+		
+		return "memberUpdate";
+		
+
+	}
+	
+	@RequestMapping("myUpdate.me")
+	public String myUpdate(@ModelAttribute Member m, @RequestParam("joinPostal") String post,
+			@RequestParam("joinAddress1") String address1,
+			@RequestParam("joinAddress2") String address2) {
+	
+
+		
+		System.out.println(m);
+				System.out.println(post);
+				System.out.println(address1);
+				System.out.println(address2);
+		
+		
+		
+		
+		return "";
+		
+
+	}
+	
 
 }

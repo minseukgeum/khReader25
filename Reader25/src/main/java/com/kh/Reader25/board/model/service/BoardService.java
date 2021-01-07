@@ -73,6 +73,10 @@ public interface BoardService {
 
 	int getCommentListCount(int boardNo);
 
+	int getSearchTIWResultListCount(SearchCondition serchC);
+
+	ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi);
+
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
 
 

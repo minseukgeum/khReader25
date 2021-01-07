@@ -19,6 +19,8 @@
 
 		<typeAlias type="com.kh.Reader25.book.model.vo.Book" alias="Book"/>
 
+		<typeAlias type="com.kh.Reader25.board.model.vo.SearchCondition" alias="SearchCondition"/>
+
 	</typeAliases>
 	
 	<mappers>

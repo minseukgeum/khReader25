@@ -19,10 +19,17 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+
+<link rel="stylesheet" href="${contextPath}/resources/css/signup.css" type="text/css">
+
+<style>
+
+
+</style>
 </head>
 <body>
 
-<%-- <%@ include file="../common/menubar.jsp"%> --%>
+ <%@ include file="../common/menubar.jsp"%> <br><br><br>
 
 <div class="container-fluid" style="justify-content: center;"> 
 
@@ -31,7 +38,7 @@
  
  
  
- 	  <div class="col-sm-1"></div>
+ 	  <div class="col-sm-2"></div>
 	  <div class="col-sm-2" style="background:rgba(0, 0, 0, 0.5);border: 1px solid black" >
 	  
 	  <img alt=" " src="">
@@ -47,17 +54,17 @@
 
 
 				
-						<a href="#" class="list-group-item">내 정보 수정</a> 
+						<a href="myUpdateForm.me" class="list-group-item">내 정보 수정</a> 
 						<a href="#" class="list-group-item">회원 탈퇴 </a> 
 						<hr>
 						
-						<a href="mSearch.me?code=2" class="list-group-item"	 id="c2">내가 쓴 리뷰</a>
-						<a href="mSearch.me?code=4" class="list-group-item"  id="c4">책방 리스트</a>
+						<a href="myList.me?code=2" class="list-group-item"	 id="c2">내가 쓴 리뷰</a>
+						<a href="myList.me?code=4" class="list-group-item"  id="c4">책방 리스트</a>
 						<a href="#" class="list-group-item"  >주문 리스트</a>
-						<a href="mSearch.me?code=5" class="list-group-item" id="c5">내가 쓴 책</a>
+						<a href="myList.me?code=5" class="list-group-item" id="c5">내가 쓴 책</a>
 						<a href="#" class="list-group-item">좋아요/북마크</a>
 						
-						<a href="mSearch.me?code=1" class="list-group-item" id="c1">문의사항</a>
+						<a href="myList.me?code=1" class="list-group-item" id="c1">문의사항</a>
 
 				
 				<br>
@@ -72,7 +79,7 @@
 	  
 	  
 	  
-	   <div class="col-sm-8" style="border: 1px solid black;" >
+	   <div class="col-sm-6" style="border: 1px solid black;" >
 	   
 	   <table id="mytable" class="table table-bordred table-striped" >
 
@@ -125,23 +132,27 @@
 
 				</table>
 				
-				<div style="text-align: right;">
+				<div style="text-align: left ; ">
 				
-					<button  data-title="Delete" data-toggle="modal" data-target="#delete"  class="btn btn-danger">삭제</button>
+					<button  data-title="Delete" data-toggle="modal" data-target="#delete"  class="btn btn-danger">선택삭제</button>
 				
 				</div>
 			
-				<div class="input-group" style="width: 250px; ">
+			
+			<br>
+			<div style=" text-align: center;" >
+			
+				<div class="input-group" style="width: 300px;  "> 
 
-							<div class="input-group-btn">
+							<div class="input-group-btn" >
 								<button type="button" class="btn btn-default dropdown-toggle"
-									id="Search1" data-toggle="dropdown" aria-expanded="false">
-									ID<span class="caret" style="margin-left: 10px"></span>
+									id="Search1" data-toggle="dropdown" aria-expanded="false">Title
+									<span class="caret" style="margin-left: 10px"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu" id="search1" style="overflow: visible;">
-									<li value="ID"><a href="#">ID</a></li>
+									
 									<li value="Title"><a href="#">Title</a></li>
-									<li value="이름"><a href="#">이름</a></li>
+									<li value="내용"><a href="#">내용</a></li>
 								</ul>
 							</div>
 							<!-- /btn-group -->
@@ -155,8 +166,10 @@
 							</span>
 							
 							
+						</div>	
+							
 				</div>
-				
+						
 			
 				
 				
@@ -235,7 +248,7 @@
 			    	console.log(data);
 			    
 			    	
- 		    	location.href='mSearch.me?searchCondition='+searchCondition+'&searchValue='+searchValue+'&code='+code; 
+ 		    	location.href='myList.me?searchCondition='+searchCondition+'&searchValue='+searchValue+'&code='+code; 
 			    	 
 			 
 			    
@@ -275,7 +288,7 @@
 					
 					
 					
-						<c:set var="loc" value="mSearch.me"></c:set>
+						<c:set var="loc" value="myList.me"></c:set>
 						
 						
 						
@@ -456,6 +469,8 @@
 				  </ul>
 			            
 			</nav>        
+			
+			</div>
 				            
 				     <div class="modal fade" id="delete" tabindex="-1" role="dialog"
 							aria-labelledby="edit" aria-hidden="true">
@@ -511,6 +526,7 @@
 									
 						        	var code = ${code};
 						        	
+						        	var check = ${ !empty searchCondition } ; 
 						        	
 						        	var searchCondition = null;
 						        	
@@ -518,7 +534,8 @@
 						        	
 						        	var path= "";
 						        
-						        	if( ${ !empty searchCondition} ){
+						        	if(check ){
+						        		
 						        		
 						        		searchCondition = "${searchCondition}";
 						        		searchValue= "${searchValue}";
@@ -583,7 +600,7 @@
 	  
 	</div>
 
-</div>
+
 
 
 
