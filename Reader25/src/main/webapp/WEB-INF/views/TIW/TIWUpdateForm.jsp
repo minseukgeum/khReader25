@@ -24,12 +24,12 @@
 	padding: 0;
 }
 
-.title {
+.title, .cate {
 	display: inline-block;
 	background: rgba(235, 235, 235, 1);
 	text-align: center;
 	vertical-align: middle;
-	width: 50px;
+	width: 80px;
 	height: 27px;
 	border: 1px solid rgba(235, 235, 235, 1);
 	border-radius: 3px 0px 0px 3px;
@@ -59,7 +59,7 @@
 	background: rgba(235, 235, 235, 1);
 	text-align: center;
 	vertical-align: middle;
-	width: 50px;
+	width: 80px;
 	height: 27px;
 	border: 1px solid rgba(235, 235, 235, 1);
 	border-radius: 3px 0px 0px 3px;
@@ -102,6 +102,10 @@
 				<input type="text" name="bTitle" id="title" value="${ board.bTitle }">
 				<input type="hidden" name="page" value="${ page }">
 				<input type="hidden" name="boardNo" value="${ board.boardNo }">
+			</div>
+			<br>
+			<div class="title-div">
+				<div class="cate">카테고리</div>
 				<select name="code1">
 					<option selected="selected">분류</option>
 					<option>총류</option>
@@ -115,19 +119,7 @@
 					<option>문학</option>
 					<option>역사</option>
 				</select>
-				<select id="book" name="code2">
-					<option selected="selected">책 이름</option>
-					<option>총류</option>
-					<option>철학</option>
-					<option>종교</option>
-					<option>사회 과학</option>
-					<option>자연 과학</option>
-					<option>기술 과학</option>
-					<option>예술</option>
-					<option>언어</option>
-					<option>문학</option>
-					<option>역사</option>
-				</select>
+				<input type="text" name="code2" id="code2" value="${ board.code }">
 			</div>
 			<br>
 			<div class="writer-div">
