@@ -13,6 +13,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 
 @Repository("bDAO")
@@ -168,6 +169,17 @@ public class BoardDAO {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("boardMapper.selectSearchTIWResultList", serchC, rowBounds);
+	}
+
+	public int getSearchCateResultListCount(SqlSessionTemplate sqlSession, SearchCate serCa) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("boardMapper.getSearchCateResultListCount", serCa);
+	}
+
+	public ArrayList<Board> selectSearchCateResultList(SqlSessionTemplate sqlSession, SearchCate serCa, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectSearchCateResultList", serCa, rowBounds);
 	}
 
 //	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, HashMap<String, Object> hpage) {

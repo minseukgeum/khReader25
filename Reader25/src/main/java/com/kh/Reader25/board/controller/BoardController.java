@@ -33,6 +33,7 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
 import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
@@ -487,7 +488,8 @@ public class BoardController {
 	
 	//오늘은 나도 작가 = 5 게시글 검색
 	@RequestMapping("searchTIW.to")
-	public ModelAndView searchTIW(@ModelAttribute SearchCondition serchC,HttpServletRequest request, HttpServletResponse response, 
+	public ModelAndView searchTIW(@ModelAttribute SearchCondition serchC,
+									HttpServletRequest request, HttpServletResponse response, 
 									ModelAndView mv) {
 		String condition = request.getParameter("searchCondition");
 		String value = request.getParameter("searchValue");
@@ -530,6 +532,41 @@ public class BoardController {
 		return mv;
 		
 	}
+	
+	//오늘은 나도 작가 = 5 게시글 카테고리 통한 동일 작품 검색
+	@RequestMapping("searchTIWCate.to")
+	public ModelAndView searchTIWCate(@ModelAttribute SearchCate serCa,
+									@RequestParam("cate") String cate, @RequestParam("userId") String userId,
+									HttpServletRequest request, HttpServletResponse response, 
+									ModelAndView mv) {
+		System.out.println("cate"+cate);
+		System.out.println("userId"+userId);
+		
+		//currentPage 설정
+		int currentPage = 1; //기본
+		if(request.getParameter("currentPage") != null) { //currentPage가 들어 왔다면
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			//넘어온 currentPage 값을 넣어준다
+		}
+			
+			int listCount = bService.getSearchCateResultListCount(serCa);
+			//검색을 어떤걸로 할지에 따라 세팅된 sc를 매개변수로 넣어줘야한다
+			
+			PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+			
+			ArrayList<Board> list = bService.selectSearchCateResultList(serCa, pi);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("TIWListForm");
+			} else {
+				throw new BoardException("오늘은 나도 작가 게시글 카테고리 검색 조회에 실패했습니다.");
+			}
+			
+			return mv;
+			
+		}	
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 

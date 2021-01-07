@@ -239,6 +239,25 @@
 		order by board_no desc
 	</select>
 	
+	<select id="getSearchCateResultListCount" resultType="_int">
+		select count(*)
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+			and b.user_id = #{userId}
+			and CATE  = #{cate}
+	</select>
+	
+	<select id="selectSearchCateResultList" resultMap="boardResultSet">
+		select *
+		from board b
+			join member m on(b.user_id = m.user_id)
+		where b.code='5' and b.b_status='Y'
+			and b.user_id = #{userId}
+			and CATE  = #{cate}
+		order by board_no desc
+	</select>
+	
 	<!-- <select id="getCommentListCount" resultType="_int">
 		select count(*)
 		from comments
