@@ -61,6 +61,7 @@
 				<div class="menu" onclick="goBookReview();">책을 읽고</div>
 				<div class="menu" onclick="goTIW();">오늘의 작가</div>
 				<div class="menu" onclick="goThumbnail1();">책 사고팔기</div>
+				<div class="menu" onclick="gobookr()">책방</div>
 			</nav>
 		</div>
 	</div>
@@ -73,6 +74,12 @@
 		}
 		function goTIW(){
 			location.href = "goTIWList.to";
+		}
+		function goThumbnail1(){
+			location.href= "gobooklist.bo";
+		}
+		function gobookr(){
+			location.href= "gobookr.bo";
 		}
 		function goDiscuss(){
 			location.href = "discuss.di";

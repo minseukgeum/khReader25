@@ -13,7 +13,9 @@
 		from board
 		where code = #{code} and b_status = 'Y'
 		order by board_no desc
-	</select>
+	</select> 
+	<!-- vo 에서 db 참고하여 작성한것들을  property에 넣은거고 
+	column은 db에 있는 값들을 그대로 가져온 것이다.   -->
 	<resultMap type="Board" id="boardResultSet">
 		<id property="boardNo" column="BOARD_NO"/>
 		<result property="bTitle" column="B_TITLE"/>

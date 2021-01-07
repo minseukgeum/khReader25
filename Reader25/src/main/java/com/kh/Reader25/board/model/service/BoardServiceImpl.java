@@ -1,3 +1,4 @@
+
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
@@ -245,3 +246,4 @@ public class BoardServiceImpl implements BoardService{
 	
 	
 }
+
