@@ -34,7 +34,6 @@ public interface BoardService {
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
 
-	ArrayList<Attachment> selectAttachmentTList(int code);
 	int findLike(HashMap<String, Object> map);
 
 	void deleteLike(Liketo like);
