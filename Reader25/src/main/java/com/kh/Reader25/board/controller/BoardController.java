@@ -576,6 +576,13 @@ public class BoardController {
 		return mv;
 	}
 	
+	// B ---------------------------------------------------------금민석
+	@RequestMapping("booklist.bo")
+	public String bookListView() {
+		return "noticeWriteForm"; //수정한 jsp파일 이름 집어넣기 !
+	}
+	
+	
 	// 파일 이름 변경 메소드 ----------------------------------------------------
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request, int code) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -605,5 +612,35 @@ public class BoardController {
 		}
 		return at;
 	}
-
+	   @RequestMapping("gobookr.bo")
+	   public ModelAndView gobookr(@RequestParam(value="page", required=false) Integer page,
+	                        ModelAndView mv) { //ModelAndView 는 값을 화면에 전달할때 쓰는 객체
+	      int currentPage = 1; //currentPage 현재 페이지 
+	      if(page != null) { // page 값이 null 이 아닐때 currentPage에 page라는 값이 넣어진다
+	         currentPage = page;
+	      }
+	      int code = 3; // 책방 관한 게시물을 가져올때 코드를 지정하여 다른게시물과 차별점을 두어 구별할수있게  지정한 코드의 게시물만 가져올수있게 한다
+	      int listCount = bService.getListCount(code);// 총 게시물 갯수 
+	      
+	      PageInfo pi = Pagination.getPageInfo2(currentPage, listCount);// PageInfo는  게시물 페이징을 설정 하는 객체 
+	      //Pagination는  getPageInfo2 1에서 5까지 있는데 페이징을 자동으로 계산할수 있게끔 도와주는 객체 
+	      ArrayList<Board> bList = bService.selectList(pi, code); //selectList 총 게시물을 불러오는 함수 // 총 게시물 리스트를 받아오는 객체
+	      // 객체를 여러개 담을수 있는 객체 
+			/* ArrayList<Attachment> atList = bService.gobookr("Code"); */
+			/* bService.selectAttachmentTList(code); */
+	      ArrayList<Attachment> atList = bService.selectAttachmentTList(code); // 첨부파일 리스트 받아오는 객체 (썸네일만 가져오게 해놓은것)
+	      if(bList != null) {
+	         mv.addObject("bList", bList) //addObject 는 값을 mv에 값을 넣어주는 메소드
+	            .addObject("pi", pi)
+	            .addObject("atList", atList)
+	            .setViewName("gobookr");//setViewName view 이름을 지정해준다
+	      }else {
+	         throw new BoardException("책방 게시글 전체 조회에 실패하였습니다."); // 사용자 예외를 발생시켰을때 "게시글 전체 조회에 실패하였습니다." 라고 오류 메시지를 띄움
+	      }
+	      return mv; // 최종 반환값을 mv로 반환해준다.
+	   }
+	   @RequestMapping("bookroomD.bo")
+		public String bookroomD() {
+			return "bookroomD";
+		}
 }

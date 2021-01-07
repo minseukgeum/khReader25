@@ -205,9 +205,9 @@ public class MemberController {
 	}
 	
 	//마이페이지로 이동하는 뷰
-	@RequestMapping("myinfo.me")
+	@RequestMapping("gobookroom.bo")
 	public String myinfoFormView() {	
-		return "myinfo";
+		return "gobookroom";
 	}
 	
 
@@ -218,5 +218,7 @@ public class MemberController {
 		
 		return "memberList";
 	}
+	
+	
 
 }

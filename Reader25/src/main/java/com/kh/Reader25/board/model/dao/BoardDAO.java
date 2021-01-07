@@ -24,8 +24,8 @@ public class BoardDAO {
 
 	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi, int code) {
 		
-		int offset = pi.getBoardLimit() * (pi.getCurrentPage() -1);
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		int offset = pi.getBoardLimit() * (pi.getCurrentPage() -1); // 원래는 0부터 시작하는것을 1부터 시작하게끔 설정해주는 변수
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit()); //  RowBounds 는 올린 게시물에 낮은 번호 순서대로  입력해준다 
 		return (ArrayList)sqlSession.selectList("boardMapper.selectList", code, rowBounds);
 	}
 
@@ -93,6 +93,7 @@ public class BoardDAO {
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
 	}
+	
 
 	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
 			
