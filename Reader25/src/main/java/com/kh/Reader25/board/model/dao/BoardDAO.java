@@ -228,19 +228,21 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectSearchCateResultList", serCa, rowBounds);
 	}
 
-//	public ArrayList<Comments> selectCommentsList(SqlSessionTemplate sqlSession, HashMap<String, Object> hpage) {
-//		PageInfo pi = ((PageInfo)hpage.get("pi"));
-//		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-//		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-//		
-//		int boardNo = (int)hpage.get("boardNo");
-//		
-//		HashMap<String, Object> page = new HashMap<String, Object>();
-//		page.put("rowBounds", rowBounds);
-//		page.put("boardNo", boardNo);
-//		
-//		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", null, rowBounds);
-//	}
+	public ArrayList<Board> selectSerchTIWResultList(SqlSessionTemplate sqlSession, SearchCondition serchC,
+			PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectSerchTIWResultList", serchC, rowBounds);
+	}
+
+	public ArrayList<Comments> selectAnotherComments(SqlSessionTemplate sqlSession, int boardNo, PageInfo pi1) {
+		int offset = (pi1.getCurrentPage() - 1) * pi1.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi1.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("boardMapper.selectAnotherComments", boardNo, rowBounds);
+	}
+
+
+
 
 
 

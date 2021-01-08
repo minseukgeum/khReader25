@@ -456,41 +456,11 @@ public class BoardController {
 	
 	//댓글 불러오기
 	@RequestMapping("cList.to")
-	public void getCommentsList(@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
-		
-		ArrayList<Comments> cList = bService.selectCommentsList(boardNo);
-		//System.out.println("cList"+cList);
-		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
-		try {
-			gson.toJson(cList, response.getWriter());
-		} catch (JsonIOException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-//	public void getCommentsList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
-//								@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
+//	public void getCommentsList(@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
 //		
-//		response.setContentType("application/json; charset=UTF-8");	 
-//		int currentPage1 = 1;
-		
-//		if(page1 != null) {
-//	         currentPage1 = page1;
-//	    }
-		
-//		int listCount = bService.getCommentListCount(boardNo);
-//		PageInfo pi1 = Pagination.getPageInfo5_1(currentPage1, listCount);
-		
 //		ArrayList<Comments> cList = bService.selectCommentsList(boardNo);
-		//System.out.println("cList"+cList);
-		
-//		HashMap<String, Object> map = new HashMap<String,Object>();
-//		map.put("cList", cList);
-//		map.put("pi1", pi1);
-		
-		
+//		//System.out.println("cList"+cList);
+//		response.setContentType("application/json; charset=UTF-8");
 //		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
 //		try {
 //			gson.toJson(cList, response.getWriter());
@@ -500,6 +470,36 @@ public class BoardController {
 //			e.printStackTrace();
 //		}
 //	}
+	public void getCommentsList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
+								@RequestParam("boardNo") int boardNo, HttpServletResponse response) {
+		
+		response.setContentType("application/json; charset=UTF-8");	 
+		int currentPage1 = 1;
+		
+		if(page1 != null) {
+	         currentPage1 = page1;
+	    }
+		
+		int listCount = bService.getCommentListCount(boardNo);
+		PageInfo pi1 = Pagination.getPageInfo5_1(currentPage1, listCount);
+		//System.out.println("listCount"+listCount);
+		ArrayList<Comments> cList = bService.selectAnotherComments(boardNo, pi1);
+		//System.out.println("cList"+cList);
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("cList", cList);
+		map.put("pi1", pi1);
+		System.out.println("map"+map);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
+		try {
+			gson.toJson(map, response.getWriter());
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// 오늘은 나도 작가 = 5 글 수정 폼 이동 컨트롤러
 	@RequestMapping("TIWUpdateView.to")

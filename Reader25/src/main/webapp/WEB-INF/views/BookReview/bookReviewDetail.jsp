@@ -260,12 +260,7 @@
 									$tr.append($tdDate);
 
 									$reTable.append($tr);
-								}
-							}
-						}
-					}
-				});
-			}
+								
 			
 		</script>
 		

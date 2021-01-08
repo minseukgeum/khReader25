@@ -190,22 +190,6 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getCommentListCount(sqlSession, boardNo);
 	}
 
-//	@Override
-//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectCommentsList(sqlSession, hpage);
-//	}
-
-//	@Override
-//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectCommentsList(sqlSession, hpage);
-//	}
-
-
-
-
-	
 
 	@Override
 	public int getSearchMyListCount(SearchCondition sc) {
@@ -232,35 +216,19 @@ public class BoardServiceImpl implements BoardService{
 			result += bDAO.deletemBList(sqlSession, s);
 
 		}
-		
-		
 		if(result != lists.length) {
 			
 			throw new BoardException("마이페이지 리스트 삭제 실패");
-		}
-		
-		
-		
+		}		
 		return result;
 	}
 
 	@Override
 	public int getSearchTIWResultListCount(SearchCondition serchC) {
 		// TODO Auto-generated method stub
-		return 0;
+		return bDAO.getSearchTIWResultListCount(sqlSession, serchC);
 	}
-
-	@Override
-	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	
-	
-
-
 	@Override
 	public int getSearchCateResultListCount(SearchCate serCa) {
 		// TODO Auto-generated method stub
@@ -273,19 +241,17 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectSearchCateResultList(sqlSession, serCa, pi);
 	}
 
-//	@Override
-//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectCommentsList(sqlSession, hpage);
-//	}
+	@Override
+	public ArrayList<Comments> selectAnotherComments(int boardNo, PageInfo pi1) {
+		// TODO Auto-generated method stub
+		return bDAO.selectAnotherComments(sqlSession, boardNo, pi1);
+	}
 
-//	@Override
-//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectCommentsList(sqlSession, hpage);
-//	}
-//
-//
-//
-//
+	@Override
+	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return bDAO.selectSerchTIWResultList(sqlSession, serchC, pi);
+	}
+
+	
 }
