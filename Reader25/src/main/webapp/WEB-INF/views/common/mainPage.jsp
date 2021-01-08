@@ -187,7 +187,7 @@ background: #C95F12;
 		</div>
 
 		<div id = "Userpagelogout">
-		<c:url var="mypage" value="mypage.me"/>
+		<c:url var="mypage" value="myList.me?code=2"/>
 		<c:url var="logout" value="logout.me"/>
 		<span id = "mypage" onclick="location.href='${mypage}'"><a>마이페이지</a> </span>|
 		<span id = "logout" onclick="location.href='${logout}'"><a>로그아웃</a></span>
