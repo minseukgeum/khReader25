@@ -332,8 +332,9 @@ public class BoardController {
 			}
 			Attachment attachment = saveFile(reloadFile, request, 2);
 			if(attachment != null) {
-				at.setAtcLevel(0);
+				attachment.setAtcLevel(0);
 			}
+			attachment.setBoardNo(b.getBoardNo());
 			int result = bService.updateBoardAndFile(b,attachment);
 			
 			if(result > 0) {

@@ -268,6 +268,7 @@ public class BoardServiceImpl implements BoardService{
 		int result = bDAO.updateBoard(sqlSession, b);
 		if(result > 0) {
 			result = bDAO.updateAttachment(sqlSession, attachment);
+			System.out.println(result);
 		}
 		return result;
 	}

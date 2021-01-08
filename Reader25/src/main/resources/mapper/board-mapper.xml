@@ -201,6 +201,7 @@
 		update attachment
 		set atc_level=#{atcLevel}, atc_origin=#{atcOrigin}, atc_name=#{atcName},
 			atc_date = sysdate
+		where board_no = #{boardNo}
 	</update>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
