@@ -170,7 +170,7 @@ public class BoardController {
 		}
 		return mv;
 	}
-	@RequestMapping("write.re")
+	@RequestMapping("write.re")//*****---------------------------------------------------------이거랑
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
@@ -262,7 +262,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("insert.re")
+	@RequestMapping("insert.re") //*------------------------------------------이거 두개
 	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
