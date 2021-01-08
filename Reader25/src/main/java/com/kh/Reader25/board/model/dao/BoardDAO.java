@@ -249,6 +249,14 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.updateAttachment", attachment);
 	}
 
+	public int deleteBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.deleteBoard", boardNo);
+	}
+
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.deleteAttachment", boardNo);
+	}
+
 
 
 

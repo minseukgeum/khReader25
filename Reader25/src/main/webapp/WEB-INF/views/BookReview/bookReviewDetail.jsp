@@ -6,8 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
+<script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- jqyery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <style>
 	 section{
   		border: 1px solid rgba(246, 246, 246, 1);
@@ -166,10 +169,70 @@
 		background:rgba(245, 185, 142, 1);
 		cursor:pointer;
 	}
+	.jquery-modal blocker current {
+	visibility: none;
+}
+
+	.modal {
+		margin: 40% auto; 
+		padding: 20px;
+		text-align: center;
+	}
+	.modal-back {
+		display: none; 
+		position: fixed; 
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%; 
+		height: 100%;
+		overflow: auto; 
+		background: rgba(0, 0, 0, 0.4); 
+	}
+	.modal-close, .modal-accept{
+		background-color: rgba(137, 18, 18, 1);
+		color:white;
+		width: 80px;
+		height: 30px;
+		border:none;
+		display:inline-block;
+		left: 40%;
+	}
+	.modal-accept{
+		background-color: rgba(85, 83, 83, 1);
+	}
+	.modal p{
+		display:inline-block;
+	}
+	.modal img{
+		position:relative;
+		top: 10px;
+	}
 </style>
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
+		<!-- 에러 모달창 -->
+	<div class="modal-back">
+		<div class="modal">
+			<div class="modal-content">
+				<img src="${contextPath }/resources/images/mark/errormark2.png" width="40px;"/>
+				<p>정말로 삭제하시겠습니까?</p>
+				<br>
+				<button class="modal-accept" value="accept">확인</button>
+				<button class="modal-close" value="Close">취소</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$('.modal-close').click(function(){
+				$('.modal').hide();
+				$('.modal-back').hide();
+			});
+		});
+	</script>
+	
 	<section>
 		<div class="bookreview-div">
 			<div class="info">
@@ -221,6 +284,7 @@
 			var reList;
 			$(function(){
 				getReList(1);
+				$('.modal').hide();
 			});
 			function getReList(value){
 				var booktitle = "${booktitle}";
@@ -390,7 +454,7 @@
 		<c:if test="${loginUser ne null }">
 			<c:if test="${ loginUser.id eq board.userId }">
 				<button class="modify-btn" onclick="location.href='modify.re?boardNo='+${board.boardNo}+'&page='+${page}">수정하기</button>
-				<button class="delete-btn" onclick="location.href='delete.re?boardNo='+${board.boardNo}">삭제하기</button>
+				<button class="delete-btn" onclick="deleteReview();">삭제하기</button>
 			</c:if>
 			<c:if test="${loginUser.id ne board.userId }">
 				<button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button>
@@ -398,6 +462,15 @@
 		</c:if>
 		<button class="list-btn" onclick='location.href="book.re?page="+${page}'>목록보기</button>
 		</div>
+		<script>
+			function deleteReview(){
+				$('.modal-back').show();
+				 $('.modal').show();
+				 $('.modal-accept').click(function(){
+					location.href='delete.re?boardNo='+${board.boardNo}
+				});
+			}
+		</script>
 	</section>
 </body>
 </html>

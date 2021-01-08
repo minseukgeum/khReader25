@@ -273,5 +273,18 @@ public class BoardServiceImpl implements BoardService{
 		return result;
 	}
 
+	@Override
+	public int deleteBoardAndFile(int boardNo) {
+		
+		int result = bDAO.deleteBoard(sqlSession, boardNo);
+		if(result > 0) {
+			Attachment at = bDAO.selectAttachment(sqlSession, boardNo);
+			if(at != null) {
+				result = bDAO.deleteAttachment(sqlSession, boardNo);
+			}
+		}
+		return result;
+	}
+
 	
 }

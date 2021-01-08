@@ -19,6 +19,11 @@
 		set b_title = #{bTitle},b_content=#{bContent}, update_day=sysdate,cate=#{cate}
 		where board_no = #{boardNo}
 	</update> 
+	<update id="deleteBoard">
+		update board
+		set b_status = 'N'
+		where board_no = #{boardNo}
+	</update>
 	<!-- vo 에서 db 참고하여 작성한것들을  property에 넣은거고 
 	column은 db에 있는 값들을 그대로 가져온 것이다.   -->
 	<resultMap type="Board" id="boardResultSet">
@@ -203,7 +208,11 @@
 			atc_date = sysdate
 		where board_no = #{boardNo}
 	</update>
-	
+	<update id="deleteAttachment">
+		update attachment
+		set atc_status = 'N'
+		where board_no = #{boardNo}
+	</update>
 	<resultMap type="Attachment" id="attachmentResultSet">
 		<id property="atcNo" column="ATC_NO"/>
 		<result property="atcLevel" column="ATC_LEVEL"/>

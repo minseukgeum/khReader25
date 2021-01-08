@@ -91,5 +91,7 @@ public interface BoardService {
 
 	int updateBoardAndFile(Board b, Attachment attachment);
 
+	int deleteBoardAndFile(int boardNo);
+
 	
 }

@@ -351,6 +351,16 @@ public class BoardController {
 		}
 		return mv;
 	}
+	@RequestMapping("delete.re")
+	public String deleteReviewBoard(@RequestParam("boardNo") int boardNo) {
+		int result = bService.deleteBoardAndFile(boardNo);
+		if(result > 0) {
+			return "redirect:book.re";
+		}else {
+			throw new BoardException("리뷰 게시물 삭제에 실패하였습니다.");
+		}
+	}
+	
 	//책리뷰 code = 2-------------------------------------------------------------
 
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
