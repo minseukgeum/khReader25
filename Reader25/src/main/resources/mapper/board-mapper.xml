@@ -13,7 +13,12 @@
 		from board
 		where code = #{code} and b_status = 'Y'
 		order by board_no desc
-	</select> 
+	</select>
+	<update id="updateBoard">
+		update board
+		set b_title = #{bTitle},b_content=#{bContent}, update_day=sysdate,cate=#{cate}
+		where board_no = #{boardNo}
+	</update> 
 	<!-- vo 에서 db 참고하여 작성한것들을  property에 넣은거고 
 	column은 db에 있는 값들을 그대로 가져온 것이다.   -->
 	<resultMap type="Board" id="boardResultSet">
@@ -192,6 +197,11 @@
 		from attachment
 		where atc_status = 'Y' and board_no = #{boardNo}
 	</select>
+	<update id="updateAttachment">
+		update attachment
+		set atc_level=#{atcLevel}, atc_origin=#{atcOrigin}, atc_name=#{atcName},
+			atc_date = sysdate
+	</update>
 	
 	<resultMap type="Attachment" id="attachmentResultSet">
 		<id property="atcNo" column="ATC_NO"/>
@@ -204,7 +214,6 @@
 		<result property="atcStatus" column="ATC_STATUS"/>
 		<result property="boardNo" column="BOARD_NO"/>
 	</resultMap>
-
 	
 	<select id="getReListCount" resultType="_int">
 		select count(*)

@@ -149,6 +149,11 @@
 	%>
 	<section>
 		<form action="update.re" id="write-book" method="post" enctype="multipart/form-data" >
+			<input type="hidden" name="page" value="${page}">
+			<input type="hidden" name="boardNo" value="${board.boardNo }">
+			<input type="hidden" name="atcName" value="${at.atcName }">
+			<input type="hidden" name="atcOrigin" value="${at.atcOrigin }">
+			
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" name="bTitle" value="${board.bTitle }">
@@ -168,7 +173,7 @@
 			</div>
 			<div class="content">
 				<div class="file-div">
-					<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
+					<input type="file" id="input-file" name="reloadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
 					<div class="file-img" id="file-img">
 						<img id="load-img" src="resources/buploadFiles/${at.atcName }">
 					</div>
@@ -180,7 +185,7 @@
 				</div>
 				<div class="tag-div">
 					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" value="${booktitle }">
-					<p class="tag">#</p><input type="text" class="bookInfo" name="author" value="${author }">
+					<p class="tag">#</p><input type="text" class="bookInfo" name="author" value="${author}">
 				</div>
 				<div class="content-edit" style="text-align:center;">
 					<textarea name="bContent" id="smart_edit" style="width:100%;">${ board.bContent }</textarea>

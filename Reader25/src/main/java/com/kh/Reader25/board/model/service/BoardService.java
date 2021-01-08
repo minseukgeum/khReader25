@@ -89,5 +89,7 @@ public interface BoardService {
 
 	ArrayList<Comments> selectAnotherComments(int boardNo, PageInfo pi1);
 
+	int updateBoardAndFile(Board b, Attachment attachment);
+
 	
 }

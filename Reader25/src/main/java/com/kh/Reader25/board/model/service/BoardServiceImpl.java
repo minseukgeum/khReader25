@@ -263,5 +263,14 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectSerchTIWResultList(sqlSession, serchC, pi);
 	}
 
+	@Override
+	public int updateBoardAndFile(Board b, Attachment attachment) {
+		int result = bDAO.updateBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.updateAttachment(sqlSession, attachment);
+		}
+		return result;
+	}
+
 	
 }
