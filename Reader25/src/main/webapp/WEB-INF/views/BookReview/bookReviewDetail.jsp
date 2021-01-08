@@ -11,6 +11,7 @@
 <style>
 	 section{
   		border: 1px solid rgba(246, 246, 246, 1);
+  		background: rgba(246, 246, 246, 1);
   		width: 80%;
   		margin:auto;
   		min-width: 1000px;
@@ -28,7 +29,7 @@
 		width: 50%;
 		line-height: 350px;
 		float: left;
-		background: rgba(246, 243, 243, 1);
+		background: rgba(229, 229, 229, 1);
 		text-align: center;
 	}
 	.img-div img{
@@ -70,6 +71,8 @@
 		margin: auto;
 		text-align: center;
 	}
+	.wise-saying img{
+	}
 	#quote1{float:left;}
 	#quote2{float:right;}
 	.wise-content{display:inline-block; margin-top: 10px;}
@@ -91,13 +94,17 @@
 		display:inline;
 	}
 	.list-contents{
-		background: rgba(246, 246, 246, 1);
+		background: rgba(229, 229, 229, 1);
 		padding: 10px;
 	}
 	.list-table{
 		width: 95%;
 		border-collapse: collapse;
 		margin:auto;
+	}
+	.list-table tr:hover{
+		background: white;
+		cursor: pointer;
 	}
 	.list-table td{
 		text-align: center;
@@ -119,8 +126,7 @@
 		font-weight:bolder;
 		cursor:pointer;
 	}
-	.write-div{
-		width: 80px;
+	.btns-div{
 		font-size: 18px;
 		height: 25px;
 		position: relative;
@@ -130,14 +136,36 @@
 	}
 	.write-btn{
 		background:rgba(255, 195, 152, 1);
+		width: 80px;
 		border: none;
-		width: 100%;
-		height: 100%;
+		height: 25px;
+		color: white;
+	}
+	.delete-btn{
+		background:rgba(103, 73, 44, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
+	}
+	.modify-btn{
+		background:rgba(201, 95, 18, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
+	}
+	.list-btn{
+		background:rgba(196, 196, 196, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
 	}
 	.write-btn:hover{
 		background:rgba(245, 185, 142, 1);
 		cursor:pointer;
-	}	
+	}
 </style>
 </head>
 <body>
@@ -164,9 +192,9 @@
 					<span class="info" id="sort">${board.userId }</span>
 					<div class="wise-saying">
 						<div>
-							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote1.png"/>
+							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote5.png"/>
 							<div class="wise-content">${ wise }</div>
-							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote2.png"/>
+							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote6.png"/>
 						</div>
 					</div>
 				</div>
@@ -197,7 +225,6 @@
 			function getReList(value){
 				var booktitle = "${booktitle}";
 				var page1 = value;
-				console.log(value);
 				$.ajax({
 					url: 'reList.re',
 					data: {booktitle:booktitle, page1:page1},
@@ -247,7 +274,10 @@
 						}else{
 							for(var i in reList){
 								if(reList[i].boardNo != '${board.boardNo}'){
-									$tr = $('<tr>');
+									$tr = $('<tr>').on('click', function(){
+										var boardNo = $(this).children('td').eq(0).text();
+										location.href='redetail.re?boardNo='+boardNo+"&page=1";
+									});
 									$tdNo = $('<td>').text(reList[i].boardNo);
 									$tdTitle = $('<td class="td-left">').text(reList[i].bTitle);
 									$tdWriter = $('<td>').text(reList[i].userId);
@@ -260,12 +290,7 @@
 									$tr.append($tdDate);
 
 									$reTable.append($tr);
-								}
-							}
-						}
-					}
-				});
-			}
+								
 			
 		</script>
 		
@@ -325,19 +350,24 @@
 						$wiseTable.html('');
 						if(wiseList.length <= 1){
 							$tr = $('<tr>');
-							$td = $('<td class="td-left" colspan=6>').text('다른 리뷰가 없습니다.');
+							$td = $('<td class="td-left" colspan=7>').text('다른 리뷰가 없습니다.');
 							$tr.append($td);
 							$wiseTable.append($tr);
 						}else{
 							for(var i in wiseList){
 								if(wiseList[i].boardNo != '${board.boardNo}'){
-									$tr = $('<tr>');
+									$tr = $('<tr>').on('click', function(){
+										var boardNo = $(this).children('td').eq(0).text();
+										location.href='redetail.re?boardNo='+boardNo+"&page=1";
+									});
+									$tdNo = $('<td>').text(wiseList[i].boardNo);
 									$tdTitle = $('<td class="td-left">').text(wiseList[i].bTitle);
 									$tdWriter = $('<td>').text(wiseList[i].userId);
 									$tdDate = $('<td>').text(wiseList[i].updateDay);
 									$tdCount = $('<td>').text(wiseList[i].bCount);
 									$tdWise = $('<td>').text(wiseArr[i]);
-									
+
+									$tr.append($tdNo);
 									$tr.append($tdTitle);
 									$tr.append($tdWise);
 									$tr.append($tdWriter);
@@ -352,9 +382,18 @@
 				});
 			}
 		</script>
+		<div class="btns-div">
 		<c:if test="${loginUser ne null }">
-		<div class="write-div"><button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button></div>
+			<c:if test="${ loginUser.id eq board.userId }">
+				<button class="modify-btn" onclick="location.href='modify.re?boardNo='+${board.boardNo}+'&page='+${page}">수정하기</button>
+				<button class="delete-btn" onclick="location.href='delete.re?boardNo='+${board.boardNo}">삭제하기</button>
+			</c:if>
+			<c:if test="${loginUser.id ne board.userId }">
+				<button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button>
+			</c:if>
 		</c:if>
+		<button class="list-btn" onclick='location.href="book.re?page="+${page}'>목록보기</button>
+		</div>
 	</section>
 </body>
 </html>

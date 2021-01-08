@@ -61,7 +61,7 @@ span.no{color: red;}
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">연락처</td>
-					<td><input type="tel" maxlength="11" name="phone" placeholder="(-없이)01012345678"></td>
+					<td><input type="tel" maxlength="11" name="phone" placeholder="(-없이)01012345678" required></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -76,15 +76,15 @@ span.no{color: red;}
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">상세주소</td>
-					<td><input type="text" id="joinAddress2" name="joinAddress2"></td>
+					<td><input type="text" id="joinAddress2" name="joinAddress2" required></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">이메일</td>
-					<td><input type="email" id="joinEmail" name="email"></td>
+					<td><input type="email" id="joinEmail" name="email" required></td>
 					<td width="150px"><span class="email check">이 이메일은 사용 가능합니다.</span>
 						<span class="email no">이 이메일은 사용 불가능합니다.</span>
-						<input type="hidden" name="emailDuplicateCheck" id="emailDuplicateCheck" value="0">
+						<input type="hidden" name="emailDuplicateCheck" id="emailDuplicateCheck" value="0" required>
 					</td>
 				</tr>
 				<tr>
@@ -94,7 +94,7 @@ span.no{color: red;}
 				</tr>
 				<tr>
 					<td class="txt_signup_tb">생년월일</td>
-					<td><input type="date" name="birthDay"></td>
+					<td><input type="date" name="birthDay" required></td>
 					<td></td>
 				</tr>
 				<tr>

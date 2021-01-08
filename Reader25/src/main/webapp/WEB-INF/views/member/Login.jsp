@@ -36,7 +36,7 @@
 					</td>
 					<td width="400px">
 						<div class="input_id">
-							<input type="text" name="id" size="20" tabindex="1" placeholder="아이디를 입력하세요">
+							<input type="text" name="id" size="20" tabindex="1" placeholder="아이디를 입력하세요" required>
 						</div>
 					</td>
 				</tr>
@@ -48,7 +48,7 @@
 					</td>
 					<td>
 						<div class="input_pw">
-							<input type="password" name="pwd" size="20" tabindex="2" placeholder="비밀번호를 입력하세요">
+							<input type="password" name="pwd" size="20" tabindex="2" placeholder="비밀번호를 입력하세요" required>
 						</div>
 					</td>
 				</tr>
