@@ -87,9 +87,7 @@ public interface BoardService {
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
 
 
-
-
-
+	ArrayList<Comments> selectAnotherComments(int boardNo, PageInfo pi1);
 
 	
 }
