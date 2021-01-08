@@ -316,8 +316,10 @@ public class BoardController {
 	}
 	@RequestMapping("update.re")
 	public String updateReviewBoard(@RequestParam("page") int page, @ModelAttribute Board b,
-									@RequestParam("uplo")) {
-		
+									@RequestParam("uploadFile") MultipartFile uploadFile,
+									HttpServletRequest request, @ModelAttribute  Attachment at) {
+		if(uploadFile != null && !uploadFile.isEmpty()) {
+		}
 		return "redirect:redetail.re";
 	}
 	
