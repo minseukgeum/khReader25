@@ -845,7 +845,7 @@ public class BoardController {
 			
 			
 			
-			mv.setViewName("redirect:mSearch.me");
+			mv.setViewName("redirect:myList.me");
 		} else {
 
 			throw new BoardException("마이페이지 게시글 조회 실패");
