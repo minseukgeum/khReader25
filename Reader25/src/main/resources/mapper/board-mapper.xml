@@ -81,7 +81,7 @@
 	<insert id="insertBoard">
 		insert into board
 		values(seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
-				default, sysdate, sysdate, null, #{code}, #{userId})
+				default, sysdate, sysdate, #{cate}, #{code}, #{userId})
 	</insert>
 	
 	<insert id="insertAttachment">

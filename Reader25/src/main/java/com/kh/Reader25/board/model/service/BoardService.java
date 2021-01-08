@@ -82,6 +82,8 @@ public interface BoardService {
 
 	ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi);
 
+	Board selectBoardExceptAddCount(int boardNo);
+
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
 
 

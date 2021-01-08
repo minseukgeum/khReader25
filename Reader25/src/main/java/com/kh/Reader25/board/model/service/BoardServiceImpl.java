@@ -273,6 +273,11 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.selectSearchCateResultList(sqlSession, serCa, pi);
 	}
 
+	@Override
+	public Board selectBoardExceptAddCount(int boardNo) {
+		return bDAO.selectBoard(sqlSession, boardNo);
+	}
+
 //	@Override
 //	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
 //		// TODO Auto-generated method stub

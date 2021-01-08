@@ -104,24 +104,22 @@ select::-ms-expand {
 	height: 300px;
 	display: inline-block;
 	margin-left: 1%;
+	margin-top: 20px;
 }
 
 .img-div {
 	background: rgba(229, 229, 229, 1);
 	height: 200px; 
-	text-align: center;
+	width: 200px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
 }
 .img-div>img{
-	max-height:200px;
-	max-width: 200px;
-  	object-fit: cover;
-  	vertical-align: middle;
+	max-height:100%;
+	max-width: 100%;
 }
-.list-img {
-	display:inline-block;
-	height: auto;
-	margin:auto;
-}
+
 .content-div {
 	background: white;
 	height: 100px;
@@ -176,7 +174,6 @@ select::-ms-expand {
 	text-align: center;
 	vertical-align: middle;
 }
-
 .paging-div>a:hover {
 	font-weight: bold;
 	background: rgba(220, 220, 220, 1);
@@ -255,7 +252,12 @@ select::-ms-expand {
 					<div class="content-div">
 						<ul class="content-ul">
 							<li class="title-li"><%=b.getbTitle()%></li>
-							<li class="tag-li">#작가 #분야</li>
+							<li class="tag-li">
+								#<%=b.getUserId() %> 
+								<% if(b.getCate() != null){ %>
+								#<%=b.getCate() %>
+								<%} %>
+							</li>
 							<li class="writer-li"><%=b.getUserId() %></li>
 							<li class="wise-li">명언</li>
 						</ul>

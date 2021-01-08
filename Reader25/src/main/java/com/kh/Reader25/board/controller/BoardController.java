@@ -232,7 +232,6 @@ public class BoardController {
 	public void getWiseList(@RequestParam(value="page2", required=false) Integer page2,
 							@RequestParam("wise") String wise, HttpServletResponse response) {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(page2);
 		int currentPage2 = 1;
 		if(page2 != null) {
 			currentPage2 = page2;
@@ -290,7 +289,38 @@ public class BoardController {
 			throw new BoardException("책리뷰 게시물 작성에 실패하였습니다.");
 		}
 	}
-
+	// 수정하기
+	@RequestMapping("modify.re")
+	public ModelAndView reviewModifyView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
+									ModelAndView mv) {
+		Board board = bService.selectBoardExceptAddCount(boardNo);
+		Attachment at = bService.selectAttachment(boardNo); 
+		
+		String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#책제목"));
+		String exbook = board.getbContent().substring((board.getbContent()).indexOf("#책제목")+4);
+		String author = exbook.substring(0,exbook.indexOf("#작가"));
+		String exauthor = exbook.substring(exbook.indexOf("#작가") + 3);
+		String wise = exauthor.substring(0,exauthor.indexOf("#명언"));
+		String content = exauthor.substring(exauthor.indexOf("#명언") + 3);
+		
+		board.setbContent(content);
+		
+		mv.addObject("board", board)
+			.addObject("paeg", page)
+			.addObject("booktitle", booktitle)
+			.addObject("author", author)
+			.addObject("wise", wise)
+			.addObject("at", at)
+			.setViewName("bookUpdateForm");
+		return mv;
+	}
+	@RequestMapping("update.re")
+	public String updateReviewBoard(@RequestParam("page") int page, @ModelAttribute Board b,
+									@RequestParam("uplo")) {
+		
+		return "redirect:redetail.re";
+	}
+	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 	
 	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
