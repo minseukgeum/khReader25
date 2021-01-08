@@ -161,8 +161,13 @@
 					<td colspan=2><b id="cCount"></b></td>
 				</tr>
 			</thead>
-			<tbody></tbody>
+			<tbody></tbody> 
 		</table>
+		
+		<div class="paging-btn" id="re-paging" align="center">
+		<!-- 댓글 페이징 -->
+		</div>
+		
 		
 		<script>
 		
@@ -178,7 +183,7 @@
 					console.log(data);
 					if(data=="success"){
 						$("#comment").val("");
-						getCommentsList();
+						getCList();
 						alert("댓글이 등록되었습니다.");
 					}
 				}
@@ -186,13 +191,57 @@
 		});		
 				
 		// 댓글 리스트 불러오기
-		function getCommentsList(){
+		var cList;
+		$(function(){
+			getCList(1);
+		})
+		function getCList(value){
 			var boardNo = ${ board.boardNo };
+			var page1= value;
+			//console.log(value);
 			
 			$.ajax({
 				url: "cList.to",
-				data: {boardNo:boardNo},
+				data: {boardNo:boardNo, page1:page1},
 				success: function(data){
+					//1)페이징 버튼 넣기
+					pi1 = data.pi1;
+			
+					$repaging = $('#re-paging');
+					$repaging.html('');
+					
+					if(pi1.currentPage <= 1){
+						$before = $('<p>').text('<');
+					}else{
+						$before = $('<a>').on('click',function(){getCList(pi1.currentPage - 1)}).text('<');
+					}
+					
+					$repaging.append($before);
+
+					for(var i = pi1.startPage; i <= pi1.endPage; i++){
+						if(pi1.currentPage == i){
+							$pNo = $('<p>').text(i);
+						}else{
+							$pNo = $('<a>').on('click', function(){
+								getCList($(this).text());
+							}).text(i);
+						}
+						
+						$repaging.append($pNo);
+					}
+					
+					if(pi1.currentPage >= pi1.endPage){
+						$next = $('<p>').text(">");
+					}else{
+						$next = $('<a>').on("click", function(){getCList(pi1.currentPage + 1)}).text('>');
+					}
+					
+					$repaging.append($next);
+			
+					
+					//2)댓글 리스트 넣기
+					cList = data.cList;
+					
 					$tableBody = $("#ctb tbody");
 					$tableBody.html('');
 					
@@ -201,37 +250,37 @@
 					var $comment;
 					var $comDate;
 					
-					$('#cCount').text('댓글 (' + data.length + ')');
+					$('#cCount').text('댓글 (' + cList.length + ')');
 					
-					if(data.length > 0){
-						for(var i in data){
-							console.log(data);
-							$tr = $('<tr>');
-							$userId = $('<td width="100">').text(data[i].userId);
-							$comment = $('<td>').text(data[i].comment);
-							$comDate = $('<td width="100">').text(data[i].comDate);
-							
-							$tr.append($userId);
-							$tr.append($comment);
-							$tr.append($comDate);
-							$tableBody.append($tr);
-						}
-					} else {
+					if(cList.length <= 1){
 						$tr = $('<tr>');
 						$cContent = $('<td colspan=3>').text('등록된 댓글이 없습니다.');
-						
-						$tr.append($comment);
+						$tr.append($td);
 						$tableBody.append($tr);
+						} else {
+							for(var i in cList){
+									$tr = $('<tr>');
+									$userId = $('<td width="100">').text(cList[i].userId);
+									$comment = $('<td>').text(cList[i].comment);
+									$comDate = $('<td width="100">').text(cList[i].comDate);
+									
+									$tr.append($userId);
+									$tr.append($comment);
+									$tr.append($comDate);
+									$tableBody.append($tr);
+									
+									$tableBody.append($tr);
+							}
+						}
 					}
-				}
-			});
-		}
+				});
+			}
 
 		$(function(){
-			getCommentsList();
-			setInterval(function(){
-				getCommentsList();
-			}, 1000);
+			//getCList();
+			/* setInterval(function(){
+				getCList(1);
+			}, 1000); */
 		});
 		</script>
 	</div>
@@ -243,7 +292,6 @@
 	//좋아요 클릭 ajax
 	$(document).ready(function () {
 	
-<<<<<<< HEAD
 		
 		
 // 	    var heartval = ${heart};
@@ -259,7 +307,7 @@
 // 	        $(".heart").prop('name',heartval)
 // 	    }
 	    
-=======
+
 		var heartval = ${heart};
 		
 	    if(heartval>0) {
@@ -272,7 +320,6 @@
 	        $("#heart").prop("src", "resources/images/like/unlike.png");
 	        $(".heart").prop('name',heartval)
 	    }
->>>>>>> branch 'master' of https://github.com/kawai23/Reader25.git
 	
 	    
 	    

@@ -9,14 +9,7 @@
 <style>
 
 .font_white{
-font-family: Roboto;
-font-style: normal;
-font-weight: normal;
-font-size: 20px;
-line-height: 23px;
-text-align: center;
 
-color: #FFFFFF;
 }
 .font_black{
 font-family: Roboto;
@@ -68,6 +61,14 @@ margin-left : auto;
 background: #A84E19;
 border: 1px solid #000000;
 box-sizing: border-box;
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 23px;
+text-align: center;
+
+color: #FFFFFF;
 }
 #button_pink{
 float : left;
@@ -78,6 +79,14 @@ margin-left : auto;
 background: #F5715C;
 border: 1px solid #000000;
 box-sizing: border-box;
+font-family: Roboto;
+font-style: normal;
+font-weight: normal;
+font-size: 20px;
+line-height: 23px;
+text-align: center;
+
+color: #FFFFFF;
 }
  .bookreco{
  float : left;
@@ -151,6 +160,7 @@ background: #C95F12;
   margin-left : 11%;
   border: 1px solid #000000;
  }
+ 
  #UserInfomation{
  text-align : center;
  float : left;
@@ -172,7 +182,7 @@ background: #C95F12;
 		<div class = "news"></div>
 		<div class = "login_place">
 		<c:if test="${ empty sessionScope.loginUser }">
-		<button class = "loginbtn"onclick="location.href='loginView.me'">로그인하기</button>
+		<button class = "loginbtn" onclick="location.href='loginView.me'">로그인하기</button>
 		<button class = "enrollbtn"onclick="location.href='enrollView.me'">회원가입</button>
 		<div style = "margin-top : 12%; text-align : center; width : 100%;">
 		<span id = "find_id"><a>아이디 찾기</a> </span>|
@@ -199,32 +209,82 @@ background: #C95F12;
 	
 	<div class = "bookreco">
 		<h2>이달의 책 추천 List</h2>
-		<button class = "font_white" id = "button_pink">일간</button>
-		<button class = "font_white" id = "button_pink">주간</button>
-		<button class = "font_white" id = "button_pink">월간</button>
+		<button class = "b_reco" id = "button_brown" onclick = "clickbutton1()">일간</button>
+		<button class = "b_reco" id = "button_pink" onclick = "clickbutton1()">주간</button>
+		<button class = "b_reco" id = "button_pink" onclick = "clickbutton1()">월간</button>
 		<div style = "width : 98%; height : 70%;border: 1px solid #000000;"></div>
 	</div> <!-- 이달의 책 추천 List -->
 	<div class = "bestreview">
 		<h2>이달의BEST리뷰</h2>
-		<button class = "font_white" id = "button_pink">일간</button>
-		<button class = "font_white" id = "button_pink">주간</button>
-		<button class = "font_white" id = "button_pink">월간</button>
+		<button class = "best_re" id = "button_brown" onclick = "clickbutton2()">일간</button>
+		<button class = "best_re" id = "button_pink" onclick = "clickbutton2()">주간</button>
+		<button class = "best_re" id = "button_pink" onclick = "clickbutton2()">월간</button>
 		<div style = "width : 98%; height : 70%;border: 1px solid #000000;"></div>
 	</div>
 	<div class = "rt_debate">
-		<h2>실시간 토론 현황</h2>
-		<button class = "font_white" id = "button_pink">일간</button>
-		<button class = "font_white" id = "button_pink">주간</button>
-		<button class = "font_white" id = "button_pink">월간</button>
+		<h2>실시간 토론 현황</h2> 
+		<button class = "debate" id = "button_brown" onclick = "clickbutton3()">일간</button>
+		<button class = "debate" id = "button_pink" onclick = "clickbutton3()">주간</button>
+		<button class = "debate" id = "button_pink" onclick = "clickbutton3()">월간</button>
 		<div style = "width : 98%; height : 70%;border: 1px solid #000000;"></div>
 	</div>
 	<div class = "tiw">
 		<h2>오나작 인기글</h2>
-		<button class = "font_white" id = "button_pink">일간</button>
-		<button class = "font_white" id = "button_pink">주간</button>
-		<button class = "font_white" id = "button_pink">월간</button>
+		<button class = "TIW" id = "button_brown" onclick = "clickbutton4()">일간</button>
+		<button class = "TIW" id = "button_pink" onclick = "clickbutton4()">주간</button>
+		<button class = "TIW" id = "button_pink" onclick = "clickbutton4()">월간</button>
 		<div style = "width : 98%; height : 70%;border: 1px solid #000000;"></div>
 	</div>
 	</div>
+	<script>
+		function clickbutton1(){
+			var div2 = document.getElementsByClassName('b_reco');
+
+		    for (var i = 0; i < div2.length; i++) {
+		      div2[i].addEventListener('click', function(){
+		        for (var j = 0; j < div2.length; j++) {
+		          div2[j].style.background = "#F5715C";
+		        }
+		        this.style.background = "#A84E19";
+		      })
+		    }
+		}
+		function clickbutton2(){
+			var div2 = document.getElementsByClassName('best_re');
+
+		    for (var i = 0; i < div2.length; i++) {
+		      div2[i].addEventListener('click', function(){
+		        for (var j = 0; j < div2.length; j++) {
+		          div2[j].style.background = "#F5715C";
+		        }
+		        this.style.background = "#A84E19";
+		      })
+		    }
+		}
+		function clickbutton3(){
+			var div2 = document.getElementsByClassName('debate');
+
+		    for (var i = 0; i < div2.length; i++) {
+		      div2[i].addEventListener('click', function(){
+		        for (var j = 0; j < div2.length; j++) {
+		          div2[j].style.background = "#F5715C";
+		        }
+		        this.style.background = "#A84E19";
+		      })
+		    }
+		}
+		function clickbutton4(){
+			var div2 = document.getElementsByClassName('TIW');
+
+		    for (var i = 0; i < div2.length; i++) {
+		      div2[i].addEventListener('click', function(){
+		        for (var j = 0; j < div2.length; j++) {
+		          div2[j].style.background = "#F5715C";
+		        }
+		        this.style.background = "#A84E19";
+		      })
+		    }
+		}
+	</script>
 </body>
 </html>

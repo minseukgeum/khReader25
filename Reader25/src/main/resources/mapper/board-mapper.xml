@@ -81,7 +81,7 @@
 	<insert id="insertBoard">
 		insert into board
 		values(seq_bid.nextval, #{bTitle}, #{bContent}, default, default, default,
-				default, sysdate, sysdate, null, #{code}, #{userId})
+				default, sysdate, sysdate, #{cate}, #{code}, #{userId})
 	</insert>
 	
 	<insert id="insertAttachment">
@@ -335,19 +335,18 @@
 			and CATE  = #{cate}
 		order by board_no desc
 	</select>
-	
 
-	<!-- <select id="getCommentListCount" resultType="_int">
+	<select id="getCommentListCount" resultType="_int">
 		select count(*)
 		from comments
 		where board_no = #{boardNo}
 	</select>
 	
-	<select id="selectCommentsList" resultMap="commentsResultSet">
+	<select id="selectAnotherComments" resultMap="commentsResultSet">
 		select *
 		from comments
 		where board_no =#{boardNo}
 		order by com_no desc
-	</select> -->
+	</select>
 
 </mapper>
