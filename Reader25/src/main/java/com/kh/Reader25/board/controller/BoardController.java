@@ -319,6 +319,7 @@ public class BoardController {
 									@RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request, @ModelAttribute  Attachment at) {
 		if(uploadFile != null && !uploadFile.isEmpty()) {
+			
 		}
 		return "redirect:redetail.re";
 	}

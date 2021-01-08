@@ -156,12 +156,12 @@
 		</table>
 			
 		<table class="commentsTable" id="ctb"  align="center">
-			<!-- <thead>
+			<thead>
 				<tr>
 					<td colspan=2><b id="cCount"></b></td>
 				</tr>
 			</thead>
-			<tbody></tbody> -->
+			<tbody></tbody> 
 		</table>
 		
 		<div class="paging-btn" id="re-paging" align="center">
@@ -204,7 +204,6 @@
 				url: "cList.to",
 				data: {boardNo:boardNo, page1:page1},
 				success: function(data){
-					
 					//1)페이징 버튼 넣기
 					pi1 = data.pi1;
 			
@@ -260,7 +259,6 @@
 						$tableBody.append($tr);
 						} else {
 							for(var i in cList){
-								if(cList[i].boardNo != '${ board.boardNo }'){
 									$tr = $('<tr>');
 									$userId = $('<td width="100">').text(cList[i].userId);
 									$comment = $('<td>').text(cList[i].comment);
@@ -272,7 +270,6 @@
 									$tableBody.append($tr);
 									
 									$tableBody.append($tr);
-								}
 							}
 						}
 					}
@@ -280,10 +277,10 @@
 			}
 
 		$(function(){
-			getCList();
-			setInterval(function(){
-				getCList();
-			}, 1000);
+			//getCList();
+			/* setInterval(function(){
+				getCList(1);
+			}, 1000); */
 		});
 		</script>
 	</div>
