@@ -69,6 +69,7 @@ public class DiscussController {
 		Attachment at = null;
 		if(uploadFile != null && !uploadFile.isEmpty()) {
 			at = saveFile(uploadFile, request);
+			d.setAtcNo(1);
 		}
 		int result = dService.insertDiscuss(d, at);
 		if(result >0) {
@@ -159,7 +160,7 @@ public class DiscussController {
 								+ "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
 		String renamePath = folder + "\\" + renameFileName;
 		Attachment at = new Attachment();
-		at.setAtcOrigin(file.getOriginalFilename());
+		at.setAtcOrigin(originFileName);
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);
 		at.setAtcLevel(0);
