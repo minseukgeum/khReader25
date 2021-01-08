@@ -309,6 +309,7 @@ select::-ms-expand {
 					<c:param name="page" value="${ pi.currentPage + 1 }"/>
 				</c:url>
 				<a href="${next }">&gt;</a>
+				
 			</c:if>
 			<c:if test="${pi.currentPage < pi.endPage }">
 				<p>&gt;</p>
@@ -320,7 +321,7 @@ select::-ms-expand {
 				<img src="${contextPath}/resources/images/bookreview/write.png"/>
 			</div>
 			<script>
-				$('.write-btn').click(function(){
+				$('.write-btn').click(function(){ // 이름바꿔서 
 					location.href="<%=request.getContextPath()%>/write.re";
 				});
 			</script>
