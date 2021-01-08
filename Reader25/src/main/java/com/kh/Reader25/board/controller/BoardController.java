@@ -521,7 +521,7 @@ public class BoardController {
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("cList", cList);
 		map.put("pi1", pi1);
-		System.out.println("map"+map);
+		//System.out.println("map"+map);
 		
 		Gson gson = new GsonBuilder().setDateFormat("yy-MM-dd").create();
 		try {
