@@ -132,23 +132,32 @@
 		Board board = (Board)request.getAttribute("board");
 		String[] select = new String[11];
 		for(int i = 0; i < select.length; i++){
-			switch(board.getCate()){
-			case "총류" : select[1] = "selected";break;
-			case "철학" : select[2] = "selected";break;
-			case "종교" : select[3] = "selected";break;
-			case "사회과학" : select[4] = "selected";break;
-			case "자연과학" : select[5] = "selected";break;
-			case "기술과학" : select[6] = "selected";break;
-			case "예술" : select[7] = "selected";break;
-			case "언어" : select[8] = "selected";break;
-			case "문학" : select[9] = "selected";break;
-			case "역사" : select[10] = "selected";break;
-			default: select[0]="selected";
+			if(board.getCate() != null){
+				switch(board.getCate()){
+				case "총류" : select[1] = "selected";break;
+				case "철학" : select[2] = "selected";break;
+				case "종교" : select[3] = "selected";break;
+				case "사회과학" : select[4] = "selected";break;
+				case "자연과학" : select[5] = "selected";break;
+				case "기술과학" : select[6] = "selected";break;
+				case "예술" : select[7] = "selected";break;
+				case "언어" : select[8] = "selected";break;
+				case "문학" : select[9] = "selected";break;
+				case "역사" : select[10] = "selected";break;
+				default: select[0]="selected";
+				}
+			}else{
+				select[0]="selected";
 			}
 		}
 	%>
 	<section>
 		<form action="update.re" id="write-book" method="post" enctype="multipart/form-data" >
+			<input type="hidden" name="page" value="${page}">
+			<input type="hidden" name="boardNo" value="${board.boardNo }">
+			<input type="hidden" name="atcName" value="${at.atcName }">
+			<input type="hidden" name="atcOrigin" value="${at.atcOrigin }">
+			
 			<div class="title-div">
 				<div class="title">title</div>
 				<input type="text" name="bTitle" value="${board.bTitle }">
@@ -168,7 +177,7 @@
 			</div>
 			<div class="content">
 				<div class="file-div">
-					<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
+					<input type="file" id="input-file" name="reloadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
 					<div class="file-img" id="file-img">
 						<img id="load-img" src="resources/buploadFiles/${at.atcName }">
 					</div>
@@ -180,7 +189,7 @@
 				</div>
 				<div class="tag-div">
 					<p class="tag">#</p><input type="text" class="bookInfo" name="booktitle" value="${booktitle }">
-					<p class="tag">#</p><input type="text" class="bookInfo" name="author" value="${author }">
+					<p class="tag">#</p><input type="text" class="bookInfo" name="author" value="${author}">
 				</div>
 				<div class="content-edit" style="text-align:center;">
 					<textarea name="bContent" id="smart_edit" style="width:100%;">${ board.bContent }</textarea>

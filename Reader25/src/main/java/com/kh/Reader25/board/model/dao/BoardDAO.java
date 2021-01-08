@@ -241,6 +241,22 @@ public class BoardDAO {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAnotherComments", boardNo, rowBounds);
 	}
 
+	public int updateBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.updateBoard", b);
+	}
+
+	public int updateAttachment(SqlSessionTemplate sqlSession, Attachment attachment) {
+		return sqlSession.update("boardMapper.updateAttachment", attachment);
+	}
+
+	public int deleteBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.deleteBoard", boardNo);
+	}
+
+	public int deleteAttachment(SqlSessionTemplate sqlSession, int boardNo) {
+		return sqlSession.update("boardMapper.deleteAttachment", boardNo);
+	}
+
 
 
 

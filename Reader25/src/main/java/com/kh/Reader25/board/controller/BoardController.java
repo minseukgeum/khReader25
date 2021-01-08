@@ -170,7 +170,7 @@ public class BoardController {
 		}
 		return mv;
 	}
-	@RequestMapping("write.re")//*****---------------------------------------------------------이거랑
+	@RequestMapping("write.re")//****-------------------이거랑
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
@@ -306,7 +306,7 @@ public class BoardController {
 		board.setbContent(content);
 		
 		mv.addObject("board", board)
-			.addObject("paeg", page)
+			.addObject("page", page)
 			.addObject("booktitle", booktitle)
 			.addObject("author", author)
 			.addObject("wise", wise)
@@ -315,15 +315,53 @@ public class BoardController {
 		return mv;
 	}
 	@RequestMapping("update.re")
-	public String updateReviewBoard(@RequestParam("page") int page, @ModelAttribute Board b,
-									@RequestParam("uploadFile") MultipartFile uploadFile,
-									HttpServletRequest request, @ModelAttribute  Attachment at) {
-		if(uploadFile != null && !uploadFile.isEmpty()) {
+	public ModelAndView updateReviewBoard(@RequestParam("page") int page, @ModelAttribute Board b,
+									@RequestParam("reloadFile") MultipartFile reloadFile,
+									HttpServletRequest request, @ModelAttribute  Attachment at,
+									ModelAndView mv,
+									@RequestParam("booktitle") String booktitle,
+									@RequestParam("author") String author,
+									@RequestParam("wise") String wise) {
+		
+		String contentAddTag =  booktitle + "#책제목"  + author + "#작가" + wise + "#명언" + b.getbContent();
+		b.setbContent(contentAddTag);
+		
+		if(reloadFile != null && !reloadFile.isEmpty()) {
+			if(at.getAtcName() != null) {
+				deleteFile(at.getAtcName(), request);
+			}
+			Attachment attachment = saveFile(reloadFile, request, 2);
+			if(attachment != null) {
+				attachment.setAtcLevel(0);
+			}
+			attachment.setBoardNo(b.getBoardNo());
+			int result = bService.updateBoardAndFile(b,attachment);
 			
+			if(result > 0) {
+				Board board = bService.selectBoard(b.getBoardNo());
+				Attachment attach = bService.selectAttachment(b.getBoardNo());
+				mv.addObject("board", board)
+				  .addObject("boardNo", b.getBoardNo())
+				  .addObject("page", page)
+				  .addObject("at", attach)
+				  .setViewName("redirect:redetail.re");
+			}else {
+				throw new BoardException("리뷰 게시물 수정에 실패하였습니다.");
+			}
 		}
-		return "redirect:redetail.re";
+		return mv;
 	}
-	
+	@RequestMapping("delete.re")
+	public String deleteReviewBoard(@RequestParam("boardNo") int boardNo) {
+		int result = bService.deleteBoardAndFile(boardNo);
+		if(result > 0) {
+			return "redirect:book.re";
+		}else {
+			throw new BoardException("리뷰 게시물 삭제에 실패하였습니다.");
+		}
+	}
+	//책리뷰 code = 2-------------------------------------------------------------
+
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 	
 	// 오늘은 나도 작가 = 5 리스트 폼 이동 컨트롤러
@@ -720,7 +758,7 @@ public class BoardController {
 	}
 	
 	
-	// 파일 이름 변경 메소드 ----------------------------------------------------
+	// 파일  메소드 -----------------------------------------------------------------
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request, int code) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
@@ -749,7 +787,15 @@ public class BoardController {
 		}
 		return at;
 	}
-
+	private void deleteFile(String atcName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root+"\\buploadFiles";
+		File f = new File(savePath + "\\" + atcName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	//----------------------------------------------------------------------------
 	
 	
 	@RequestMapping("mBlistDelete.me")
