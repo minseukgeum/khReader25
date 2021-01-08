@@ -32,7 +32,7 @@ public class DiscussServiceImpl  implements DiscussService{
 
 	@Override
 	public int insertDiscuss(Discuss d, Attachment at) {
-		int result = 0;
+		int result = 1;
 		if(at != null) {
 			result = dDAO.insertDAttachment(sqlSession, at);
 		}
@@ -40,6 +40,42 @@ public class DiscussServiceImpl  implements DiscussService{
 			result = dDAO.insertDiscuss(sqlSession, d);
 		}
 		return result;
+	}
+
+	@Override
+	public Discuss selectDiscuss(int dNo) {
+		return dDAO.selectDiscussDetail(sqlSession, dNo);
+	}
+
+	@Override
+	public ArrayList<Attachment> selectatList() {
+		return dDAO.selectAtList(sqlSession);
+	}
+
+	@Override
+	public Attachment selectAt(int atcNo) {
+		return dDAO.selectAt(sqlSession, atcNo);
+	}
+
+	@Override
+	public int updateDiscuss(Discuss d) {
+		return dDAO.updateDiscuss(sqlSession, d);
+	}
+
+	@Override
+	public int updateAtno(Attachment att, int no) {
+		int result = 0;
+		if(no > 0) {
+			result = dDAO.updateAtno(sqlSession, att);
+		} else {
+			result = dDAO.insertDAttachment(sqlSession, att);
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteDiscuss(int dNo) {
+		return dDAO.deleteDisucss(sqlSession, dNo);
 	}
 
 }

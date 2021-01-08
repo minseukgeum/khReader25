@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
 import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.service.BoardService;
 import com.kh.Reader25.board.model.vo.Attachment;
@@ -33,6 +33,8 @@ import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
 import com.kh.Reader25.board.model.vo.Liketo;
 import com.kh.Reader25.board.model.vo.PageInfo;
+import com.kh.Reader25.board.model.vo.SearchCate;
+import com.kh.Reader25.board.model.vo.SearchCondition;
 import com.kh.Reader25.common.Pagination;
 import com.kh.Reader25.member.model.vo.Member;
 
@@ -180,10 +182,12 @@ public class BoardController {
 		Attachment at = bService.selectAttachment(boardNo);
 		if(board != null) {
 			
-			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#"));
-			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#")+1);
-			String author = exbook.substring(0,exbook.indexOf("#"));
-			String content = exbook.substring(exbook.indexOf("#") + 1);
+			String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#책제목"));
+			String exbook = board.getbContent().substring((board.getbContent()).indexOf("#책제목")+4);
+			String author = exbook.substring(0,exbook.indexOf("#작가"));
+			String exauthor = exbook.substring(exbook.indexOf("#작가") + 3);
+			String wise = exauthor.substring(0,exauthor.indexOf("#명언"));
+			String content = exauthor.substring(exauthor.indexOf("#명언") + 3);
 			
 			board.setbContent(content);
 			
@@ -191,6 +195,7 @@ public class BoardController {
 			mv.addObject("at", at);
 			mv.addObject("booktitle", booktitle);
 			mv.addObject("author", author);
+			mv.addObject("wise", wise);
 			mv.addObject("page", page);
 			mv.setViewName("bookReviewDetail");
 		}
@@ -199,8 +204,7 @@ public class BoardController {
 	// 이 책의 다른 리뷰보기
 	@RequestMapping("reList.re")
 	public void getAnotherList(@RequestParam(value="page1", required=false, defaultValue="1") Integer page1,
-							   @RequestParam("booktitle") String book, HttpServletResponse response,
-							   Model model) {
+							   @RequestParam("booktitle") String book, HttpServletResponse response) {
 		response.setContentType("application/json; charset=UTF-8");
 		int currentPage1 = 1;
 		if(page1 != null) {
@@ -216,7 +220,41 @@ public class BoardController {
 		map.put("reList", reList);
 		map.put("pi1", pi1);
 		
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		 try {
+			gson.toJson(map, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	//명대사 리스트 보기
+	@RequestMapping("wiseList.re")
+	public void getWiseList(@RequestParam(value="page2", required=false) Integer page2,
+							@RequestParam("wise") String wise, HttpServletResponse response) {
+		response.setContentType("application/json; charset=UTF-8");
+		System.out.println(page2);
+		int currentPage2 = 1;
+		if(page2 != null) {
+			currentPage2 = page2;
+		}
+		int listCount = bService.getReListCount(wise);
+		PageInfo pi2 = Pagination.getPageInfo3(currentPage2, listCount);
+		ArrayList<Board> wiseList = bService.selectAnotherReview(wise, pi2);
+		
+		String[] wiseArr = new String[wiseList.size()];
+		int i = 0;
+		for(Board b : wiseList) {
+			wiseArr[i] = b.getbContent().substring(b.getbContent().indexOf("#작가") + 3, b.getbContent().indexOf("#명언"));
+			i++;
+		}
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("wiseList", wiseList);
+		map.put("pi2", pi2);
+		map.put("wiseArr", wiseArr);
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		 try {
 			gson.toJson(map, response.getWriter());
 		} catch (JsonIOException | IOException e) {
@@ -228,8 +266,9 @@ public class BoardController {
 	public String bookReviewInsert(@ModelAttribute Board b, @RequestParam("uploadFile") MultipartFile uploadFile,
 									HttpServletRequest request,
 									@RequestParam("booktitle") String booktitle,
-									@RequestParam("author") String author) {
-		String contentAddTag =  booktitle + "#"  + author + "#" + b.getbContent();
+									@RequestParam("author") String author,
+									@RequestParam("wise") String wise) {
+		String contentAddTag =  booktitle + "#책제목"  + author + "#작가" + wise + "#명언" + b.getbContent();
 		b.setbContent(contentAddTag);
 		
 		Member member = (Member)(request.getSession().getAttribute("loginUser"));
@@ -296,7 +335,7 @@ public class BoardController {
 		//System.out.println(code2);
 		
 		b.setCate(code1+"/"+code2);
-		//System.out.println(b);
+//		System.out.println(b);
 		
 		int result = bService.insertTIW(b);
 		
@@ -472,17 +511,99 @@ public class BoardController {
 	}
 	
 	//오늘은 나도 작가 = 5 게시글 삭제 
-		@RequestMapping("TIWDelete.to")
-		public String boardDelete(@RequestParam("boardNo") int boardNo) {
+	@RequestMapping("TIWDelete.to")
+	public String boardDelete(@RequestParam("boardNo") int boardNo) {
 			
-			int result = bService.deleteTIWBoard(boardNo);
+		int result = bService.deleteTIWBoard(boardNo);
 			
-			if(result > 0) {
-				return "redirect:goTIWList.to";
-			} else {
-				throw new BoardException("게시글 삭제에 실패했습니다.");
-			}
+		if(result > 0) {
+			return "redirect:goTIWList.to";
+		} else {
+			throw new BoardException("게시글 삭제에 실패했습니다.");
 		}
+	}
+	
+	//오늘은 나도 작가 = 5 게시글 검색
+	@RequestMapping("searchTIW.to")
+	public ModelAndView searchTIW(@ModelAttribute SearchCondition serchC,
+									HttpServletRequest request, HttpServletResponse response, 
+									ModelAndView mv) {
+		String condition = request.getParameter("searchCondition");
+		String value = request.getParameter("searchValue");
+		//System.out.println("condition"+condition);
+		//System.out.println("value"+value);
+		
+		if(condition.equals("writer")) {
+			serchC.setWriter(value);
+		} else if(condition.equals("title")) {
+			serchC.setTitle(value);
+		} else if(condition.contentEquals("content")) {
+			serchC.setContent(value);
+		}
+		
+		//currentPage 설정
+		int currentPage = 1; //기본
+		if(request.getParameter("currentPage") != null) { //currentPage가 들어 왔다면
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			//넘어온 currentPage 값을 넣어준다
+		}
+		
+		int listCount = bService.getSearchTIWResultListCount(serchC);
+		//검색을 어떤걸로 할지에 따라 세팅된 sc를 매개변수로 넣어줘야한다
+		
+		PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+		
+		ArrayList<Board> list = bService.selectSerchTIWResultList(serchC, pi);
+		
+		if(list != null) {
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.addObject("searchCondition", condition);
+			mv.addObject("searchValue", value);
+			mv.addObject("searchValue", value);
+			mv.setViewName("TIWListForm");
+		} else {
+			throw new BoardException("오늘은 나도 작가 게시글 검색 조회에 실패했습니다.");
+		}
+		
+		return mv;
+		
+	}
+	
+	//오늘은 나도 작가 = 5 게시글 카테고리 통한 동일 작품 검색
+	@RequestMapping("searchTIWCate.to")
+	public ModelAndView searchTIWCate(@ModelAttribute SearchCate serCa,
+									@RequestParam("cate") String cate, @RequestParam("userId") String userId,
+									HttpServletRequest request, HttpServletResponse response, 
+									ModelAndView mv) {
+		System.out.println("cate"+cate);
+		System.out.println("userId"+userId);
+		
+		//currentPage 설정
+		int currentPage = 1; //기본
+		if(request.getParameter("currentPage") != null) { //currentPage가 들어 왔다면
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			//넘어온 currentPage 값을 넣어준다
+		}
+			
+			int listCount = bService.getSearchCateResultListCount(serCa);
+			//검색을 어떤걸로 할지에 따라 세팅된 sc를 매개변수로 넣어줘야한다
+			
+			PageInfo pi = Pagination.getPageInfo5(currentPage, listCount);
+			
+			ArrayList<Board> list = bService.selectSearchCateResultList(serCa, pi);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("TIWListForm");
+			} else {
+				throw new BoardException("오늘은 나도 작가 게시글 카테고리 검색 조회에 실패했습니다.");
+			}
+			
+			return mv;
+			
+		}	
 	
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 
@@ -554,7 +675,7 @@ public class BoardController {
 		at.setAtcOrigin(file.getOriginalFilename());
 		at.setAtcName(renameFileName);
 		at.setAtcPath(savePath);
-		at.setAtcLevel(1);
+
 		
 		try {
 			file.transferTo(new File(renamePath));
@@ -565,6 +686,177 @@ public class BoardController {
 		}
 		return at;
 	}
+
+	
+	
+	@RequestMapping("mBlistDelete.me")
+	public ModelAndView boardList(@RequestParam(value = "searchCondition", required = false) String searchCondition,@RequestParam(value = "searchValue", required = false) String searchValue,@RequestParam(value = "inFo", required = false) String inFo, ModelAndView mv ,@RequestParam(value = "code", required = false) Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
+	
+
+		
+		
+		
+		
+		String list = inFo;
+		
+		String [] lists = list.split(",");
+		
+		for(String s : lists) {
+			
+			System.out.println(s);
+			
+			
+			
+		}
+		
+		
+		int result = bService.deletemBList(lists);
+		
+		
+
+	
+
+		if (result > 0) {
+
+			
+			
+			mv.addObject("page", page);
+			mv.addObject("code",code);
+
+			
+			
+			if(searchValue!=null) {
+
+				mv.addObject("searchCondition",searchCondition);
+					
+				mv.addObject("searchValue",searchValue);
+			}
+		
+			
+			
+			
+			mv.setViewName("redirect:mSearch.me");
+		} else {
+
+			throw new BoardException("마이페이지 게시글 조회 실패");
+		}
+
+		return mv;
+
+	}
+	
+
+
+	
+	
+	
+	
+	
+	@RequestMapping("myList.me")
+	public ModelAndView mSearchList(@RequestParam(value = "searchCondition", required = false) String searchCondition,@RequestParam(value = "searchValue", required = false) String searchValue, ModelAndView mv ,@RequestParam("code") Integer code , @RequestParam(value = "page", required = false) Integer page,HttpSession session) {
+		// 마이페이지에서 검색
+		
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+	 	
+	 	String mId = loginUser.getId();
+		
+	 	
+	 	
+	
+		
+		
+
+		
+		
+		int currentPage = 1 ;
+		
+		if(page != null) {
+			
+			currentPage = page;
+			
+		}
+		
+		SearchCondition sc = new SearchCondition();
+		
+		
+		sc.setCode(code);
+	
+		sc.setmId(mId);
+		
+		
+		String condition =null;
+		
+		String value =null;
+		
+		if(searchValue != null) {
+			
+			
+			
+			condition =searchCondition;
+			
+			value =  searchValue;
+			
+			
+			if (condition.equals("Title")) {
+				
+				sc.setTitle(value);;
+			}else if (condition.equals("내용")) {
+				
+				sc.setContent(value);
+			}
+		}
+		
+		
+		
+		System.out.println("sc= " +sc);
+		
+		
+		try {
+			int listCount = bService.getSearchMyListCount(sc);
+			
+			System.out.println("listcount= "+ listCount);
+			
+			
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			
+			
+			ArrayList<Board> list = bService.SeachMyList(sc,pi);
+			
+			System.out.println(list);
+			
+			mv.addObject("list", list);
+			
+			mv.addObject("pi", pi);
+			
+			
+			
+			mv.addObject("searchCondition",condition);
+				
+			mv.addObject("searchValue",value);
+			
+			mv.addObject("code",code);
+			
+			
+			
+			mv.setViewName("myPageList");
+			
+			
+		} catch (BoardException e) {
+			
+			
+			throw new BoardException("마이페이지 게시글 검색 실패");
+			
+		}
+
+		
+
+		return mv;
+
+	}
+
+
 	   @RequestMapping("gobookr.bo")
 	   public ModelAndView gobookr(@RequestParam(value="page", required=false) Integer page,
 	                        ModelAndView mv) { //ModelAndView 는 값을 화면에 전달할때 쓰는 객체
@@ -596,4 +888,5 @@ public class BoardController {
 		public String bookroomD() {
 			return "bookroomD";
 		}
+
 }

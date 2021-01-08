@@ -14,4 +14,16 @@ public interface DiscussService {
 
 	int insertDiscuss(Discuss d, Attachment at);
 
+	Discuss selectDiscuss(int dNo);
+
+	ArrayList<Attachment> selectatList();
+
+	Attachment selectAt(int atcNo);
+
+	int updateDiscuss(Discuss d);
+
+	int updateAtno(Attachment att, int atcno);
+
+	int deleteDiscuss(int dNo);
+
 }
