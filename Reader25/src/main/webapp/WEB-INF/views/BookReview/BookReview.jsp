@@ -311,7 +311,7 @@ select::-ms-expand {
 			</c:if>
 			
 		</div>
-<%-- 		<c:if test="${ !empty loginUser }"> --%>
+		<c:if test="${ !empty loginUser }">
 			<div class="write-btn">
 				<img src="${contextPath}/resources/images/bookreview/write.png"/>
 			</div>
@@ -320,7 +320,7 @@ select::-ms-expand {
 					location.href="<%=request.getContextPath()%>/write.re";
 				});
 			</script>
-<%-- 		</c:if> --%>
+		</c:if>
 	</section>
 </body>
 </html>

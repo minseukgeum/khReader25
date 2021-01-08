@@ -1,3 +1,4 @@
+
 package com.kh.Reader25.board.model.service;
 
 import java.util.ArrayList;
@@ -6,8 +7,10 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.Reader25.board.model.dao.BoardDAO;
+import com.kh.Reader25.board.model.exception.BoardException;
 import com.kh.Reader25.board.model.vo.Attachment;
 import com.kh.Reader25.board.model.vo.Board;
 import com.kh.Reader25.board.model.vo.Comments;
@@ -187,17 +190,76 @@ public class BoardServiceImpl implements BoardService{
 		return bDAO.getCommentListCount(sqlSession, boardNo);
 	}
 
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+
+
+
+
+	
+
+	@Override
+	public int getSearchMyListCount(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return bDAO.getSearchMyListCount(sqlSession, sc);
+	}
+
+	@Override
+	public ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi) {
+		
+		return bDAO.SeachMyList(sqlSession,sc, pi);
+	}
+	
+	
+	@Transactional
+	@Override
+	public int deletemBList(String[] lists) {
+		
+		
+		int result = 0;
+		
+		for(String s: lists) {			
+			
+			result += bDAO.deletemBList(sqlSession, s);
+
+		}
+		
+		
+		if(result != lists.length) {
+			
+			throw new BoardException("마이페이지 리스트 삭제 실패");
+		}
+		
+		
+		
+		return result;
+	}
+
 	@Override
 	public int getSearchTIWResultListCount(SearchCondition serchC) {
 		// TODO Auto-generated method stub
-		return bDAO.getSearchTIWResultListCount(sqlSession, serchC);
+		return 0;
 	}
 
 	@Override
 	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return bDAO.selectSearchTIWResultList(sqlSession, serchC, pi);
+		return null;
 	}
+
+
+	
+	
+
 
 	@Override
 	public int getSearchCateResultListCount(SearchCate serCa) {
@@ -226,138 +288,4 @@ public class BoardServiceImpl implements BoardService{
 //
 //
 //
-
-//@Service("bService")
-//public class BoardServiceImpl implements BoardService{
-//	@Autowired
-//	private BoardDAO bDAO;
-//	@Autowired
-//	private SqlSessionTemplate sqlSession;
-//	
-//	@Override
-//	public int insertTIW(Board b) {
-//		// TODO Auto-generated method stub
-//		return bDAO.insertTIW(sqlSession, b);
-//	}
-//
-//	@Override
-//	public int getTIWListCount() {
-//		// TODO Auto-generated method stub
-//		return bDAO.getTIWListCount(sqlSession);
-//	}
-//
-//	@Override
-//	public ArrayList<Board> selectTIWList(PageInfo pi) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectTIWList(sqlSession, pi);
-//	}
-//
-//	@Override
-//	public Board selectTIWBoard(int boardNo) {
-//		int result = bDAO.addTIWReadCount(sqlSession, boardNo);
-//		
-//		Board b = null;
-//		if(result > 0) {
-//			b = bDAO.selectTIWBoard(sqlSession, boardNo);
-//		}
-//		
-//		return b;
-//	}
-//
-//	public Board selectupTIWBoard(int boardNo) {
-//		Board b = null;
-//		
-//		b = bDAO.selectTIWBoard(sqlSession, boardNo);
-//		
-//		return b;
-//	}
-//
-//	@Override
-//	public int updateTIWBoard(Board b) {
-//		// TODO Auto-generated method stub
-//		return bDAO.updateTIWBoard(sqlSession, b);
-//	}
-//
-//	@Override
-//	public int deleteTIWBoard(int boardNo) {
-//		// TODO Auto-generated method stub
-//		return bDAO.deleteTIWBoard(sqlSession, boardNo);
-//	}
-//
-//	public int findLike(HashMap<String, Object> map) {
-//		// TODO Auto-generated method stub
-//		return bDAO.findLike(sqlSession, map);
-//	}
-//
-//	@Override
-//	public void deleteLike(Liketo like) {
-//		// TODO Auto-generated method stub
-//		
-//		
-//		bDAO.deleteLike(sqlSession, like);
-//	}
-//
-//	@Override
-//	public void insertLike(Liketo like) {
-//		// TODO Auto-generated method stub
-//		bDAO.insertLike(sqlSession, like);
-//		
-//	}
-//
-//
-//	@Override
-//	public int insertComments(Comments c) {
-//		// TODO Auto-generated method stub
-//		return bDAO.insertComments(sqlSession, c);
-//	}
-//
-//	@Override
-//	public int updateCount(Comments c) {
-//		// TODO Auto-generated method stub
-//		return bDAO.updateCount(sqlSession, c);
-//	}
-//
-//	@Override
-//	public ArrayList<Comments> selectCommentsList(int bId) {
-//		// TODO Auto-generated method stub
-//		return bDAO.selectCommentsList(sqlSession, bId);
-//	}
-//
-//	@Override
-//	public Attachment selectAttachment(int boardNo) {
-//		return bDAO.selectAttachment(sqlSession, boardNo);
-//	}
-//
-//	@Override
-//	public ArrayList<Board> selectAnotherReview(String book, PageInfo pi) {
-//		return bDAO.selectAnotherReview(sqlSession, book, pi);
-//	}
-//
-
-//	@Override
-//	public int updateLike(Liketo like) {
-//		// TODO Auto-generated method stub
-//		return bDAO.updateLike(sqlSession, like.getB_no());
-//	}
-//
-//	@Override
-//	public int getCommentListCount(int boardNo) {
-//		// TODO Auto-generated method stub
-//		return bDAO.getCommentListCount(sqlSession, boardNo);
-//	}
-//
-////	@Override
-////	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-////		// TODO Auto-generated method stub
-////		return bDAO.selectCommentsList(sqlSession, hpage);
-////	}
-//
-////	@Override
-////	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
-////		// TODO Auto-generated method stub
-////		return bDAO.selectCommentsList(sqlSession, hpage);
-////	}
-
-
 }
-

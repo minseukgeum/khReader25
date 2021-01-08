@@ -83,6 +83,9 @@ public class BoardDAO {
 		return sqlSession.update("boardMapper.deleteTIWBoard", boardNo);
 	}
 
+
+
+
 	public int addReadCount(SqlSessionTemplate sqlSession, int boardNo) {
 		return sqlSession.update("boardMapper.addReadCount", boardNo);
 	}
@@ -93,6 +96,29 @@ public class BoardDAO {
 
 	public ArrayList<Attachment> selectAttachmentList(SqlSessionTemplate sqlSession, int boardNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectAttachmentList", boardNo);
+
+	}
+	
+	
+	public int getSearchMyListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		
+		
+		
+		return sqlSession.selectOne("boardMapper.SearchMyListCount", sc);
+		
+	}
+
+	public ArrayList<Board> SeachMyList(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit(); 
+		
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		
+		return  (ArrayList)sqlSession.selectList("boardMapper.SeachMyList",sc , rowBounds);
+		
+		
 	}
 	
 
@@ -121,6 +147,26 @@ public class BoardDAO {
 		return sqlSession.insert("boardMapper.insertAttachment", at);
 
 	}
+
+
+	public int deletemBList(SqlSessionTemplate sqlSession, String s) {
+		
+		return sqlSession.update("boardMapper.deletemBList",s);
+	}
+
+//	public int findLike(SqlSessionTemplate sqlSession, HashMap<String, Object> map) {
+//		String result = sqlSession.selectOne("boardMapper.findLike", map);
+//		
+//		int result2;
+//		
+//		if((result == null) || (result =='1')) {
+//			result2 = 0;
+//		} else {
+//			result2 = 0;
+//		}
+//		
+//		return result2;
+//	}
 
 	public int insertComments(SqlSessionTemplate sqlSession, Comments c) {
 		// TODO Auto-generated method stub
@@ -195,6 +241,7 @@ public class BoardDAO {
 //		
 //		return (ArrayList)sqlSession.selectList("boardMapper.selectCommentsList", null, rowBounds);
 //	}
+
 
 
 }

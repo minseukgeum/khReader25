@@ -31,6 +31,26 @@
 		<result property="atcNo" column="ATC_NO"/>
 	</resultMap>
 	
+	<!-- 토론방 사진 리스트 -->
+	<select id="selectAtList" resultMap="attachmentResultSet">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE ATC_STATUS = 'Y' AND BOARD_NO = 0
+	</select>
+	
+	<!-- 파일 리절트 셋 -->
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="atcNo" column="ATC_NO"/>
+		<result property="atcLevel" column="ATC_LEVEL"/>
+		<result property="atcCode" column="ATC_CODE"/>
+		<result property="atcOrigin" column="ATC_ORIGIN"/>
+		<result property="atcName" column="ATC_NAME"/>
+		<result property="atcPath" column="ATC_PATH"/>
+		<result property="atcDate" column="ATC_DATE"/>
+		<result property="atcStatus" column="ATC_STATUS"/>
+		<result property="boardNo" column="BOARD_NO"/>
+	</resultMap>
+	
 	<!-- 토론방 파일 저장 -->
 	<insert id="insertDAttachment">
 		INSERT INTO ATTACHMENT
@@ -41,7 +61,33 @@
 	<!-- 토론방 작성 -->
 	<insert id="insertDiscuss">
 		INSERT INTO DISCUSS
-		VALUES(D_SEQ.NEXTVAL, #{dTitle}, #{dContent}, SYSDATE, #{dPros}, #{dCons}, DEFAULT, DEFAULT, DEFAULT, SEQ_ATC.CURRVAL, #{dWriter})
+		VALUES(D_SEQ.NEXTVAL, #{dTitle}, #{dContent}, SYSDATE, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, SEQ_ATC.CURRVAL, #{dWriter})
 	</insert>
 	
+	<!-- 토론방 상세페이지 -->
+	<select id="selectDiscuss" resultMap="discussResultSet">
+		SELECT *
+		FROM DISCUSS
+		WHERE D_STATUS='Y' AND D_NO = #{dNo}
+	</select>
+	
+	<!-- 토론방 상세페이지 사진검색 -->
+	<select id="selectAt" resultMap="attachmentResultSet">
+		SELECT *
+		FROM ATTACHMENT
+		WHERE ATC_NO = #{atcNo}
+	</select>
+	<!-- 토론방 파일 수정시 -->
+	<update id="updateAt">
+		UPDATE ATTACHMENT SET ATC_ORIGIN = #{atcOrigin}, ATC_NAME= #{atcName} WHERE ATC_NO=#{atcNo}
+	</update>
+	<!-- 토론방 수정 -->
+	<update id="updateDiscuss">
+		UPDATE DISCUSS SET D_TITLE=#{dTitle}, D_CONTENT=#{dContent} WHERE D_NO = #{dNo}
+	</update>
+	
+	<!-- 토론방 삭제 -->
+	<update id="deleteDiscuss">
+		UPDATE DISCUSS SET D_STATUS='N' WHERE D_NO = #{dNo}
+	</update>
 </mapper>

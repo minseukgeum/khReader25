@@ -29,6 +29,8 @@ public class DiscussController {
 	
 	@Autowired
 	private DiscussService dService;
+
+	
 	
 	// 토론방 전체 페이지
 	@RequestMapping("discuss.di")
@@ -41,9 +43,11 @@ public class DiscussController {
 		int listCount = dService.getListCount();
 		PageInfo pi = Pagination.getPageInfo1(currentPage, listCount);
 		ArrayList<Discuss> dList = dService.selectList(pi);
+		ArrayList<Attachment> atList = dService.selectatList();
 		if(dList != null) {
 			mv.addObject("dList", dList)
 				.addObject("pi", pi)
+				.addObject("atList", atList)
 				.setViewName("discussList");
 		}else {
 			throw new DiscussException("공지사항 게시글 전체 조회에 실패하였습니다.");
@@ -57,18 +61,14 @@ public class DiscussController {
 		return "discussWriteForm";
 	}
 	
+	// 토론방 작성
 	@RequestMapping("discussInsert.di")
-	public String discussInsert(@ModelAttribute Discuss d, @RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest request, @RequestParam("dchose") String dchose) {
+	public String discussInsert(@ModelAttribute Discuss d, @RequestParam("uploadFile") MultipartFile uploadFile, HttpServletRequest request) {
 		d.setdWriter(((Member)(request.getSession().getAttribute("loginUser"))).getId());
 
 		Attachment at = null;
 		if(uploadFile != null && !uploadFile.isEmpty()) {
 			at = saveFile(uploadFile, request);
-		}
-		if(dchose.equals("찬성")) {
-			d.setdPros(1);
-		} else {
-			d.setdCons(1);
 		}
 		int result = dService.insertDiscuss(d, at);
 		if(result >0) {
@@ -78,6 +78,74 @@ public class DiscussController {
 		}
 	}
 	
+	// 토론방 상세페이지 이동
+	@RequestMapping("dDetail.di")
+	public ModelAndView discussDetailForm(@RequestParam("dNo") int dNo, @RequestParam("page") int page, ModelAndView mv) {
+		Discuss discuss = dService.selectDiscuss(dNo);
+		Attachment at = null;
+		if(discuss != null) {
+			if(discuss.getAtcNo() != 0) {
+				at = dService.selectAt(discuss.getAtcNo());
+			}
+			mv.addObject("d", discuss).addObject("page", page).addObject("at", at).setViewName("discussDetail");
+		} else {
+			throw new DiscussException("토론방 상세보기 실패하였습니다.");
+		}
+		return mv;
+	}
+	
+	// 토론방 수정 페이지로 이동
+	@RequestMapping("dUpdateForm.di")
+	public ModelAndView discussUpdate(@RequestParam("dNo") int dNo ,@RequestParam("page") int page, ModelAndView mv) {
+		Discuss d = dService.selectDiscuss(dNo);
+		Attachment at = null;
+		if(d.getAtcNo() != 0) {
+			at = dService.selectAt(d.getAtcNo());
+		}
+		mv.addObject("d", d).addObject("page", page).addObject("at", at).setViewName("discussUpdateForm");
+		return mv;
+	}
+	
+	// 토론방 수정
+	@RequestMapping("dUpdate.di")
+	public ModelAndView discussupdate(@ModelAttribute Discuss d, @ModelAttribute Attachment at, @RequestParam("page") int page,
+			@RequestParam ("reloadFile") MultipartFile reloadFile, HttpServletRequest request, ModelAndView mv) {
+		if(reloadFile != null && !reloadFile.isEmpty()) {
+			int atcno = 0;
+			if(at.getAtcName() != null) {
+				deleteFile(at.getAtcName(), request);
+				atcno = d.getAtcNo();
+			}
+			Attachment att  = saveFile(reloadFile, request);
+			if(atcno>0) {
+				att.setAtcNo(atcno);
+			}
+			int result = dService.updateAtno(att, atcno);
+			if(result<0) {
+				throw new DiscussException("토론방 파일 수정에 실패하였습니다.");
+			}
+		}
+		int result = dService.updateDiscuss(d);
+		
+		if(result > 0) {
+			mv.addObject("dNo", d.getdNo()).addObject("page", page).setViewName("redirect:dDetail.di");
+		} else {
+			throw new DiscussException("토론방 수정에 실패하였습니다.");
+		}
+		return mv;
+	}
+	// 토론방 삭제
+	@RequestMapping("dDelete.di")
+	public String disucssDelete(@RequestParam("dNo") int dNo) {
+		int result = dService.deleteDiscuss(dNo);
+		if(result > 0) {
+			return "redirect:discuss.di";
+		} else {
+			throw new DiscussException("토론방 삭제에 실패하였습니다.");
+		}
+	}
+	
+	// 파일 저장
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
@@ -103,5 +171,15 @@ public class DiscussController {
 			e.printStackTrace();
 		}
 		return at;
+	}
+	// 파일 삭제
+	public void deleteFile(String fileName, HttpServletRequest request) { //기존 파일 삭제
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\buploadFiles";
+		
+		File f = new File(savePath + "\\" + fileName);
+		if(f.exists()) {
+			f.delete();
+		}
 	}
 }

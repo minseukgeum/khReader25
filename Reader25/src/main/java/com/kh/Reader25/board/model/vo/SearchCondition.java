@@ -2,47 +2,112 @@ package com.kh.Reader25.board.model.vo;
 
 public class SearchCondition {
 	
-	private String writer;
-	private String title;
-	private String Content;
+
 	
-	public SearchCondition() {
-		
+	private String mId;
+	
+	private String title;
+	
+	private String writer;
+	
+	private String content;
+	
+	private int code;
+	
+	
+	public SearchCondition() {}
+
+
+	@Override
+	public String toString() {
+		return "SearchCondition [mId=" + mId + ", title=" + title + ", writer=" + writer + ", content=" + content
+				+ ", code=" + code + "]";
 	}
 
-	public SearchCondition(String writer, String title, String content) {
-		super();
-		this.writer = writer;
-		this.title = title;
-		Content = content;
+
+	public String getmId() {
+		return mId;
 	}
 
-	public String getWriter() {
-		return writer;
+
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
 
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getContent() {
-		return Content;
+
+	public String getWriter() {
+		return writer;
 	}
+
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
+
+	public String getContent() {
+		return content;
+	}
+
 
 	public void setContent(String content) {
-		Content = content;
+		this.content = content;
 	}
 
-	@Override
-	public String toString() {
-		return "SearchCondition [writer=" + writer + ", title=" + title + ", Content=" + Content + "]";
+
+	public int getCode() {
+		return code;
 	}
+
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+
+	public SearchCondition(String mId, String title, String writer, String content, int code) {
+		super();
+		this.mId = mId;
+		this.title = title;
+		this.writer = writer;
+		this.content = content;
+		this.code = code;
+	}
+
+
+	
+	
 }
+
+
+
+
+
+
+
+
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+

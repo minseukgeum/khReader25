@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +16,8 @@
   	#first{
   		text-align: center;
   	}
-  	b{font-size:60px; margin-left: 580px;}
+  	#title{text-align: center;}
+  	b{font-size:60px;}
   	#info{
   		width: 100%;
   		background: #F5715C;
@@ -54,10 +56,8 @@
 	<%@ include file="../common/menubar.jsp" %>
 	<br><br>
 	<section>
-		<div>
-		<b>토론 주제(제목)</b>
-		<button class="btn" id="btn1">토론방 수정</button>
-		<button class="btn" id="btn2">토론방 끝내기</button>
+		<div id="title">
+			<b>${d.getdTitle()}</b>
 		</div>
 		<div class="head" id="info">
 			의견을 내주시면 감사하겠습니다. 글을 읽어본 뒤 찬성인지 반대인지 아래를 클릭하여 선택 후 자신의 주장을 펼치시면 됩니다!
@@ -66,67 +66,86 @@
 			<input type="radio"  name="discuss" value="찬성"> 찬성
 			<input type="radio" class="dradio" name="discuss" value="중립" checked> 중립
 			<input type="radio" class="dradio" name="discuss" value="반대"> 반대
-		</div>
+		</div><br>
 		<div class="head">
-			<img src="" id="load-img">
-		</div>
-	<h2>토론주제</h2>
-	<hr>
-	<p>
-	내는 있음으로써 이상은 있는 그들은 인생을 보는 이 자신과 힘있다. 끝까지 풍부하게 날카로우나 꽃 황금시대다. 목숨을 위하여 이상 그들의 예가 사막이다. 인간의 우는 같은 풀밭에 구하기 풍부하게 반짝이는 방황하여도, 청춘이 운다.
-
-	군영과 없는 꾸며 있음으로써 스며들어 인생을 철환하였는가? 이것은 평화스러운 것은 말이다. 이상은 있음으로써 인간이 가는 두기 살았으며, 무엇을 인류의 것이다.
-
-	보는 인간의 우리 주는 피가 우리 그리하였는가? 만천하의 싶이 아름답고 원질이 가장 그들은 수 찾아 황금시대다. 바로 주는 이 청춘을 봄바람이다.
-	</p>
-	
-	<h2>주장</h2>
-	<hr>
-	<div class="Argument">
-		<select id="stime">
-			<option selected>오래된순</option>
-			<option>최신순</option>
-		</select><br>
+			<c:if test="${ d.atcNo == at.atcNo }">
+				<img src="<%=request.getContextPath() %>/resources/buploadFiles/${ at.atcName }" id="load-img"/></td>
+			</c:if>
+			<c:if test="${ d.atcNo != at.atcNo }">
+				<img src="<%=request.getContextPath() %>/resources/images/bookreview/book.jpg" id="load-img"/></td>
+			</c:if>
+		</div><br><br>
+		<h2>토론주제</h2>
+		<hr>
+		<p>${d.dContent}</p>
 		
-		<ol>
-			<li>
-				<div class="dfom">
-					<div class="Atext">
-						<img src="" id="people-img"><br>
-						아이디 찬성
-					</div>
-					<div class="Atext" id="text"><p>대충 찬성이라는 글</p></div><br><br>
-				</div><div style="clear:both;"></div>
-			</li>
-			<li>
-				<div class="dfom">
-					<div class="Atext">
-						<img src="" id="people-img"><br>
-						아이디 찬성
-					</div>
-					<div class="Atext" id="text"><p>대충 찬성이라는 글</p></div><br><br>
-				</div><div style="clear:both;"></div>
-			</li>
-			<li>
-				<div class="dfom">
-					<br><div class="Atext" id="text"><p>대충 반대이라는 글</p></div>
-					<div class="Atext">
-						<img src="" id="people-img"><br>
-						아이디 반대
-					</div>
-				</div><div style="clear:both;"></div>
-			</li>
-			
-		</ol>
-	</div>
-	
-	<select class="wid">
-		<option selected>찬성</option>
-		<option>반대</option>
-	</select><br>
-	<input type="text" class="wid"id="id" placeholder="아이디을 작성하세요"><br>
-	<textarea id="area1" class="wid" rows="10" cols="55"></textarea><br>
-	<button class="btn" id="btn3">작성하기</button>
+		<c:url var="dupdate" value="dUpdateForm.di">
+			<c:param name="dNo" value="${d.dNo}"/>
+			<c:param name="page" value="${ page }"/>
+		</c:url>
+		<c:url var="dDelete" value="dDelete.di">
+			<c:param name="dNo" value="${d.dNo}"/>
+		</c:url>
+		<c:if test="${ d.dWriter eq loginUser.id }">
+			<button class="btn" id="btn1" onclick="location.href='${ dupdate }'">토론방 수정</button>
+			<button class="btn" id="btn2" onclick="javascript:ddelete();">토론방 끝내기</button>
+		</c:if>	
+		<script>
+			function ddelete(){
+				var check = confirm("정말로 토론방을 끝내갰습니까?");
+				if(check){
+					location.href="${dDelete}";
+				}
+			}
+		</script>
+		<br><Br>
+		<h2>주장</h2>
+		<hr>
+		<div class="Argument">
+			<select id="stime">
+				<option selected>오래된순</option>
+				<option>최신순</option>
+			</select><br>
+			<ol>
+				<li>
+					<div class="dfom">
+						<div class="Atext">
+							<img src="" id="people-img"><br>
+							아이디 찬성
+						</div>
+						<div class="Atext" id="text"><p>대충 찬성이라는 글</p></div><br><br>
+					</div><div style="clear:both;"></div>
+				</li>
+				<li>
+					<div class="dfom">
+						<div class="Atext">
+							<img src="" id="people-img"><br>
+							아이디 찬성
+						</div>
+						<div class="Atext" id="text"><p>대충 찬성이라는 글</p></div><br><br>
+					</div><div style="clear:both;"></div>
+				</li>
+				<li>
+					<div class="dfom">
+						<br><div class="Atext" id="text"><p>대충 반대이라는 글</p></div>
+						<div class="Atext">
+							<img src="" id="people-img"><br>
+							아이디 반대
+						</div>
+					</div><div style="clear:both;"></div>
+				</li>
+				
+			</ol>
+		</div>
+		<form>
+			<select class="wid">
+				<option selected>찬성</option>
+				<option>반대</option>
+			</select><br>
+			<input type="text" class="wid" id="id" placeholder="아이디을 작성하세요"><br>
+			<textarea id="area1" class="wid" rows="10" cols="55"></textarea><br>
+			<button class="btn" id="btn3">작성하기</button>
+		</form>
 	</section>
 </body>
 </html>

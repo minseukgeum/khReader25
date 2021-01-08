@@ -27,6 +27,13 @@
 		width: 100%;
 		border:  1px solid rgba(235, 235, 235, 1);
 	}
+	.title-div>select{
+		height: 32px;
+		width: 190px;
+		border:  1px solid rgba(235, 235, 235, 1);
+		margin-left: -6px;
+		color: rgba(85, 83, 83, 1);		
+	}
 	.file-div{
 		width: 300px;
 		margin:auto;
@@ -77,26 +84,39 @@
 <body>
 	<%@ include file="../common/menubar.jsp" %>
 	<section>
-		<form action="discussInsert.di" id="write-discuss" method="post" enctype="multipart/form-data">
+		<form action="dUpdate.di" id="write-discuss" method="post" enctype="multipart/form-data">
 			<div class="title-div">
-				<h1>토론방 열기</h1>
-				<input type="text" id="dTitle" name="dTitle" placeholder="제목을 작성하세요"><br>
-				<input type="file" id="input-file" name="uploadFile" onchange="loadImg(this);" 
-				accept="image/jpg, image/jpeg, image/png">
+				<h1>토론방 수정</h1>
+				<input type="text" id="dTitle" name="dTitle" value="${ d.dTitle }"><br>
+				<input type="hidden" name="page" value="${ page }">
+				<input type="hidden" name="dNo" value="${ d.dNo }">
+				<input type="hidden" name="atcNo" value="${ d.atcNo }">
+				<input type="hidden" name="atcName" value="${ at.atcName }">
+				<input type="file" id="input-file" name="reloadFile" onchange="loadImg(this);" accept="image/jpg, image/jpeg, image/png">
+				<c:if test="${ d.atcNo == 0 }">
+					현재 업로드 된 참부파일 :<span id="s"> 없음 </span>
+				</c:if>
+				<c:if test="${ d.atcNo != 0 }">
+					현재 업로드 된 첨부파일 :<span id="s"> ${ at.atcName }</span>
+				</c:if>
 			</div>
 			<div class="file-div">
 				<div class="file-img" id="file-img">
-					<img src="#" id="load-img" >
+					<c:if test="${ d.atcNo == 0 }">
+						<img src="#" id="load-img" >
+					</c:if>
+					<c:if test="${ d.atcNo != 0 }">
+						<img src="<%=request.getContextPath() %>/resources/buploadFiles/${ at.atcName }" id="load-img" >
+					</c:if>
 				</div>
 			</div>
-<!-- 				<span class="btn0" id="spanbtn">이미지 추가</span> -->
 			<div class="content">
 				<div class="content-edit">
-					<textarea name="dContent" id="smart_edit"></textarea>
+					<textarea name="dContent" id="smart_edit">${d.dContent }</textarea>
 				</div>
 				<div style="text-align:right; width:90%; padding:0;">
 					<input type="button"class="btn" id="btn3" onclick="'javascript:history.go(-1)';" value="토론방 취소">
-					<input type="button" class="btn" id="btn1" value="토론방 열기">
+					<input type="button" class="btn" id="btn2" value="토론방 수정">
 				</div>
 			</div>
 		</form>
@@ -110,7 +130,7 @@
 			      sSkinURI : "<%=request.getContextPath()%>/smartedit/SmartEditor2Skin.html",
 			      fCreator: "createSEditor2"
 			});
-			$('#btn1').click(function(){
+			$('#btn2').click(function(){
 				oEditors.getById["smart_edit"].exec("UPDATE_CONTENTS_FIELD",[]);
 				
 				$('#write-discuss').submit();

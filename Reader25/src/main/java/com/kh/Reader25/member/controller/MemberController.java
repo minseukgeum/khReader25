@@ -50,6 +50,10 @@ public class MemberController {
 			Member loginUser = mService.memberLogin(m);
 			//아이디만 일치했을때에 대한 멤버 정보가 있음
 			
+			
+			
+			
+			
 			if(bcrypt.matches(m.getPwd(), loginUser.getPwd())) {
 				model.addAttribute("loginUser", loginUser);
 				return "redirect:home.do";
@@ -167,11 +171,22 @@ public class MemberController {
 		}
 	}
 	
-	//마이페이지로 이동하는 뷰
-	@RequestMapping("mypage.me")
-	public String mypageFormView() {	
-		return "mypage";
-	}
+//	//마이페이지로 이동하는 뷰
+//	@RequestMapping("mypage.me")
+//	public String mypageFormView() {	
+//		return "mypage";
+//	}
+	
+	//마이페이지로 이동하는 뷰2
+		@RequestMapping("mypage.me")
+		public String mypageFormView() {	
+			
+			
+			return "myPageList";
+		}
+		
+		
+		
 	
 
 	//비밀번호 변경 컨트롤러
@@ -219,6 +234,37 @@ public class MemberController {
 		return "memberList";
 	}
 	
+	
+	@RequestMapping("myUpdateForm.me")
+	public String myUpdateForm() {
+	
+
+		
+		
+		return "memberUpdate";
+		
+
+	}
+	
+	@RequestMapping("myUpdate.me")
+	public String myUpdate(@ModelAttribute Member m, @RequestParam("joinPostal") String post,
+			@RequestParam("joinAddress1") String address1,
+			@RequestParam("joinAddress2") String address2) {
+	
+
+		
+		System.out.println(m);
+				System.out.println(post);
+				System.out.println(address1);
+				System.out.println(address2);
+		
+		
+		
+		
+		return "";
+		
+
+	}
 	
 
 }

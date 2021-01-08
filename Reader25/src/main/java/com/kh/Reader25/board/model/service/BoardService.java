@@ -32,9 +32,18 @@ public interface BoardService {
 
 	int deleteTIWBoard(int boardNo);
 
+
+	int getSearchMyListCount(SearchCondition sc);
+
 	Board selectBoard(int boardNo);
 
 	ArrayList<Attachment> selectAttachmentList(int boardNo);
+
+
+
+	ArrayList<Board> SeachMyList(SearchCondition sc, PageInfo pi);
+
+
 
 	int findLike(HashMap<String, Object> map);
 
@@ -45,6 +54,9 @@ public interface BoardService {
 	ArrayList<Attachment> selectAttachmentTList(int atcCode);
 
 	int insertBoardAndFile(Board b, Attachment at);
+
+
+	int deletemBList(String[] lists);
 
 	int insertComments(Comments c);
 
@@ -71,6 +83,7 @@ public interface BoardService {
 	ArrayList<Board> selectSearchCateResultList(SearchCate serCa, PageInfo pi);
 
 	//ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage);
+
 
 
 

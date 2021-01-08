@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+
 	<select id="selectListCount" resultType="_int">
 		select count(*)
 		from board
@@ -89,6 +90,79 @@
 				#{atcPath}, sysdate, default,seq_bid.currval)
 	</insert>
 	
+
+	
+	<select id="SearchMyListCount" parameterType="SearchCondition" resultType="_int">
+	
+		select count(*)
+		from board
+		where code= #{code} and b_status='Y'
+		
+		
+		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
+		
+		
+	
+	
+	</select>
+	
+	
+	<select id="SeachMyList" parameterType="SearchCondition" resultMap="boardResultSet">
+ 	
+ 	
+ 		select *
+ 		from board join member using( user_id)
+ 		where b_status = 'Y' and code=#{code}
+ 
+ 		
+ 		
+ 		<if test="mId != null">
+ 		
+ 			and USER_ID = #{mId}
+ 		
+ 		</if>
+ 		
+ 		<if test="title != null">
+ 		
+ 			and B_TITLE like '%' || #{title} || '%'
+ 		
+ 		</if>
+ 		
+ 		<if test="content != null">
+ 		
+ 			and B_CONTENT like '%' || #{content} || '%'
+ 		
+ 		</if> 
+ 	
+ 		order by BOARD_NO desc
+ 	
+ 	</select>
+ 	
+ 	<update id="deletemBList">
+ 	
+ 		UPDATE board SET B_STATUS = 'N' WHERE BOARD_NO=#{s}
+ 	
+ 	
+ 	</update>
+	
+	
+
 	<update id="addReadCount">
 		update board
 		set b_count = b_count + 1
@@ -130,6 +204,7 @@
 		<result property="atcStatus" column="ATC_STATUS"/>
 		<result property="boardNo" column="BOARD_NO"/>
 	</resultMap>
+
 	
 	<select id="getReListCount" resultType="_int">
 		select count(*)
@@ -155,6 +230,7 @@
 		<result property="m_no" column="MNO"/>
 		<result property="l_check" column="LIKE_CHECK"/>
 	</resultMap>
+
 	
 	<delete id="deleteLike">
 		DELETE FROM liketo
@@ -203,6 +279,7 @@
 		<result property="userId" column="USER_ID"></result>
 	</resultMap>
 	
+
 	<select id="getSearchTIWResultListCount" resultType="_int">
 		select count(*)
 		from board b
@@ -239,6 +316,7 @@
 		order by board_no desc
 	</select>
 	
+
 	<select id="getSearchCateResultListCount" resultType="_int">
 		select count(*)
 		from board b
@@ -258,6 +336,7 @@
 		order by board_no desc
 	</select>
 	
+
 	<!-- <select id="getCommentListCount" resultType="_int">
 		select count(*)
 		from comments
@@ -270,4 +349,5 @@
 		where board_no =#{boardNo}
 		order by com_no desc
 	</select> -->
+
 </mapper>

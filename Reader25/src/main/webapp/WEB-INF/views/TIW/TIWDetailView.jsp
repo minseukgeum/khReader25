@@ -243,6 +243,23 @@
 	//좋아요 클릭 ajax
 	$(document).ready(function () {
 	
+<<<<<<< HEAD
+		
+		
+// 	    var heartval = ${heart};
+	
+// 	    if(heartval>0) {
+// 	        console.log(heartval);
+// 	        $("#heart").prop("src", "resources/images/like/like.png");
+// 	        $(".heart").prop('name',heartval)
+// 	    }
+// 	    else {
+// 	        console.log(heartval);
+// 	        $("#heart").prop("src", "resources/images/like/unlike.png");
+// 	        $(".heart").prop('name',heartval)
+// 	    }
+	    
+=======
 		var heartval = ${heart};
 		
 	    if(heartval>0) {
@@ -255,8 +272,15 @@
 	        $("#heart").prop("src", "resources/images/like/unlike.png");
 	        $(".heart").prop('name',heartval)
 	    }
+>>>>>>> branch 'master' of https://github.com/kawai23/Reader25.git
 	
+	    
+	    
+	    
 	    $(".heart").on("click", function () {
+	    	
+	    	
+	    	console.log('?');
 	
 	        var that = $(".heart");
 	        console.log("클릭");
