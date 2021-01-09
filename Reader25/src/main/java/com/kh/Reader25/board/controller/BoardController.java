@@ -199,7 +199,7 @@ public class BoardController {
 		}
 		return mv;
 	}
-	@RequestMapping("write.re")//*****---------------------------------------------------------이거랑
+	@RequestMapping("write.re")//****-------------------이거랑
 	public String bookreviewWriteForm() {
 		return "bookreviewWriteForm";
 	}
@@ -261,7 +261,6 @@ public class BoardController {
 	public void getWiseList(@RequestParam(value="page2", required=false) Integer page2,
 							@RequestParam("wise") String wise, HttpServletResponse response) {
 		response.setContentType("application/json; charset=UTF-8");
-		System.out.println(page2);
 		int currentPage2 = 1;
 		if(page2 != null) {
 			currentPage2 = page2;
@@ -319,6 +318,78 @@ public class BoardController {
 			throw new BoardException("책리뷰 게시물 작성에 실패하였습니다.");
 		}
 	}
+	// 수정하기
+	@RequestMapping("modify.re")
+	public ModelAndView reviewModifyView(@RequestParam("boardNo") int boardNo, @RequestParam("page") int page,
+									ModelAndView mv) {
+		Board board = bService.selectBoardExceptAddCount(boardNo);
+		Attachment at = bService.selectAttachment(boardNo); 
+		
+		String booktitle = board.getbContent().substring(0,(board.getbContent()).indexOf("#책제목"));
+		String exbook = board.getbContent().substring((board.getbContent()).indexOf("#책제목")+4);
+		String author = exbook.substring(0,exbook.indexOf("#작가"));
+		String exauthor = exbook.substring(exbook.indexOf("#작가") + 3);
+		String wise = exauthor.substring(0,exauthor.indexOf("#명언"));
+		String content = exauthor.substring(exauthor.indexOf("#명언") + 3);
+		
+		board.setbContent(content);
+		
+		mv.addObject("board", board)
+			.addObject("page", page)
+			.addObject("booktitle", booktitle)
+			.addObject("author", author)
+			.addObject("wise", wise)
+			.addObject("at", at)
+			.setViewName("bookUpdateForm");
+		return mv;
+	}
+	@RequestMapping("update.re")
+	public ModelAndView updateReviewBoard(@RequestParam("page") int page, @ModelAttribute Board b,
+									@RequestParam("reloadFile") MultipartFile reloadFile,
+									HttpServletRequest request, @ModelAttribute  Attachment at,
+									ModelAndView mv,
+									@RequestParam("booktitle") String booktitle,
+									@RequestParam("author") String author,
+									@RequestParam("wise") String wise) {
+		
+		String contentAddTag =  booktitle + "#책제목"  + author + "#작가" + wise + "#명언" + b.getbContent();
+		b.setbContent(contentAddTag);
+		
+		if(reloadFile != null && !reloadFile.isEmpty()) {
+			if(at.getAtcName() != null) {
+				deleteFile(at.getAtcName(), request);
+			}
+			Attachment attachment = saveFile(reloadFile, request, 2);
+			if(attachment != null) {
+				attachment.setAtcLevel(0);
+			}
+			attachment.setBoardNo(b.getBoardNo());
+			int result = bService.updateBoardAndFile(b,attachment);
+			
+			if(result > 0) {
+				Board board = bService.selectBoard(b.getBoardNo());
+				Attachment attach = bService.selectAttachment(b.getBoardNo());
+				mv.addObject("board", board)
+				  .addObject("boardNo", b.getBoardNo())
+				  .addObject("page", page)
+				  .addObject("at", attach)
+				  .setViewName("redirect:redetail.re");
+			}else {
+				throw new BoardException("리뷰 게시물 수정에 실패하였습니다.");
+			}
+		}
+		return mv;
+	}
+	@RequestMapping("delete.re")
+	public String deleteReviewBoard(@RequestParam("boardNo") int boardNo) {
+		int result = bService.deleteBoardAndFile(boardNo);
+		if(result > 0) {
+			return "redirect:book.re";
+		}else {
+			throw new BoardException("리뷰 게시물 삭제에 실패하였습니다.");
+		}
+	}
+	//책리뷰 code = 2-------------------------------------------------------------
 
 	////////////////오늘은 나도 작가(TIW) 컨트롤러////////////////////////
 	
@@ -716,7 +787,7 @@ public class BoardController {
 	}
 	
 	
-	// 파일 이름 변경 메소드 ----------------------------------------------------
+	// 파일  메소드 -----------------------------------------------------------------
 	public Attachment saveFile(MultipartFile file, HttpServletRequest request, int code) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "\\buploadFiles";
@@ -745,6 +816,7 @@ public class BoardController {
 		}
 		return at;
 	}
+
 	
 	// 파일 이름 변경 메소드(혜진) ----------------------------------------------------
 		public Attachment saveFile2(MultipartFile file, HttpServletRequest request, int code, int boardNo) {
@@ -776,6 +848,17 @@ public class BoardController {
 			}
 			return at;
 		}
+
+
+	private void deleteFile(String atcName, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root+"\\buploadFiles";
+		File f = new File(savePath + "\\" + atcName);
+		if(f.exists()) {
+			f.delete();
+		}
+	}
+	//----------------------------------------------------------------------------
 
 	
 	
@@ -825,7 +908,7 @@ public class BoardController {
 			
 			
 			
-			mv.setViewName("redirect:mSearch.me");
+			mv.setViewName("redirect:myList.me");
 		} else {
 
 			throw new BoardException("마이페이지 게시글 조회 실패");

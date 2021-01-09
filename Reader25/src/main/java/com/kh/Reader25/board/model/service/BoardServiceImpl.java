@@ -242,6 +242,16 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public Board selectBoardExceptAddCount(int boardNo) {
+		return bDAO.selectBoard(sqlSession, boardNo);
+	}
+
+//	@Override
+//	public ArrayList<Comments> selectCommentsList(HashMap<String, Object> hpage) {
+//		// TODO Auto-generated method stub
+//		return bDAO.selectCommentsList(sqlSession, hpage);
+//	}
+	@Override
 	public ArrayList<Comments> selectAnotherComments(int boardNo, PageInfo pi1) {
 		// TODO Auto-generated method stub
 		return bDAO.selectAnotherComments(sqlSession, boardNo, pi1);
@@ -251,6 +261,29 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectSerchTIWResultList(SearchCondition serchC, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return bDAO.selectSerchTIWResultList(sqlSession, serchC, pi);
+	}
+
+	@Override
+	public int updateBoardAndFile(Board b, Attachment attachment) {
+		int result = bDAO.updateBoard(sqlSession, b);
+		if(result > 0) {
+			result = bDAO.updateAttachment(sqlSession, attachment);
+			System.out.println(result);
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteBoardAndFile(int boardNo) {
+		
+		int result = bDAO.deleteBoard(sqlSession, boardNo);
+		if(result > 0) {
+			Attachment at = bDAO.selectAttachment(sqlSession, boardNo);
+			if(at != null) {
+				result = bDAO.deleteAttachment(sqlSession, boardNo);
+			}
+		}
+		return result;
 	}
 
 	

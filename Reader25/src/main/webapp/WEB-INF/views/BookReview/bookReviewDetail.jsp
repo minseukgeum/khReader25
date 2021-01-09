@@ -6,11 +6,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Insert title here</title>
+<script src=" https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- jqyery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <style>
 	 section{
   		border: 1px solid rgba(246, 246, 246, 1);
+  		background: rgba(246, 246, 246, 1);
   		width: 80%;
   		margin:auto;
   		min-width: 1000px;
@@ -28,7 +32,7 @@
 		width: 50%;
 		line-height: 350px;
 		float: left;
-		background: rgba(246, 243, 243, 1);
+		background: rgba(229, 229, 229, 1);
 		text-align: center;
 	}
 	.img-div img{
@@ -70,6 +74,8 @@
 		margin: auto;
 		text-align: center;
 	}
+	.wise-saying img{
+	}
 	#quote1{float:left;}
 	#quote2{float:right;}
 	.wise-content{display:inline-block; margin-top: 10px;}
@@ -91,13 +97,17 @@
 		display:inline;
 	}
 	.list-contents{
-		background: rgba(246, 246, 246, 1);
+		background: rgba(229, 229, 229, 1);
 		padding: 10px;
 	}
 	.list-table{
 		width: 95%;
 		border-collapse: collapse;
 		margin:auto;
+	}
+	.list-table tr:hover{
+		background: white;
+		cursor: pointer;
 	}
 	.list-table td{
 		text-align: center;
@@ -119,8 +129,7 @@
 		font-weight:bolder;
 		cursor:pointer;
 	}
-	.write-div{
-		width: 80px;
+	.btns-div{
 		font-size: 18px;
 		height: 25px;
 		position: relative;
@@ -130,18 +139,100 @@
 	}
 	.write-btn{
 		background:rgba(255, 195, 152, 1);
+		width: 80px;
 		border: none;
-		width: 100%;
-		height: 100%;
+		height: 25px;
+		color: white;
+	}
+	.delete-btn{
+		background:rgba(103, 73, 44, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
+	}
+	.modify-btn{
+		background:rgba(201, 95, 18, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
+	}
+	.list-btn{
+		background:rgba(196, 196, 196, 1);
+		width: 80px;
+		border: none;
+		height: 25px;
+		color: white;
 	}
 	.write-btn:hover{
 		background:rgba(245, 185, 142, 1);
 		cursor:pointer;
-	}	
+	}
+	.jquery-modal blocker current {
+	visibility: none;
+}
+
+	.modal {
+		margin: 40% auto; 
+		padding: 20px;
+		text-align: center;
+	}
+	.modal-back {
+		display: none; 
+		position: fixed; 
+		z-index: 1;
+		left: 0;
+		top: 0;
+		width: 100%; 
+		height: 100%;
+		overflow: auto; 
+		background: rgba(0, 0, 0, 0.4); 
+	}
+	.modal-close, .modal-accept{
+		background-color: rgba(137, 18, 18, 1);
+		color:white;
+		width: 80px;
+		height: 30px;
+		border:none;
+		display:inline-block;
+		left: 40%;
+	}
+	.modal-accept{
+		background-color: rgba(85, 83, 83, 1);
+	}
+	.modal p{
+		display:inline-block;
+	}
+	.modal img{
+		position:relative;
+		top: 10px;
+	}
 </style>
 </head>
 <body>
 	<%@include file="../common/menubar.jsp" %>
+		<!-- 에러 모달창 -->
+	<div class="modal-back">
+		<div class="modal">
+			<div class="modal-content">
+				<img src="${contextPath }/resources/images/mark/errormark2.png" width="40px;"/>
+				<p>정말로 삭제하시겠습니까?</p>
+				<br>
+				<button class="modal-accept" value="accept">확인</button>
+				<button class="modal-close" value="Close">취소</button>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(function(){
+			$('.modal-close').click(function(){
+				$('.modal').hide();
+				$('.modal-back').hide();
+			});
+		});
+	</script>
+	
 	<section>
 		<div class="bookreview-div">
 			<div class="info">
@@ -164,9 +255,9 @@
 					<span class="info" id="sort">${board.userId }</span>
 					<div class="wise-saying">
 						<div>
-							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote1.png"/>
+							<img class="quote-img" id="quote1" src="resources/images/bookreview/quote5.png"/>
 							<div class="wise-content">${ wise }</div>
-							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote2.png"/>
+							<img class="quote-img" id="quote2"src="resources/images/bookreview/quote6.png"/>
 						</div>
 					</div>
 				</div>
@@ -193,11 +284,11 @@
 			var reList;
 			$(function(){
 				getReList(1);
+				$('.modal').hide();
 			});
 			function getReList(value){
 				var booktitle = "${booktitle}";
 				var page1 = value;
-				console.log(value);
 				$.ajax({
 					url: 'reList.re',
 					data: {booktitle:booktitle, page1:page1},
@@ -247,7 +338,10 @@
 						}else{
 							for(var i in reList){
 								if(reList[i].boardNo != '${board.boardNo}'){
-									$tr = $('<tr>');
+									$tr = $('<tr>').on('click', function(){
+										var boardNo = $(this).children('td').eq(0).text();
+										location.href='redetail.re?boardNo='+boardNo+"&page=1";
+									});
 									$tdNo = $('<td>').text(reList[i].boardNo);
 									$tdTitle = $('<td class="td-left">').text(reList[i].bTitle);
 									$tdWriter = $('<td>').text(reList[i].userId);
@@ -260,8 +354,12 @@
 									$tr.append($tdDate);
 
 									$reTable.append($tr);
-								
-			
+								}
+							}
+						}
+					}
+				});
+			}
 		</script>
 		
 		<div class="list">
@@ -320,19 +418,24 @@
 						$wiseTable.html('');
 						if(wiseList.length <= 1){
 							$tr = $('<tr>');
-							$td = $('<td class="td-left" colspan=6>').text('다른 리뷰가 없습니다.');
+							$td = $('<td class="td-left" colspan=7>').text('다른 리뷰가 없습니다.');
 							$tr.append($td);
 							$wiseTable.append($tr);
 						}else{
 							for(var i in wiseList){
 								if(wiseList[i].boardNo != '${board.boardNo}'){
-									$tr = $('<tr>');
+									$tr = $('<tr>').on('click', function(){
+										var boardNo = $(this).children('td').eq(0).text();
+										location.href='redetail.re?boardNo='+boardNo+"&page=1";
+									});
+									$tdNo = $('<td>').text(wiseList[i].boardNo);
 									$tdTitle = $('<td class="td-left">').text(wiseList[i].bTitle);
 									$tdWriter = $('<td>').text(wiseList[i].userId);
 									$tdDate = $('<td>').text(wiseList[i].updateDay);
 									$tdCount = $('<td>').text(wiseList[i].bCount);
 									$tdWise = $('<td>').text(wiseArr[i]);
-									
+
+									$tr.append($tdNo);
 									$tr.append($tdTitle);
 									$tr.append($tdWise);
 									$tr.append($tdWriter);
@@ -347,9 +450,27 @@
 				});
 			}
 		</script>
+		<div class="btns-div">
 		<c:if test="${loginUser ne null }">
-		<div class="write-div"><button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button></div>
+			<c:if test="${ loginUser.id eq board.userId }">
+				<button class="modify-btn" onclick="location.href='modify.re?boardNo='+${board.boardNo}+'&page='+${page}">수정하기</button>
+				<button class="delete-btn" onclick="deleteReview();">삭제하기</button>
+			</c:if>
+			<c:if test="${loginUser.id ne board.userId }">
+				<button class="write-btn" onclick='location.href="write.re"'>리뷰쓰기</button>
+			</c:if>
 		</c:if>
+		<button class="list-btn" onclick='location.href="book.re?page="+${page}'>목록보기</button>
+		</div>
+		<script>
+			function deleteReview(){
+				$('.modal-back').show();
+				 $('.modal').show();
+				 $('.modal-accept').click(function(){
+					location.href='delete.re?boardNo='+${board.boardNo}
+				});
+			}
+		</script>
 	</section>
 </body>
 </html>

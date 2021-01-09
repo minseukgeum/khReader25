@@ -20,7 +20,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 
-<link rel="stylesheet" href="${contextPath}/resources/css/signup.css" type="text/css">
+
 
 <style>
 
@@ -134,7 +134,7 @@
 				
 				<div style="text-align: left ; ">
 				
-					<button  data-title="Delete" data-toggle="modal" data-target="#delete"  class="btn btn-danger">선택삭제</button>
+					<button  data-title="Delete" data-toggle="modal" data-target="#Delete"  class="btn btn-danger">선택삭제</button>
 				
 				</div>
 			
@@ -185,6 +185,11 @@
 				<script >
 				
 				
+
+
+				
+				
+				
 				
 				
 				$(function(){
@@ -214,7 +219,6 @@
 
 					
 					}
-					
 					
 					
 				});
@@ -271,7 +275,7 @@
 						        }
 						    });
 						    
-						    $("[data-toggle=tooltip]").tooltip();
+						
 						});
 				 
 				 </script>
@@ -282,24 +286,11 @@
 			<nav style="text-align: center;">
 				 <ul class="pagination">
 				      
-				      
-				     
-				
-					
-					
+		
 					
 						<c:set var="loc" value="myList.me"></c:set>
 						
-						
-						
-						
-						
-						
-					
-				
-				    
-				    
-				    
+ 
 				    
 				  <!-- [이전] -->
 				  
@@ -371,10 +362,6 @@
 				
 				
 				
-				
-				
-				
-				   
 				    
 				    <!-- 페이지 -->
 				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
@@ -472,7 +459,19 @@
 			
 			</div>
 				            
-				     <div class="modal fade" id="delete" tabindex="-1" role="dialog"
+				    
+						
+		
+	   
+	   
+	   </div>
+	   
+	   
+	
+	</div>
+	
+	
+	 <div class="modal fade" id="Delete" tabindex="-1" role="dialog"
 							aria-labelledby="edit" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
@@ -487,7 +486,7 @@
 					
 										<div class="alert alert-danger">
 											<span class="glyphicon glyphicon-warning-sign"></span> 정말로
-											삭제하시겠습니까?
+											삭제하시겠습니까??
 										</div>
 					
 									</div>
@@ -504,104 +503,84 @@
 							</div>
 							<!-- /.modal-dialog -->
 						</div>
-						
-						<script>
-						
-						$('#delete').on('show.bs.modal', function (e) {
-							
-							
-					    	
-					        var tr = $('#mytable').children().children();
-					     
-					        
-					        var td = tr.children('td');
-					        
-					     
-					        
-					        var Id = td.eq(1).text()
-					       
-					        
-					        
-						        $('#yBtn').click(function() {
-									
-						        	var code = ${code};
-						        	
-						        	var check = ${ !empty searchCondition } ; 
-						        	
-						        	var searchCondition = null;
-						        	
-						        	var searchValue = null;
-						        	
-						        	var path= "";
-						        
-						        	if(check ){
-						        		
-						        		
-						        		searchCondition = "${searchCondition}";
-						        		searchValue= "${searchValue}";
-						        		
-						        		
-						        		path = '&searchCondition='+searchCondition+'&searchValue='+searchValue;
-						        	}
-						        	
-						        	
-						        	
-									var select_obj = '';
-									 
-									
-								    $('input[name="mInfo"]:checked').each(function (index) {
-								        if (index != 0) {
-								            select_obj += ',';
-								        }
-								        select_obj += $(this).val();
-								        
-								        
-								        
-								    });
-								    
-								    
-								    
-								    console.log(select_obj);
-								    
-								    
-								    
-					 			    if(select_obj == '' || select_obj.length == 0){
-								    	
-								    	
-								    	 location.href='mBlistDelete.me?inFo='+Id + "&code=" + code+'&page='+ ${pi.currentPage}+path;
-								    	
-					 			    }else{
-								    	
-					 			    	console.log("데이터 : "+select_obj);
-					 			    	
-					 			    	
-									    
-									    location.href='mBlistDelete.me?inFo='+select_obj+"&code=" + code+'&page='+ ${pi.currentPage}+path;
-								    	
-					 			    }
-								    
 
-							});
-					    
-					    });
+	<script>
+						
+						
+						
+						 $('#yBtn').click(function() {
+					        	
+					        	
+					        	console.log("?");
+								
+					        	var code = ${code};
+					        	
+					        	var check = ${ !empty searchValue } ; 
+					        	
+					        	var searchCondition = null;
+					        	
+					        	var searchValue = null;
+					        	
+					        	var path= "";
+					        
+					        	if(check ){
+					        		
+					        		
+					        		searchCondition = "${searchCondition}";
+					        		searchValue= "${searchValue}";
+					        		
+					        		
+					        		path = '&searchCondition='+searchCondition+'&searchValue='+searchValue;
+					        	}
+					        	
+					        	
+					        	
+					        	
+								var select_obj = '';
+								 
+								
+							    $('input[name="mInfo"]:checked').each(function (index) {
+							        if (index != 0) {
+							            select_obj += ',';
+							        }
+							        select_obj += $(this).val();
+							        
+							        
+							        
+							    });
+							    
+							    
+							    
+							    console.log(select_obj);
+							    
+							    
+							    
+				 			    if(select_obj == '' || select_obj.length == 0){
+							    	
+				 			    	
+				 			    	//console.log(select_obj);
+							    	 location.href='mBlistDelete.me?inFo='+Id + "&code=" + code+'&page='+ ${pi.currentPage}+path;
+							    	
+				 			    }else{
+							    	
+				 			    	//console.log("데이터 : "+select_obj);
+				 			    	
+				 			    	
+								    
+								    location.href='mBlistDelete.me?inFo='+select_obj+"&code=" + code+'&page='+ ${pi.currentPage}+path;
+							    	
+				 			    }
+							    
+
+						});
+						
+						
+				       
 						
 						
 						
 						
 						</script>
-		
-				
-	   
-	   
-	   </div>
-	   
-	   
-	  
-	  
-	</div>
-
-
-
 
 
 </body>
